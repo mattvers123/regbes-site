@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shore Power Infrastructure and Charging Solutions for Every Port and Vessel Type │ REGBES</title>
+<meta name="description" content="REGBES delivers cable management systems, autonomous robotic charging interfaces, and AI-powered EMS/PMS for e-ferries, cruise ships, container vessels, and offshore barges — compliant with IEC 80005 standards.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-mid: #0d1e38;
+  --navy-deep: #060f1e;
+  --teal: #1D9E75;
+  --teal-dark: #0F6E56;
+  --grey-light: #F5F5F3;
+  --grey-border: #e5e7eb;
+  --grey-mid: #6b7280;
+  --grey-dark: #374151;
+  --white: #ffffff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--navy); font-size: 17px; line-height: 1.7; }
+
+nav { position: sticky; top: 0; z-index: 100; background: var(--navy); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.nav-logo { font-size: 20px; font-weight: 600; color: white; letter-spacing: 0.06em; text-decoration: none; }
+.nav-logo span { color: var(--teal); }
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 15px; font-weight: 400; transition: color 0.2s; }
+.nav-links a:hover { color: white; }
+.nav-cta { background: var(--teal) !important; color: white !important; font-size: 14px !important; font-weight: 500 !important; padding: 9px 20px; border-radius: 5px; }
+.nav-cta:hover { background: var(--teal-dark) !important; }
+
+.hero { background: var(--navy-mid); padding: 80px 48px 72px; display: flex; gap: 48px; align-items: center; min-height: 520px; }
+.hero-left { flex: 1.2; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 22px; }
+.hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--teal); }
+.hero h1 { font-size: 48px; font-weight: 500; color: white; line-height: 1.18; margin-bottom: 22px; letter-spacing: -0.02em; }
+.hero-sub { font-size: 17px; color: rgba(255,255,255,0.55); line-height: 1.75; margin-bottom: 36px; max-width: 520px; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-primary { background: var(--teal); color: white; font-size: 15px; font-weight: 500; padding: 13px 26px; border-radius: 6px; text-decoration: none; transition: background 0.2s; font-family: 'DM Sans', sans-serif; cursor: pointer; border: none; display: inline-block; }
+.btn-primary:hover { background: var(--teal-dark); }
+.btn-ghost { border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.7); font-size: 15px; font-weight: 400; padding: 13px 26px; border-radius: 6px; text-decoration: none; transition: border-color 0.2s, color 0.2s; display: inline-block; }
+.btn-ghost:hover { border-color: rgba(255,255,255,0.45); color: white; }
+.hero-right { flex: 1; display: flex; align-items: center; justify-content: center; }
+.hero-img-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; width: 100%; max-width: 420px; height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+.img-label { font-size: 13px; color: rgba(255,255,255,0.3); }
+.img-file { font-size: 12px; color: var(--teal); font-family: 'DM Mono', monospace; }
+.img-note { font-size: 11px; color: rgba(255,255,255,0.18); margin-top: 4px; }
+
+.trust { background: var(--grey-light); border-bottom: 1px solid var(--grey-border); padding: 16px 48px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.trust-item { display: flex; align-items: center; gap: 9px; padding: 4px 0; }
+.trust-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+.trust-text { font-size: 14px; color: var(--grey-dark); font-weight: 500; }
+.trust-divider { width: 1px; height: 22px; background: var(--grey-border); }
+
+section { padding: 48px 48px; }
+.sec-label { font-size: 13px; font-weight: 500; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+.sec-h2 { font-size: 34px; font-weight: 500; color: var(--navy); line-height: 1.2; margin-bottom: 12px; letter-spacing: -0.01em; }
+.sec-sub { font-size: 16px; color: var(--grey-mid); line-height: 1.7; max-width: 580px; }
+
+.why { background: white; }
+.why-header { margin-bottom: 40px; }
+.why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.why-card { background: var(--grey-light); border-radius: 10px; padding: 26px 22px; border: 1px solid transparent; transition: border-color 0.2s; }
+.why-card:hover { border-color: var(--teal); }
+.why-icon { width: 38px; height: 38px; background: var(--teal); border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; }
+.why-icon svg { width: 17px; height: 17px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.why-title { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 10px; line-height: 1.4; }
+.why-desc { font-size: 14px; color: var(--grey-mid); line-height: 1.65; }
+
+.solutions { background: var(--grey-light); }
+.solutions-inner { display: flex; gap: 32px; margin-top: 36px; align-items: center; }
+.sol-col { flex: 1; }
+.sol-col.centre { flex: 1.4; }
+.sol-side-tag { font-size: 13px; font-weight: 600; color: white; background: var(--navy); border-radius: 4px; padding: 5px 14px; display: inline-block; margin-bottom: 14px; letter-spacing: 0.03em; }
+.sol-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0; border-bottom: 1px solid #e5e7eb; font-size: 15px; color: var(--grey-dark); line-height: 1.5; }
+.sol-item:last-of-type { border-bottom: none; }
+.sol-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; margin-top: 7px; }
+.sol-link { display: inline-block; margin-top: 16px; font-size: 14px; font-weight: 500; color: var(--teal); text-decoration: none; }
+.sol-link:hover { text-decoration: underline; }
+.sol-img-box { background: white; border: 1px solid var(--grey-border); border-radius: 10px; height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+.sol-img-box .slabel { font-size: 13px; color: #9ca3af; }
+.sol-img-box .sfile { font-size: 12px; color: var(--teal); font-family: 'DM Mono', monospace; }
+
+.products { background: white; }
+.prod-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 36px; flex-wrap: wrap; gap: 12px; }
+.prod-see-all { font-size: 15px; color: var(--teal); text-decoration: none; font-weight: 500; }
+.prod-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.prod-card { border: 1px solid var(--grey-border); border-radius: 12px; overflow: hidden; transition: box-shadow 0.2s, border-color 0.2s; }
+.prod-card:hover { border-color: var(--teal); box-shadow: 0 4px 20px rgba(29,158,117,0.08); }
+.prod-img { height: 160px; background: var(--grey-light); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border-bottom: 1px solid var(--grey-border); }
+.prod-img .plabel { font-size: 13px; color: #9ca3af; }
+.prod-img .pfile { font-size: 11px; color: var(--teal); font-family: 'DM Mono', monospace; }
+.prod-body { padding: 22px; }
+.prod-name { font-size: 17px; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+.prod-desc { font-size: 15px; color: var(--grey-mid); line-height: 1.6; margin-bottom: 18px; }
+.prod-link { font-size: 14px; color: var(--teal); font-weight: 500; text-decoration: none; }
+
+.projects { background: var(--navy); padding: 72px 48px; }
+.projects .sec-h2 { color: white; }
+.projects .sec-sub { color: rgba(255,255,255,0.45); }
+.proj-header { margin-bottom: 40px; }
+.proj-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-bottom: 32px; }
+.proj-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 12px; overflow: hidden; transition: border-color 0.2s; cursor: pointer; }
+.proj-card:hover { border-color: rgba(29,158,117,0.4); }
+.proj-img { height: 160px; background: rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.proj-img .jlabel { font-size: 12px; color: rgba(255,255,255,0.28); }
+.proj-img .jfile { font-size: 11px; color: var(--teal); font-family: 'DM Mono', monospace; }
+.proj-img .jhover { font-size: 10px; color: rgba(255,255,255,0.18); margin-top: 2px; }
+.proj-body { padding: 20px 22px; }
+.proj-tag { font-size: 12px; font-weight: 600; background: rgba(29,158,117,0.15); color: var(--teal); border-radius: 3px; padding: 3px 10px; display: inline-block; margin-bottom: 10px; letter-spacing: 0.03em; }
+.proj-name { font-size: 17px; font-weight: 600; color: white; margin-bottom: 8px; }
+.proj-desc { font-size: 14px; color: rgba(255,255,255,0.42); line-height: 1.6; margin-bottom: 14px; }
+.proj-link { font-size: 14px; color: var(--teal); text-decoration: none; font-weight: 500; }
+.proj-see-all { text-align: center; }
+.proj-see-all a { font-size: 14px; color: rgba(255,255,255,0.4); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 2px; transition: color 0.2s; }
+.proj-see-all a:hover { color: white; }
+
+.tools { background: var(--teal); padding: 30px 48px; display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap; }
+.tools-left { flex: 1; }
+.tools-title { font-size: 20px; font-weight: 500; color: white; margin-bottom: 6px; }
+.tools-sub { font-size: 15px; color: rgba(255,255,255,0.75); margin-bottom: 12px; }
+.tools-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+.tools-pill { font-size: 13px; background: rgba(255,255,255,0.16); color: white; border-radius: 99px; padding: 4px 14px; font-weight: 500; }
+.tools-pill.soon { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); }
+.tools-btn { background: white; color: var(--teal-dark); font-size: 15px; font-weight: 600; padding: 13px 26px; border-radius: 6px; text-decoration: none; white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: background 0.2s; }
+.tools-btn:hover { background: var(--grey-light); }
+
+.final-cta { background: var(--navy-mid); padding: 84px 48px; text-align: center; }
+.final-cta h2 { font-size: 42px; font-weight: 500; color: white; margin-bottom: 16px; letter-spacing: -0.01em; }
+.final-cta p { font-size: 17px; color: rgba(255,255,255,0.5); margin-bottom: 36px; max-width: 520px; margin-left: auto; margin-right: auto; line-height: 1.75; }
+.cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.cta-ghost { border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.65); font-size: 15px; padding: 13px 26px; border-radius: 6px; text-decoration: none; transition: border-color 0.2s, color 0.2s; font-family: 'DM Sans', sans-serif; }
+.cta-ghost:hover { border-color: rgba(255,255,255,0.4); color: white; }
+
+footer { background: var(--navy-deep); padding: 52px 48px 26px; }
+.footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 48px; margin-bottom: 44px; }
+.footer-logo { font-size: 18px; font-weight: 600; color: white; letter-spacing: 0.06em; margin-bottom: 14px; }
+.footer-logo span { color: var(--teal); }
+.footer-contact { font-size: 14px; color: rgba(255,255,255,0.38); line-height: 2; margin-bottom: 18px; }
+.footer-contact a { color: rgba(255,255,255,0.5); text-decoration: none; }
+.footer-linkedin { font-size: 13px; color: rgba(255,255,255,0.32); text-decoration: none; border: 1px solid rgba(255,255,255,0.12); padding: 5px 14px; border-radius: 4px; display: inline-block; transition: border-color 0.2s; }
+.footer-linkedin:hover { border-color: rgba(255,255,255,0.28); }
+.footer-col-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 16px; letter-spacing: 0.05em; text-transform: uppercase; }
+.footer-links { list-style: none; }
+.footer-links li { padding: 5px 0; }
+.footer-links a { font-size: 15px; color: rgba(255,255,255,0.32); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: rgba(255,255,255,0.7); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.footer-copy { font-size: 13px; color: rgba(255,255,255,0.22); }
+
+
+.nav-dropdown { position: relative; display: inline-block; }
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: -12px;
+  z-index: 9999;
+  min-width: 240px;
+  padding-top: 4px;
+}
+.nav-dropdown-menu.open { display: block; }
+.nav-dropdown-menu-inner {
+  background: #0d1e38;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 8px;
+  padding: 6px 0;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+}
+.nav-dropdown > a {
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+.nav-dropdown > a:hover { color: white; }
+.nav-dropdown-menu-inner a {
+  display: block !important;
+  padding: 10px 20px !important;
+  font-size: 14px !important;
+  color: rgba(255,255,255,0.65) !important;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-dropdown-menu-inner a:hover {
+  color: white !important;
+  background: rgba(255,255,255,0.07) !important;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo"><img src="images/regbes-logo-dark.webp" alt="REGBES" style="height:34px;width:auto;display:block;"></a>
+  <div class="nav-links">
+    <div class="nav-dropdown">
+        <a href="#">Products ▾</a>
+        <div class="nav-dropdown-menu">
+          <div class="nav-dropdown-menu-inner">
+            <a href="regbes-cms.html">Cable Management Systems</a>
+            <a href="regbes-autonomous.html">Autonomous Charging Interface</a>
+            <a href="regbes-manual-hub.html">Manual Charging Hub</a>
+            <a href="regbes-ems-pms.html">EMS / PMS</a>
+          </div>
+        </div>
+      </div>
+    <a href="regbes-projects.html">Projects</a>
+    <a href="regbes-resources.html">Resources</a>
+    <a href="regbes-blog.html">Blog</a>
+    <a href="regbes-about.html">About</a>
+    <a href="regbes-contact.html" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">IEC 80005 compliant · Rotterdam, Netherlands</div>
+    <h1>Shore Power Infrastructure and Charging Solutions for Every Port and Vessel Type</h1>
+    <p class="hero-sub">REGBES delivers cable management systems, autonomous robotic charging interfaces, and AI-powered EMS/PMS for e-ferries, cruise ships, container vessels, and offshore barges — compliant with IEC 80005 standards.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary">Explore our solutions</a>
+      <a href="#" class="btn-ghost">Book a technical call</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-box" style="padding:0;overflow:hidden;">
+      <img src="images/regbes-autonomous-charging-interface-hero.webp" alt="REGBES autonomous shore-to-ship charging interface — full unit" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">
+    </div>
+  </div>
+</div>
+
+<span class="trust-text">IEC 80005-1 · IEC 80005-2 · IEC 80005-3 compliant</span></div>
+  <div class="trust-divider"></div>
+  <div class="trust-item"><div class="trust-dot"></div><span class="trust-text">Partner in EU Horizon Europe, Rotterdam Municipality and ABS-led projects</span></div>
+  <div class="trust-divider"></div>
+  <div class="trust-item"><div class="trust-dot"></div><span class="trust-text">Patent pending — autonomous robotic charging interface</span></div>
+  <div class="trust-divider"></div>
+  <div class="trust-item"><div class="trust-dot"></div><span class="trust-text">Based in Rotterdam, Netherlands · Founded 2022</span></div>
+</div>
+
+<section class="why">
+  <div class="why-header">
+    <div class="sec-label">Why REGBES</div>
+    <div class="sec-h2">Why port operators and vessel owners choose REGBES</div>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+      <div class="why-title">Modular shore power for any vessel type</div>
+      <div class="why-desc">Plug-and-play OPS systems adapt to e-ferries, Ro-Pax, container ships, and bulk carriers — no custom engineering per berth.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-5"/></svg></div>
+      <div class="why-title">From manual to fully autonomous — flexible connection for every berth</div>
+      <div class="why-desc">Choose manual cable management for standard berths or deploy our robotic charging interface for fully automated, zero-handling shore-to-ship connection — the same IEC 80005-compliant platform either way.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="why-title">Compatible with existing port infrastructure</div>
+      <div class="why-desc">Systems integrate with legacy grid connections, multiple plug standards, and varying berth layouts without costly retrofits.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div class="why-title">AI-powered energy management that cuts costs</div>
+      <div class="why-desc">Machine-learning EMS/PMS optimises charging schedules around grid load, vessel turnaround times, and real-time energy pricing.</div>
+    </div>
+  </div>
+</section>
+
+<section class="solutions">
+  <div class="sec-label">How it works</div>
+  <div class="sec-h2">One partner. The complete shore power stack.</div>
+  <p class="sec-sub">From grid connection to vessel plug-in — REGBES covers both sides of the berth.</p>
+  <div class="solutions-inner">
+    <div class="sol-col">
+      <div class="sol-side-tag">Port side</div>
+      <div class="sol-item"><div class="sol-dot"></div>Shore power cabinets &amp; grid interface</div>
+      <div class="sol-item"><div class="sol-dot"></div>Cable management systems</div>
+      <div class="sol-item"><div class="sol-dot"></div>Energy management system (EMS)</div>
+      <div class="sol-item"><div class="sol-dot"></div>Automated cable handling</div>
+      <a href="#" class="sol-link">View port-side products →</a>
+    </div>
+    <div class="sol-col centre">
+      <div class="sol-img-box" style="padding:0;overflow:hidden;"><img src="images/regbes-shore-power-ship-side-port-side-overview.webp" alt="REGBES shore power ship side port side overview" style="width:100%;height:100%;object-fit:contain;padding:16px;"></div>
+    </div>
+    <div class="sol-col">
+      <div class="sol-side-tag">Ship side</div>
+      <div class="sol-item"><div class="sol-dot"></div>Robotic charging interface</div>
+      <div class="sol-item"><div class="sol-dot"></div>Power management system (PMS)</div>
+      <div class="sol-item"><div class="sol-dot"></div>Onboard integration support</div>
+      <div class="sol-item"><div class="sol-dot"></div>Universal connection compatibility</div>
+      <a href="#" class="sol-link">View ship-side products →</a>
+    </div>
+  </div>
+</section>
+
+<section class="products">
+  <div class="prod-header">
+    <div>
+      <div class="sec-label">Products</div>
+      <div class="sec-h2">A complete shore power stack — from cable to control</div>
+    </div>
+    <a href="#" class="prod-see-all">See all products →</a>
+  </div>
+  <div class="prod-grid">
+    <div class="prod-card">
+      <div class="prod-img"><img src="images/regbes-autonomous-charging-interface-hero.webp" alt="REGBES autonomous shore-to-ship charging interface — full unit" style="width:100%;height:220px;object-fit:cover;"></div>
+      <div class="prod-body">
+        <div class="prod-name">Autonomous Charging Interface</div>
+        <div class="prod-desc">Image-processing and robotics automate shore-to-ship connection — zero manual handling, compatible with multiple plug standards and varying berth layouts.</div>
+        <a href="#" class="prod-link">Learn more →</a>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img"><img src="images/regbes-mardas-container-terminal-cms-delivery.webp" alt="REGBES cable management system delivered to MARDAS container terminal" style="width:100%;height:220px;object-fit:cover;"></div>
+      <div class="prod-body">
+        <div class="prod-name">Cable Management Systems</div>
+        <div class="prod-desc">Modular, IEC 80005-compliant cable management for port-to-ship, barge-to-ship, and container terminal applications — manual and motorised variants available.</div>
+        <a href="#" class="prod-link">Learn more →</a>
+      </div>
+    </div>
+    <div class="prod-card">
+      <div class="prod-img"><img src="images/regbes-pms-scada-interface-vessel-power.webp" alt="REGBES PMS SCADA interface" style="width:100%;height:220px;object-fit:cover;"></div>
+      <div class="prod-body">
+        <div class="prod-name">Energy &amp; Power Management</div>
+        <div class="prod-desc">AI-powered EMS and PMS optimise charging schedules around grid load, vessel turnaround times, and real-time energy pricing — reducing shore power costs and carbon footprint.</div>
+        <a href="#" class="prod-link">Learn more →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="projects">
+  <div class="proj-header">
+    <div class="sec-label">Projects &amp; deployments</div>
+    <div class="sec-h2">From R&amp;D partnerships to live commercial deployments</div>
+    <p class="sec-sub">REGBES works with port operators, defence companies, and EU research consortia — delivering hardware, software, and engineering expertise across maritime electrification projects.</p>
+  </div>
+  <div class="proj-grid">
+    <div class="proj-card">
+      <div class="proj-img"><img src="images/regbes-mobile-cms-container-terminal-shipping.webp" alt="REGBES Mobile Cms Container Terminal Shipping" style="width:100%;height:220px;object-fit:cover;"></div>
+      <div class="proj-body">
+        <div class="proj-tag">Commercial deployment · Istanbul</div>
+        <div class="proj-name">MARDAS Container Terminal</div>
+        <div class="proj-desc">Mobile dual-reel cable management system delivered to MARDAS, one of Turkey's leading container terminal operators in Istanbul — designed for narrow-aisle berths and high vessel turnaround.</div>
+        <a href="#" class="proj-link">Read more →</a>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-img"><img src="images/regbes-tedeg-frequency-converter-power-system.webp" alt="REGBES Tedeg Frequency Converter Power System" style="width:100%;height:220px;object-fit:cover;"></div>
+      <div class="proj-body">
+        <div class="proj-tag">Commercial · Defence sector</div>
+        <div class="proj-name">TEDEG Engineering</div>
+        <div class="proj-desc">Power management consulting and engineering for TEDEG, a Turkish defence R&amp;D company developing military-grade marine and vehicle power systems.</div>
+        <a href="#" class="proj-link">Read more →</a>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-img"><img src="images/regbes-bluebarge-barge-to-ship-cms-in-operation.webp" alt="REGBES BlueBARGE barge to ship in operation" style="width:100%;height:220px;object-fit:cover;"></div>
+      <div class="proj-body">
+        <div class="proj-tag">EU Horizon Europe</div>
+        <div class="proj-name">BlueBARGE</div>
+        <div class="proj-desc">Offshore barge-to-ship power delivery — REGBES develops the universal modular cable management system for scalable offshore OPS. ABS-led consortium, started January 2024.</div>
+        <a href="#" class="proj-link">Read more →</a>
+      </div>
+    </div>
+  </div>
+  <div class="proj-see-all"><a href="#">See all projects →</a></div>
+</section>
+
+<div class="tools">
+  <div class="tools-left">
+    <div class="tools-title">Not sure which system you need?</div>
+    <div class="tools-sub">Use our free technical tools to size, configure, and validate your shore power system — from IEC 80005 cable selection to real-time port compatibility checks.</div>
+    <div class="tools-pills">
+      <span class="tools-pill">BlueBARGE sizing calculator — live</span>
+      <span class="tools-pill soon">Shore power availability checker — coming soon</span>
+    </div>
+  </div>
+  <a href="#" class="tools-btn">Explore our tools →</a>
+</div>
+
+<div class="final-cta">
+  <h2>Ready to electrify your berth?</h2>
+  <p>Talk to the REGBES team about your port, your vessels, and your timeline. We work with port operators, vessel owners, and systems integrators across Europe and beyond.</p>
+  <div class="cta-btns">
+    <a href="#" class="btn-primary">Book a technical call</a>
+    <a href="#" class="cta-ghost">info@regbes.com</a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo"><img src="images/regbes-logo-white.webp" alt="REGBES" style="height:30px;width:auto;display:block;opacity:0.9;"></div>
+      <div class="footer-contact">Rotterdam, Netherlands<br><a href="mailto:info@regbes.com">info@regbes.com</a></div>
+      <a href="#" class="footer-linkedin">LinkedIn</a>
+    </div>
+    <div>
+      <div class="footer-col-title">Products</div>
+      <ul class="footer-links">
+        <li><a href="regbes-cms.html">Cable Management Systems</a></li>
+        <li><a href="#">Cable Reels</a></li>
+                <li><a href="regbes-autonomous.html">Autonomous Charging Interface</a></li>
+        <li><a href="regbes-ems-pms.html">EMS / PMS</a></li>
+        <li><a href="regbes-contact.html">Hybrid Solutions</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="regbes-about.html">About</a></li>
+        <li><a href="regbes-projects.html">Projects</a></li>
+        <li><a href="regbes-resources.html">Resources</a></li>
+        <li><a href="regbes-blog.html">Blog</a></li>
+        <li><a href="regbes-contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 REGBES B.V. · Rotterdam, Netherlands</div>
+  </div>
+</footer>
+
+
+<script>
+(function() {
+  var dd = document.querySelector('.nav-dropdown');
+  if (!dd) return;
+  var menu = dd.querySelector('.nav-dropdown-menu');
+  var timer;
+  dd.addEventListener('mouseenter', function() {
+    clearTimeout(timer);
+    menu.classList.add('open');
+  });
+  dd.addEventListener('mouseleave', function() {
+    timer = setTimeout(function() {
+      menu.classList.remove('open');
+    }, 120);
+  });
+})();
+</script>
+
+</body>
+</html>

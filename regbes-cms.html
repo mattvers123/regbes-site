@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maritime Cable Management Systems for Shore Power & OPS │ REGBES</title>
+<meta name="description" content="IEC 80005-compliant cable management systems for port-to-ship and ship-to-port power transfer. REGBES supports cruise ships, Ro-Pax, bulk carriers, container vessels, and offshore power bunkering applications.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-mid: #0d1e38;
+  --navy-deep: #060f1e;
+  --teal: #1D9E75;
+  --teal-dark: #0F6E56;
+  --grey-light: #F5F5F3;
+  --grey-border: #e5e7eb;
+  --grey-mid: #6b7280;
+  --grey-dark: #374151;
+  --white: #ffffff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--navy); font-size: 17px; line-height: 1.7; }
+
+/* NAV */
+nav { position: sticky; top: 0; z-index: 100; background: var(--navy); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.nav-logo { font-size: 20px; font-weight: 600; color: white; letter-spacing: 0.06em; text-decoration: none; }
+.nav-logo span { color: var(--teal); }
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 15px; font-weight: 400; transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: white; }
+.nav-links a.active { border-bottom: 1px solid var(--teal); padding-bottom: 2px; }
+.nav-cta { background: var(--teal) !important; color: white !important; font-size: 14px !important; font-weight: 500 !important; padding: 9px 20px; border-radius: 5px; }
+.nav-cta:hover { background: var(--teal-dark) !important; }
+
+/* BREADCRUMB */
+.breadcrumb { background: var(--grey-light); border-bottom: 1px solid var(--grey-border); padding: 10px 48px; font-size: 13px; color: var(--grey-mid); }
+.breadcrumb a { color: var(--teal); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* HERO */
+.hero { background: var(--navy-mid); padding: 72px 48px 64px; display: flex; gap: 48px; align-items: center; }
+.hero-left { flex: 1.3; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; }
+.hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--teal); }
+.hero h1 { font-size: 48px; font-weight: 500; color: white; line-height: 1.2; margin-bottom: 20px; letter-spacing: -0.02em; }
+.hero-sub { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.75; margin-bottom: 24px; max-width: 500px; }
+.hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.hero-badge { font-size: 11px; background: rgba(29,158,117,0.15); color: var(--teal); border-radius: 4px; padding: 3px 10px; font-weight: 600; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-primary { background: var(--teal); color: white; font-size: 15px; font-weight: 500; padding: 13px 26px; border-radius: 6px; text-decoration: none; transition: background 0.2s; display: inline-block; font-family: 'DM Sans', sans-serif; }
+.btn-primary:hover { background: var(--teal-dark); }
+.btn-ghost { border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.7); font-size: 15px; padding: 13px 26px; border-radius: 6px; text-decoration: none; transition: border-color 0.2s, color 0.2s; display: inline-block; }
+.btn-ghost:hover { border-color: rgba(255,255,255,0.45); color: white; }
+.hero-right { flex: 1; }
+.hero-img-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; width: 100%; height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+.il { font-size: 13px; color: rgba(255,255,255,0.3); }
+.if { font-size: 12px; color: var(--teal); font-family: 'DM Mono', monospace; }
+
+/* CONCEPT STRIP */
+.concept { background: var(--navy); padding: 36px 48px; }
+.concept-inner { display: flex; gap: 0; align-items: stretch; }
+.concept-text { flex: 1.4; padding-right: 40px; border-right: 1px solid rgba(255,255,255,0.08); }
+.concept-label { font-size: 11px; font-weight: 600; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+.concept-title { font-size: 22px; font-weight: 500; color: white; margin-bottom: 14px; line-height: 1.3; letter-spacing: -0.01em; }
+.concept-desc { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.75; }
+.concept-stats { flex: 1; padding-left: 40px; display: flex; flex-direction: column; justify-content: center; gap: 14px; }
+.stat { display: flex; align-items: flex-start; gap: 10px; }
+.stat-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; margin-top: 7px; }
+.stat-text { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+/* VARIANTS HEADER */
+.variants-header { padding: 56px 48px 0; background: white; }
+.sec-label { font-size: 13px; font-weight: 500; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+.sec-h2 { font-size: 34px; font-weight: 500; color: var(--navy); line-height: 1.2; margin-bottom: 12px; letter-spacing: -0.01em; }
+.sec-sub { font-size: 16px; color: var(--grey-mid); line-height: 1.7; max-width: 580px; margin-bottom: 0; }
+
+/* VARIANT SECTIONS */
+.variant { padding: 48px; background: white; border-top: 1px solid var(--grey-border); }
+.variant.alt { background: var(--grey-light); }
+.v-inner { display: flex; gap: 48px; align-items: flex-start; }
+.v-inner.reverse { flex-direction: row-reverse; }
+.v-imgs { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.v-img-main { background: var(--grey-light); border: 1px solid var(--grey-border); border-radius: 10px; height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+.variant.alt .v-img-main { background: white; }
+.v-img-main .vil { font-size: 13px; color: #9ca3af; }
+.v-img-main .vif { font-size: 11px; color: var(--teal); font-family: 'DM Mono', monospace; }
+.v-img-sub { background: var(--grey-border); border-radius: 8px; height: 90px; display: flex; align-items: center; justify-content: center; }
+.v-img-sub span { font-size: 10px; color: #9ca3af; font-family: 'DM Mono', monospace; padding: 8px; text-align: center; }
+.v-img-note { font-size: 11px; color: #9ca3af; text-align: center; font-style: italic; }
+.v-content { flex: 1.3; }
+.v-num { font-size: 12px; color: #9ca3af; margin-bottom: 5px; font-family: 'DM Mono', monospace; }
+.v-tag { font-size: 11px; font-weight: 700; background: rgba(29,158,117,0.1); color: var(--teal); border-radius: 4px; padding: 3px 10px; display: inline-block; margin-bottom: 12px; letter-spacing: 0.03em; }
+.v-title { font-size: 26px; font-weight: 500; color: var(--navy); margin-bottom: 14px; line-height: 1.2; letter-spacing: -0.01em; }
+.v-desc { font-size: 15px; color: var(--grey-mid); line-height: 1.75; margin-bottom: 20px; }
+.v-specs { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.v-spec { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--grey-dark); line-height: 1.5; }
+.v-spec-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0; margin-top: 7px; }
+.v-ref { font-size: 12px; background: #fef3c7; color: #92400e; border-radius: 4px; padding: 4px 12px; display: inline-block; margin-bottom: 20px; font-weight: 500; }
+.v-link { font-size: 14px; color: var(--teal); font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+.v-link:hover { text-decoration: underline; }
+
+/* COMPATIBILITY */
+.compat { background: var(--navy); padding: 56px 48px; }
+.compat .sec-label { color: var(--teal); margin-bottom: 10px; }
+.compat .sec-h2 { color: white; margin-bottom: 10px; }
+.compat .sec-sub { color: rgba(255,255,255,0.45); margin-bottom: 32px; }
+.compat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
+.compat-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px; transition: border-color 0.2s; }
+.compat-card:hover { border-color: rgba(29,158,117,0.3); }
+.compat-vessel { font-size: 14px; font-weight: 600; color: white; margin-bottom: 4px; }
+.compat-std { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
+.compat-variant { font-size: 11px; color: var(--teal); font-weight: 500; }
+.compat-tool { background: rgba(29,158,117,0.1); border: 1px solid rgba(29,158,117,0.25); border-radius: 8px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.compat-tool-left { flex: 1; }
+.compat-tool-title { font-size: 16px; font-weight: 500; color: white; margin-bottom: 6px; }
+.compat-tool-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+.compat-tool-note { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 4px; font-style: italic; }
+.compat-tool-btn { background: var(--teal); color: white; font-size: 13px; font-weight: 500; padding: 10px 22px; border-radius: 5px; text-decoration: none; white-space: nowrap; transition: background 0.2s; font-family: 'DM Sans', sans-serif; }
+.compat-tool-btn:hover { background: var(--teal-dark); }
+
+/* FINAL CTA */
+.final-cta { background: var(--navy-mid); padding: 72px 48px; text-align: center; }
+.final-cta h2 { font-size: 36px; font-weight: 500; color: white; margin-bottom: 14px; letter-spacing: -0.01em; }
+.final-cta p { font-size: 16px; color: rgba(255,255,255,0.5); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.75; }
+.cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.cta-ghost { border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.65); font-size: 15px; padding: 13px 26px; border-radius: 6px; text-decoration: none; transition: border-color 0.2s, color 0.2s; font-family: 'DM Sans', sans-serif; }
+.cta-ghost:hover { border-color: rgba(255,255,255,0.4); color: white; }
+
+/* RELATED */
+.related { padding: 56px 48px; background: white; }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 28px; }
+.rel-card { border: 1px solid var(--grey-border); border-radius: 10px; padding: 22px; transition: border-color 0.2s; }
+.rel-card:hover { border-color: var(--teal); }
+.rel-tag { font-size: 11px; color: var(--teal); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+.rel-title { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+.rel-desc { font-size: 14px; color: var(--grey-mid); line-height: 1.6; margin-bottom: 14px; }
+.rel-link { font-size: 13px; color: var(--teal); font-weight: 500; text-decoration: none; }
+.rel-link:hover { text-decoration: underline; }
+
+/* FOOTER */
+footer { background: var(--navy-deep); padding: 52px 48px 26px; }
+.footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 48px; margin-bottom: 44px; }
+.footer-logo { font-size: 18px; font-weight: 600; color: white; letter-spacing: 0.06em; margin-bottom: 14px; }
+.footer-logo span { color: var(--teal); }
+.footer-contact { font-size: 14px; color: rgba(255,255,255,0.38); line-height: 2; margin-bottom: 18px; }
+.footer-contact a { color: rgba(255,255,255,0.5); text-decoration: none; }
+.footer-linkedin { font-size: 13px; color: rgba(255,255,255,0.32); text-decoration: none; border: 1px solid rgba(255,255,255,0.12); padding: 5px 14px; border-radius: 4px; display: inline-block; }
+.footer-col-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 16px; letter-spacing: 0.05em; text-transform: uppercase; }
+.footer-links { list-style: none; }
+.footer-links li { padding: 5px 0; }
+.footer-links a { font-size: 15px; color: rgba(255,255,255,0.32); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: rgba(255,255,255,0.7); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 22px; }
+.footer-copy { font-size: 13px; color: rgba(255,255,255,0.22); }
+
+
+.nav-dropdown { position: relative; display: inline-block; }
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: -12px;
+  z-index: 9999;
+  min-width: 240px;
+  padding-top: 4px;
+}
+.nav-dropdown-menu.open { display: block; }
+.nav-dropdown-menu-inner {
+  background: #0d1e38;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 8px;
+  padding: 6px 0;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+}
+.nav-dropdown > a {
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+.nav-dropdown > a:hover { color: white; }
+.nav-dropdown-menu-inner a {
+  display: block !important;
+  padding: 10px 20px !important;
+  font-size: 14px !important;
+  color: rgba(255,255,255,0.65) !important;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-dropdown-menu-inner a:hover {
+  color: white !important;
+  background: rgba(255,255,255,0.07) !important;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo"><img src="images/regbes-logo-dark.webp" alt="REGBES" style="height:34px;width:auto;display:block;"></a>
+  <div class="nav-links">
+    <div class="nav-dropdown">
+        <a href="#">Products ▾</a>
+        <div class="nav-dropdown-menu">
+          <div class="nav-dropdown-menu-inner">
+            <a href="regbes-cms.html">Cable Management Systems</a>
+            <a href="regbes-autonomous.html">Autonomous Charging Interface</a>
+            <a href="regbes-manual-hub.html">Manual Charging Hub</a>
+            <a href="regbes-ems-pms.html">EMS / PMS</a>
+          </div>
+        </div>
+      </div>
+    <a href="regbes-projects.html">Projects</a>
+    <a href="regbes-resources.html">Resources</a>
+    <a href="regbes-blog.html">Blog</a>
+    <a href="regbes-about.html">About</a>
+    <a href="regbes-contact.html" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb"><a href="/">Home</a> › <a href="#">Products</a> › Cable Management Systems</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Products · Cable Management</div>
+    <h1>Maritime Cable Management Systems for Shore Power and OPS</h1>
+    <p class="hero-sub">IEC 80005-compliant cable management for port-to-ship and ship-to-port power transfer — four variants covering container terminals, configurable port and barge deployments, heavy-duty cable reels, and elevated cable delivery by crane arm.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">IEC 80005-1</span>
+      <span class="hero-badge">IEC 80005-2</span>
+      <span class="hero-badge">IEC 80005-3</span>
+      <span class="hero-badge">Manual · Motorised</span>
+    </div>
+    <div class="hero-btns">
+      <a href="regbes-contact.html" class="btn-primary">Request a datasheet</a>
+      <a href="regbes-contact.html" class="btn-ghost">Book a technical call</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-box"><img src="images/regbes-mardas-container-terminal-cms-delivery.webp" alt="Hero image — Compact Mobile CMS" style="width:100%; height:100%; object-fit:cover;"></div>
+  </div>
+</div>
+
+<!-- CONCEPT STRIP -->
+<div class="concept">
+  <div class="concept-inner">
+    <div class="concept-text">
+      <div class="concept-label">The REGBES approach</div>
+      <div class="concept-title">Flexible shore power coverage for mixed fleets — without fixed infrastructure</div>
+      <p class="concept-desc">Most ports serve more than one vessel type. Rather than installing fixed OPS infrastructure at every berth, REGBES mobile CMS units can be deployed flexibly across your terminal — each configured for a specific vessel type, IEC standard, and plug type. Add units as your traffic grows. Redeploy them as your fleet mix changes.</p>
+    </div>
+    <div class="concept-stats">
+      <div class="stat"><div class="stat-dot"></div><span class="stat-text">No fixed infrastructure per berth</span></div>
+      <div class="stat"><div class="stat-dot"></div><span class="stat-text">Serve multiple vessel types from one terminal</span></div>
+      <div class="stat"><div class="stat-dot"></div><span class="stat-text">Configure each unit per IEC standard and plug type</span></div>
+      <div class="stat"><div class="stat-dot"></div><span class="stat-text">Scale your fleet as port traffic grows</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- VARIANTS HEADER -->
+<div class="variants-header">
+  <div class="sec-label">Product variants</div>
+  <div class="sec-h2">Four variants. Every application covered.</div>
+  <p class="sec-sub">Each REGBES CMS variant is engineered for a specific deployment context — from narrow container terminal aisles to configurable port and barge deployments, heavy-duty cable reel installations, and elevated delivery by mobile crane arm.</p>
+</div>
+
+<!-- VARIANT 1 — COMPACT MOBILE CMS -->
+<div class="variant">
+  <div class="v-inner">
+    <div class="v-imgs">
+      <div class="v-img-main"><img src="images/regbes-mardas-container-terminal-cms-delivery.webp" alt="Real photo — hero" style="width:100%; height:100%; object-fit:cover;"></div>
+      <div class="v-img-sub"><span>cms-v112025.jpeg · render · hover swap</span></div>
+      <div class="v-img-note">Hover to see 3D render</div>
+    </div>
+    <div class="v-content">
+      <div class="v-num">Variant 01</div>
+      <div class="v-tag">Container terminals · Narrow berths</div>
+      <div class="v-title">Compact Mobile CMS</div>
+      <p class="v-desc">Dual-reel motorised system on a compact mobile platform, designed for narrow-aisle container terminal berths where space between vessel and quay is constrained. Two cables are deployed simultaneously, reducing connection time and supporting high vessel turnaround. The mobile platform requires no fixed quayside installation — it can be repositioned across the terminal as needed.</p>
+      <div class="v-specs">
+        <div class="v-spec"><div class="v-spec-dot"></div>Narrow profile — fits tight terminal aisles</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>Dual-reel — two cables deployed simultaneously</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>Motorised with integrated control panel</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>IEC 80005-1 compliant</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>Mobile platform — no fixed installation required</div>
+      </div>
+      <div class="v-ref">✓ Delivered to MARDAS Container Terminal, Istanbul</div>
+      <a href="regbes-contact.html" class="v-link">Request datasheet →</a>
+    </div>
+  </div>
+</div>
+
+<!-- VARIANT 2 — MODULAR MOBILE CMS -->
+<div class="variant alt">
+  <div class="v-inner reverse">
+    <div class="v-imgs">
+      <div class="v-img-main"><img src="images/regbes-universal-mobile-cms-barge-standby.webp" alt="Standby render — hero" style="width:100%; height:100%; object-fit:cover;"></div>
+      <div class="v-img-sub"><span>barge2.jpeg · arm extended · hover swap</span></div>
+      <div class="v-img-note">Hover to see arm extended</div>
+    </div>
+    <div class="v-content">
+      <div class="v-num">Variant 02</div>
+      <div class="v-tag">Ports · Barges · Offshore · Configurable</div>
+      <div class="v-title">Modular Mobile CMS</div>
+      <p class="v-desc">A configurable reel unit with interchangeable cable delivery methods — crane arm, roller system, or custom configuration depending on berth layout and vessel type. Width is not constrained, making it deployable at quayside berths, container terminals, and barge decks without modification. Cable count and plug type are configured per target vessel and IEC standard, making it suitable for ports that serve a mixed fleet.</p>
+      <div class="v-specs">
+        <div class="v-spec"><div class="v-spec-dot"></div>Interchangeable cable delivery method</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>No width constraint — flexible deployment at ports and barges</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>Configurable cable count per IEC standard</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>IEC 80005-1 and IEC 80005-3 variants available</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>Ports, container terminals, barges, and offshore applications</div>
+      </div>
+      <div class="v-ref">✓ In development — BlueBARGE EU Horizon Europe project</div>
+      <a href="regbes-contact.html" class="v-link">Request datasheet →</a>
+    </div>
+  </div>
+</div>
+
+<!-- VARIANT 3 — CABLE REEL -->
+<div class="variant">
+  <div class="v-inner">
+    <div class="v-imgs">
+      <div class="v-img-main"><img src="images/regbes-cable-reel-shore-power-workshop.webp" alt="Real photo — hero" style="width:100%; height:100%; object-fit:cover;"></div>
+      <div class="v-img-sub"><span>CMS_2.jpeg · control panel detail</span></div>
+      <div class="v-img-note">Control panel detail view</div>
+    </div>
+    <div class="v-content">
+      <div class="v-num">Variant 03</div>
+      <div class="v-tag">Port-to-ship · Ship-to-port · Heavy duty</div>
+      <div class="v-title">Cable Reel</div>
+      <p class="v-desc">Heavy-duty motorised cable reel for port-to-ship and ship-to-port power transfer. Shore power cables carry high currents and are heavy — safe and controlled deployment, tensioning, and retrieval requires motorised handling. The REGBES cable reel manages this reliably, as a standalone product or as part of a larger OPS installation. Compatible with both fixed quayside installations and mobile CMS configurations.</p>
+      <div class="v-specs">
+        <div class="v-spec"><div class="v-spec-dot"></div>Motorised — handles heavy-duty industrial shore power cables</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>Port-to-ship and ship-to-port configurations</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>Integrated motorised control panel</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>IEC 80005-1 and IEC 80005-3 compatible</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>Standalone or integrated with mobile CMS platform</div>
+      </div>
+      <a href="regbes-contact.html" class="v-link">Request datasheet →</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- VARIANT 4 — CRANE ARM CMS -->
+<div class="variant alt">
+  <div class="v-inner reverse">
+    <div class="v-imgs">
+      <div class="v-img-main" style="height:420px;"><img src="images/regbes-crane-arm-cms-workshop-front.webp" alt="REGBES crane arm CMS — front view, outriggers deployed, workshop assembly" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
+    </div>
+    <div class="v-content">
+      <div class="v-num">Variant 04</div>
+      <div class="v-tag">Elevated delivery · High freeboard · Third-party crane integration · Cruise · Ro-Pax</div>
+      <div class="v-title">Crane Arm CMS</div>
+      <p class="v-desc">For vessels with high freeboard where quayside-level cable deployment is not practical, REGBES integrates a third-party mobile crane with its cable management system to deliver the shore power cable at the correct height. The crane type — reach, lifting capacity, and mounting configuration — is selected based on vessel height, berth geometry, and operational requirements. REGBES handles the cable management and control integration; the crane is sourced and configured per project. Used in combination with REGBES cable reels for complete cable handling from reel to plug.</p>
+      <div class="v-specs">
+        <div class="v-spec"><div class="v-spec-dot"></div>Third-party crane integration — type selected per application</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>Elevated cable delivery — reach and capacity matched to vessel and berth</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>Used in combination with REGBES cable reels</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>Mobile and repositionable — no fixed quayside installation required</div>
+        <div class="v-spec"><div class="v-spec-dot"></div>Cruise ships, Ro-Pax, and large offshore vessel applications</div>
+      </div>
+      <a href="regbes-contact.html" class="v-link">Request datasheet →</a>
+    </div>
+  </div>
+</div>
+
+<!-- VESSEL COMPATIBILITY -->
+<div class="compat">
+  <div class="sec-label">Compatibility</div>
+  <div class="sec-h2">Which variant for which vessel?</div>
+  <p class="sec-sub">A quick reference guide — for a detailed compatibility assessment including IEC standard, voltage class, and plug type validation, use our Shore Power Availability Checker.</p>
+  <div class="compat-grid">
+    <div class="compat-card">
+      <div class="compat-vessel">Container ships</div>
+      <div class="compat-std">IEC 80005-1 · HV</div>
+      <div class="compat-variant">→ Compact or Modular</div>
+    </div>
+    <div class="compat-card">
+      <div class="compat-vessel">Cruise ships</div>
+      <div class="compat-std">IEC 80005-1 · HV</div>
+      <div class="compat-variant">→ Modular Mobile</div>
+    </div>
+    <div class="compat-card">
+      <div class="compat-vessel">Ro-Pax / Ro-Ro</div>
+      <div class="compat-std">IEC 80005-1 · HV</div>
+      <div class="compat-variant">→ Compact or Modular</div>
+    </div>
+    <div class="compat-card">
+      <div class="compat-vessel">Offshore vessels</div>
+      <div class="compat-std">IEC 80005-1 · HV</div>
+      <div class="compat-variant">→ Modular Mobile</div>
+    </div>
+    <div class="compat-card">
+      <div class="compat-vessel">Inland waterway</div>
+      <div class="compat-std">IEC 80005-2 · LV/HV</div>
+      <div class="compat-variant">→ Modular Mobile</div>
+    </div>
+    <div class="compat-card">
+      <div class="compat-vessel">Bulk carriers</div>
+      <div class="compat-std">IEC 80005-1 · HV</div>
+      <div class="compat-variant">→ Modular Mobile</div>
+    </div>
+    <div class="compat-card">
+      <div class="compat-vessel">E-ferries</div>
+      <div class="compat-std">IEC 80005-1 · HV</div>
+      <div class="compat-variant">→ Compact or Modular</div>
+    </div>
+    <div class="compat-card">
+      <div class="compat-vessel">Fixed OPS berths</div>
+      <div class="compat-std">IEC 80005-1 / -3</div>
+      <div class="compat-variant">→ Cable Reel</div>
+    </div>
+  </div>
+  <div class="compat-tool">
+    <div class="compat-tool-left">
+      <div class="compat-tool-title">Need a more detailed compatibility assessment?</div>
+      <div class="compat-tool-desc">Use our Shore Power Availability Checker to validate your port's equipment against your target vessel — IEC standard, voltage class, plug type, and weather compliance in one tool.</div>
+      <div class="compat-tool-note">Shore power checker — coming soon · Register for early access</div>
+    </div>
+    <a href="regbes-resources.html" class="compat-tool-btn">Try the tool →</a>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <h2>Not sure which variant fits your application?</h2>
+  <p>Tell us your vessel types, berth layout, and IEC standard requirements — we'll recommend the right configuration and connect you with our engineering team.</p>
+  <div class="cta-btns">
+    <a href="regbes-contact.html" class="btn-primary">Book a technical call</a>
+    <a href="regbes-contact.html" class="cta-ghost">Request a datasheet</a>
+  </div>
+</div>
+
+<!-- RELATED PRODUCTS -->
+<div class="related">
+  <div class="sec-label">Related products</div>
+  <div class="sec-h2">Complete the shore power stack</div>
+  <div class="related-grid">
+    <div class="rel-card">
+      <div class="rel-tag">Autonomous</div>
+      <div class="rel-title">Autonomous Charging Interface</div>
+      <div class="rel-desc">Add robotic automation to any CMS installation — image-processing and robotics handle shore-to-ship connection with zero manual handling.</div>
+      <a href="regbes-autonomous.html" class="rel-link">Learn more →</a>
+    </div>
+    <div class="rel-card">
+      <div class="rel-tag">Small vessels</div>
+      <div class="rel-title">Manual Charging Hub</div>
+      <div class="rel-desc">Fixed shore power connection point for small vessels, yachts, and harbour craft — motorised reel with dual plug connectors.</div>
+      <a href="regbes-manual-hub.html" class="rel-link">Learn more →</a>
+    </div>
+    <div class="rel-card">
+      <div class="rel-tag">Software</div>
+      <div class="rel-title">Energy &amp; Power Management</div>
+      <div class="rel-desc">AI-powered EMS and PMS optimise charging schedules across your CMS fleet — grid load, vessel turnaround, and real-time energy pricing.</div>
+      <a href="regbes-ems-pms.html" class="rel-link">Learn more →</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">REGBES</div>
+      <div class="footer-contact">Rotterdam, Netherlands<br><a href="mailto:info@regbes.com">info@regbes.com</a></div>
+      <a href="https://www.linkedin.com/company/regbes" target="_blank" class="footer-linkedin">LinkedIn</a>
+    </div>
+    <div>
+      <div class="footer-col-title">Products</div>
+      <ul class="footer-links">
+        <li><a href="regbes-cms.html">Cable Management Systems</a></li>
+                        <li><a href="regbes-autonomous.html">Autonomous Charging Interface</a></li>
+        <li><a href="regbes-manual-hub.html">Manual Charging Hub</a></li>
+        <li><a href="regbes-ems-pms.html">EMS / PMS</a></li>
+              </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="regbes-about.html">About</a></li>
+        <li><a href="regbes-projects.html">Projects</a></li>
+        <li><a href="regbes-resources.html">Resources</a></li>
+        <li><a href="regbes-blog.html">Blog</a></li>
+        <li><a href="regbes-contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 REGBES B.V. · Rotterdam, Netherlands</div>
+  </div>
+</footer>
+
+
+<script>
+(function() {
+  var dd = document.querySelector('.nav-dropdown');
+  if (!dd) return;
+  var menu = dd.querySelector('.nav-dropdown-menu');
+  var timer;
+  dd.addEventListener('mouseenter', function() {
+    clearTimeout(timer);
+    menu.classList.add('open');
+  });
+  dd.addEventListener('mouseleave', function() {
+    timer = setTimeout(function() {
+      menu.classList.remove('open');
+    }, 120);
+  });
+})();
+</script>
+
+</body>
+</html>

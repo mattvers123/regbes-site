@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shore Power Tools & Technical Resources │ REGBES</title>
+<meta name="description" content="Free technical tools for maritime electrification — IEC 80005 shore power sizing calculators, system configuration guides, and port compatibility assessment resources from REGBES.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-mid: #0d1e38;
+  --navy-deep: #060f1e;
+  --teal: #1D9E75;
+  --teal-dark: #0F6E56;
+  --grey-light: #F5F5F3;
+  --grey-border: #e5e7eb;
+  --grey-mid: #6b7280;
+  --grey-dark: #374151;
+  --white: #ffffff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--navy); font-size: 17px; line-height: 1.7; }
+
+/* NAV */
+nav { position: sticky; top: 0; z-index: 100; background: var(--navy); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.nav-logo { font-size: 20px; font-weight: 600; color: white; letter-spacing: 0.06em; text-decoration: none; }
+.nav-logo span { color: var(--teal); }
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 15px; font-weight: 400; transition: color 0.2s; }
+.nav-links a:hover { color: white; }
+.nav-links a.active { color: white; border-bottom: 1px solid var(--teal); padding-bottom: 2px; }
+
+
+
+
+.nav-cta { background: var(--teal) !important; color: white !important; font-size: 14px !important; font-weight: 500 !important; padding: 9px 20px; border-radius: 5px; }
+
+/* BREADCRUMB */
+.breadcrumb { background: var(--grey-light); border-bottom: 1px solid var(--grey-border); padding: 10px 48px; font-size: 13px; color: var(--grey-mid); }
+.breadcrumb a { color: var(--teal); text-decoration: none; }
+
+/* HERO */
+.hero { background: var(--navy-mid); padding: 72px 48px 64px; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; }
+.hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--teal); }
+.hero h1 { font-size: 48px; font-weight: 500; color: white; line-height: 1.18; margin-bottom: 20px; letter-spacing: -0.02em; max-width: 700px; }
+.hero-sub { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.75; max-width: 580px; }
+
+/* TOOLS SECTION */
+.tools { background: var(--grey-light); padding: 72px 48px; }
+.sec-label { font-size: 13px; font-weight: 500; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+.sec-h2 { font-size: 34px; font-weight: 500; color: var(--navy); line-height: 1.2; margin-bottom: 12px; letter-spacing: -0.01em; }
+.sec-sub { font-size: 16px; color: var(--grey-mid); line-height: 1.7; max-width: 580px; margin-bottom: 48px; }
+
+/* TOOL CARDS */
+.tool-card { background: white; border: 1px solid var(--grey-border); border-radius: 14px; overflow: hidden; margin-bottom: 28px; }
+.tool-card:last-child { margin-bottom: 0; }
+.tool-header { padding: 28px 32px 24px; border-bottom: 1px solid var(--grey-border); display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.tool-header-left { flex: 1; }
+.tool-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.tool-tag { font-size: 11px; font-weight: 700; border-radius: 4px; padding: 3px 10px; letter-spacing: 0.03em; }
+.tag-live { background: rgba(29,158,117,0.1); color: var(--teal); }
+.tag-soon { background: #fef3c7; color: #92400e; }
+.tool-url { font-size: 12px; color: #9ca3af; font-family: 'DM Mono', monospace; }
+.tool-name { font-size: 24px; font-weight: 500; color: var(--navy); margin-bottom: 10px; letter-spacing: -0.01em; }
+.tool-desc { font-size: 15px; color: var(--grey-mid); line-height: 1.75; max-width: 600px; }
+.tool-header-right { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; flex-shrink: 0; }
+.btn-primary { background: var(--teal); color: white; font-size: 14px; font-weight: 500; padding: 11px 22px; border-radius: 6px; text-decoration: none; transition: background 0.2s; display: inline-block; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+.btn-primary:hover { background: var(--teal-dark); }
+.btn-ghost-navy { border: 1px solid var(--grey-border); color: var(--grey-mid); font-size: 13px; padding: 8px 16px; border-radius: 6px; text-decoration: none; display: inline-block; transition: border-color 0.2s; white-space: nowrap; font-family: 'DM Sans', sans-serif; }
+.btn-ghost-navy:hover { border-color: var(--teal); color: var(--navy); }
+.btn-disabled { background: var(--grey-light); color: #9ca3af; font-size: 14px; font-weight: 500; padding: 11px 22px; border-radius: 6px; display: inline-block; white-space: nowrap; cursor: not-allowed; border: 1px solid var(--grey-border); }
+
+/* TOOL MODULES */
+.tool-modules { padding: 24px 32px; border-bottom: 1px solid var(--grey-border); }
+.modules-label { font-size: 11px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
+.modules-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.module { padding: 12px 14px; border-radius: 8px; border: 1px solid var(--grey-border); }
+.module.public { background: #f0fdf4; border-color: #bbf7d0; }
+.module.gated { background: var(--grey-light); }
+.module-status { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.module.public .module-status { color: var(--teal); }
+.module.gated .module-status { color: #9ca3af; }
+.module-name { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
+.module.gated .module-name { color: #9ca3af; }
+.module-desc { font-size: 12px; color: var(--grey-mid); line-height: 1.5; }
+.module.gated .module-desc { color: #9ca3af; }
+
+/* TOOL EMBED */
+.tool-embed { padding: 28px 32px; }
+.embed-label { font-size: 11px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+.embed-frame { background: var(--grey-light); border: 1px solid var(--grey-border); border-radius: 10px; overflow: hidden; }
+.embed-frame iframe { width: 100%; height: 580px; border: none; display: block; }
+.embed-note { font-size: 12px; color: #9ca3af; margin-top: 8px; font-style: italic; }
+
+/* COMING SOON PREVIEW */
+.coming-soon-preview { padding: 28px 32px; }
+.preview-label { font-size: 11px; font-weight: 700; color: #92400e; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 16px; }
+.preview-screens { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+.preview-screen { background: var(--grey-light); border: 1px solid var(--grey-border); border-radius: 8px; height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+.preview-screen .preview-icon { font-size: 22px; margin-bottom: 2px; }
+.preview-screen .psl { font-size: 12px; font-weight: 500; color: var(--navy); text-align: center; padding: 0 12px; }
+.preview-screen .psl-sub { font-size: 11px; color: #9ca3af; text-align: center; padding: 0 12px; }
+.early-access { background: #fef9ee; border: 1px solid #fed7aa; border-radius: 10px; padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.early-access-text { flex: 1; }
+.early-access-title { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+.early-access-desc { font-size: 14px; color: var(--grey-mid); line-height: 1.6; }
+.btn-amber { background: #d97706; color: white; font-size: 14px; font-weight: 500; padding: 11px 22px; border-radius: 6px; text-decoration: none; white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: background 0.2s; }
+.btn-amber:hover { background: #b45309; }
+
+/* FUTURE TOOLS */
+.future { background: white; padding: 72px 48px; }
+.future-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 36px; }
+.future-card { background: var(--grey-light); border: 1px dashed var(--grey-border); border-radius: 10px; padding: 22px; }
+.future-url { font-size: 11px; color: #9ca3af; font-family: 'DM Mono', monospace; margin-bottom: 6px; }
+.future-name { font-size: 16px; font-weight: 600; color: #9ca3af; margin-bottom: 6px; }
+.future-desc { font-size: 14px; color: #9ca3af; line-height: 1.6; }
+.future-badge { font-size: 10px; color: #9ca3af; border: 1px solid var(--grey-border); border-radius: 99px; padding: 2px 8px; display: inline-block; margin-top: 8px; }
+
+/* CTA */
+.final-cta { background: var(--navy-mid); padding: 72px 48px; text-align: center; }
+.final-cta h2 { font-size: 36px; font-weight: 500; color: white; margin-bottom: 14px; letter-spacing: -0.01em; }
+.final-cta p { font-size: 16px; color: rgba(255,255,255,0.5); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.75; }
+.cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.cta-ghost { border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.65); font-size: 15px; padding: 13px 26px; border-radius: 6px; text-decoration: none; font-family: 'DM Sans', sans-serif; }
+
+/* FOOTER */
+footer { background: var(--navy-deep); padding: 52px 48px 26px; }
+.footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 48px; margin-bottom: 44px; }
+.footer-logo { font-size: 18px; font-weight: 600; color: white; letter-spacing: 0.06em; margin-bottom: 14px; }
+.footer-logo span { color: var(--teal); }
+.footer-contact { font-size: 14px; color: rgba(255,255,255,0.38); line-height: 2; margin-bottom: 18px; }
+.footer-contact a { color: rgba(255,255,255,0.5); text-decoration: none; }
+.footer-linkedin { font-size: 13px; color: rgba(255,255,255,0.32); text-decoration: none; border: 1px solid rgba(255,255,255,0.12); padding: 5px 14px; border-radius: 4px; display: inline-block; }
+.footer-col-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 16px; letter-spacing: 0.05em; text-transform: uppercase; }
+.footer-links { list-style: none; }
+.footer-links li { padding: 5px 0; }
+.footer-links a { font-size: 15px; color: rgba(255,255,255,0.32); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: rgba(255,255,255,0.7); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 22px; }
+.footer-copy { font-size: 13px; color: rgba(255,255,255,0.22); }
+
+
+.nav-dropdown { position: relative; display: inline-block; }
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: -12px;
+  z-index: 9999;
+  min-width: 240px;
+  padding-top: 4px;
+}
+.nav-dropdown-menu.open { display: block; }
+.nav-dropdown-menu-inner {
+  background: #0d1e38;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 8px;
+  padding: 6px 0;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+}
+.nav-dropdown > a {
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+.nav-dropdown > a:hover { color: white; }
+.nav-dropdown-menu-inner a {
+  display: block !important;
+  padding: 10px 20px !important;
+  font-size: 14px !important;
+  color: rgba(255,255,255,0.65) !important;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-dropdown-menu-inner a:hover {
+  color: white !important;
+  background: rgba(255,255,255,0.07) !important;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo"><img src="images/regbes-logo-dark.webp" alt="REGBES" style="height:34px;width:auto;display:block;"></a>
+  <div class="nav-links">
+    <div class="nav-dropdown">
+        <a href="#">Products ▾</a>
+        <div class="nav-dropdown-menu">
+          <div class="nav-dropdown-menu-inner">
+            <a href="regbes-cms.html">Cable Management Systems</a>
+            <a href="regbes-autonomous.html">Autonomous Charging Interface</a>
+            <a href="regbes-manual-hub.html">Manual Charging Hub</a>
+            <a href="regbes-ems-pms.html">EMS / PMS</a>
+          </div>
+        </div>
+      </div>
+    <a href="regbes-projects.html">Projects</a>
+    <a href="#" class="active">Resources</a>
+    <a href="regbes-blog.html">Blog</a>
+    <a href="regbes-about.html">About</a>
+    <a href="regbes-contact.html" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb"><a href="/">Home</a> › Resources</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Technical resources</div>
+  <h1>Shore Power Tools for Port Engineers and Vessel Operators</h1>
+  <p class="hero-sub">Free technical tools to size, configure, and validate your shore power system — from IEC 80005 cable selection and reel sizing to real-time port and vessel compatibility assessment. Built by the REGBES engineering team.</p>
+</div>
+
+<!-- TOOLS SECTION -->
+<div class="tools">
+  <div class="sec-label">Available tools</div>
+  <div class="sec-h2">Two tools. Every stage of your project.</div>
+  <p class="sec-sub">Use the sizing tool to configure your barge-to-ship cable management system. Use the compatibility checker to validate your port's equipment against your target vessel. Both free, no login required for the public modules.</p>
+
+  <!-- TOOL 1 — BLUEBARGE SIZING -->
+  <div class="tool-card">
+    <div class="tool-header">
+      <div class="tool-header-left">
+        <div class="tool-meta">
+          <span class="tool-tag tag-live">Live — free to use</span>
+          <span class="tool-url">/resources/bluebarge-sizing-tool</span>
+        </div>
+        <div class="tool-name">BlueBARGE System Sizing Calculator</div>
+        <p class="tool-desc">Size your barge-to-ship shore power system — select your target vessel type, get the applicable IEC 80005 standard, validate cable count, and configure your reel setup. Cost estimates are delivered by the REGBES team on request.</p>
+      </div>
+      <div class="tool-header-right">
+        <a href="https://bluebarge.netlify.app/" target="_blank" class="btn-primary">Open sizing tool ↗</a>
+        <a href="regbes-contact.html" class="btn-ghost-navy">Request a cost estimate</a>
+      </div>
+    </div>
+
+    <div class="tool-modules">
+      <div class="modules-label">What's included — public vs on request</div>
+      <div class="modules-grid">
+        <div class="module public">
+          <div class="module-status">✅ Public</div>
+          <div class="module-name">Ship type & IEC standard</div>
+          <div class="module-desc">Select vessel type → IEC 80005 standard, voltage class, and plug type auto-populated</div>
+        </div>
+        <div class="module public">
+          <div class="module-status">✅ Public</div>
+          <div class="module-name">Cable & reel sizing</div>
+          <div class="module-desc">Enter ship power requirement → cable count calculated and validated against IEC limits → reel count output</div>
+        </div>
+        <div class="module public">
+          <div class="module-status">✅ Public</div>
+          <div class="module-name">System configuration summary</div>
+          <div class="module-desc">Standard, cables, reels, crane type — clean output with no pricing</div>
+        </div>
+        <div class="module gated">
+          <div class="module-status">🔒 On request</div>
+          <div class="module-name">Unit 1 & 2 CAPEX</div>
+          <div class="module-desc">Full equipment, cable, installation, and contingency costing for both units</div>
+        </div>
+        <div class="module gated">
+          <div class="module-status">🔒 On request</div>
+          <div class="module-name">OPEX & lifetime cost</div>
+          <div class="module-desc">20-year cost model, replacement intervals, and sensitivity analysis across 8 variables</div>
+        </div>
+        <div class="module gated">
+          <div class="module-status">🔒 On request</div>
+          <div class="module-name">Degradation modelling</div>
+          <div class="module-desc">Cable and CMS replacement intervals with cost flags across the project horizon</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-embed">
+      <div class="embed-label">Live tool — embedded below</div>
+      <div class="embed-frame">
+        <iframe src="https://bluebarge.netlify.app/" title="BlueBARGE System Sizing Calculator"></iframe>
+      </div>
+      <div class="embed-note">Tool opens in full at bluebarge.netlify.app — use the embedded version for a quick overview or open in full screen for detailed configuration</div>
+    </div>
+  </div>
+
+  <!-- TOOL 2 — SHORE POWER CHECKER -->
+  <div class="tool-card">
+    <div class="tool-header">
+      <div class="tool-header-left">
+        <div class="tool-meta">
+          <span class="tool-tag tag-soon">Coming soon</span>
+          <span class="tool-url">/resources/shore-power-checker</span>
+        </div>
+        <div class="tool-name">Shore Power Availability & Compatibility Checker</div>
+        <p class="tool-desc">A multi-module platform that checks whether a port's shore power equipment is compatible with a target vessel — covering IEC standards, voltage class, plug type, power capacity, and weather operability. Enter your port's equipment, select your target vessel, and get an instant compatibility assessment.</p>
+      </div>
+      <div class="tool-header-right">
+        <div class="btn-disabled">Coming soon</div>
+      </div>
+    </div>
+
+    <div class="tool-modules">
+      <div class="modules-label">Modules — what the tool covers</div>
+      <div class="modules-grid">
+        <div class="module public">
+          <div class="module-status">✅ Will be public</div>
+          <div class="module-name">Ship type & power estimation</div>
+          <div class="module-desc">Select vessel type and estimation method (IMO/EMSA/LF) — returns power requirement and applicable IEC standard</div>
+        </div>
+        <div class="module public">
+          <div class="module-status">✅ Will be public</div>
+          <div class="module-name">Port & vessel equipment match</div>
+          <div class="module-desc">Select port, check installed equipment against vessel — plug type, voltage, and IEC standard hard parameter pass/fail</div>
+        </div>
+        <div class="module public">
+          <div class="module-status">✅ Will be public</div>
+          <div class="module-name">Real-time weather compliance</div>
+          <div class="module-desc">Click any port location on live map — fetches real wave height and wind speed, checks against operational thresholds</div>
+        </div>
+        <div class="module gated">
+          <div class="module-status">🔒 Request access</div>
+          <div class="module-name">Weighted parameter scoring</div>
+          <div class="module-desc">11 configurable parameters with editable weights — MUST vs OPTIONAL logic for custom compatibility scoring</div>
+        </div>
+        <div class="module gated">
+          <div class="module-status">🔒 Request access</div>
+          <div class="module-name">Custom parameters</div>
+          <div class="module-desc">Add project-specific parameters with name, value, and weight for custom compatibility analysis</div>
+        </div>
+        <div class="module gated">
+          <div class="module-status">🔒 Request access</div>
+          <div class="module-name">Overall match score</div>
+          <div class="module-desc">Weighted compatibility score combining all parameters — barge value vs vessel requirement, factor by factor</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="coming-soon-preview">
+      <div class="preview-label">Tool modules — coming soon</div>
+      <div class="preview-screens">
+        <div class="preview-screen preview-screen-placeholder">
+          <div class="preview-icon">⚙</div>
+          <span class="psl">Parameter selection table</span>
+          <span class="psl-sub">Weighted compatibility scoring</span>
+        </div>
+        <div class="preview-screen preview-screen-placeholder">
+          <div class="preview-icon">🌊</div>
+          <span class="psl">Real-time weather compliance</span>
+          <span class="psl-sub">Live wave height & wind speed</span>
+        </div>
+        <div class="preview-screen preview-screen-placeholder">
+          <div class="preview-icon">⚡</div>
+          <span class="psl">Port & vessel compatibility</span>
+          <span class="psl-sub">IEC standard & plug matching</span>
+        </div>
+      </div>
+      <div class="early-access">
+        <div class="early-access-text">
+          <div class="early-access-title">Register for early access</div>
+          <p class="early-access-desc">The Shore Power Availability Checker is in final development. Register now and we'll notify you when it launches — early access users get full access to all modules including weighted parameter scoring and custom parameter configuration.</p>
+        </div>
+        <a href="regbes-contact.html" class="btn-amber">Register for early access →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FUTURE TOOLS -->
+<div class="future">
+  <div class="sec-label">Coming next</div>
+  <div class="sec-h2">More tools in development</div>
+  <p style="font-size: 16px; color: var(--grey-mid); line-height: 1.7; max-width: 580px; margin-top: 12px; margin-bottom: 0;">The REGBES tools roadmap grows as our product range develops. These are the next tools planned for the Resources section.</p>
+  <div class="future-grid">
+    <div class="future-card">
+      <div class="future-url">/resources/ops-cost-calculator</div>
+      <div class="future-name">OPS Shore Power Cost Calculator</div>
+      <p class="future-desc">Fixed berth OPS installation CAPEX and OPEX — for e-ferries, container terminals, and cruise ship berths. Covers equipment, cable, installation, and grid connection costs.</p>
+      <span class="future-badge">In planning</span>
+    </div>
+    <div class="future-card">
+      <div class="future-url">/resources/iec-80005-guide</div>
+      <div class="future-name">IEC 80005 Standards Reference</div>
+      <p class="future-desc">A practical reference guide to IEC 80005-1, -2, and -3 — vessel types, voltage classes, plug standards, cable requirements, and compliance checklists for port engineers.</p>
+      <span class="future-badge">In planning</span>
+    </div>
+    <div class="future-card">
+      <div class="future-url">/resources/ems-optimisation-tool</div>
+      <div class="future-name">EMS Charging Schedule Optimiser</div>
+      <p class="future-desc">Input grid load profile, vessel turnaround schedule, and energy pricing — get an optimised charging schedule with estimated cost saving versus unmanaged charging.</p>
+      <span class="future-badge">Planned</span>
+    </div>
+    <div class="future-card">
+      <div class="future-url">/resources/shore-power-readiness</div>
+      <div class="future-name">Port Shore Power Readiness Assessment</div>
+      <p class="future-desc">Self-assessment questionnaire for port operators evaluating their readiness for OPS deployment — grid capacity, berth layout, vessel mix, and regulatory requirements.</p>
+      <span class="future-badge">Planned</span>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <h2>Need a bespoke analysis?</h2>
+  <p>Our free tools cover the standard configurations. For complex port layouts, mixed vessel fleets, or full CAPEX/OPEX modelling — talk to the REGBES engineering team directly.</p>
+  <div class="cta-btns">
+    <a href="regbes-contact.html" class="btn-primary">Book a technical call</a>
+    <a href="mailto:info@regbes.com" class="cta-ghost">info@regbes.com</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">REGBES</div>
+      <div class="footer-contact">Rotterdam, Netherlands<br><a href="mailto:info@regbes.com">info@regbes.com</a></div>
+      <a href="https://linkedin.com/company/regbes" class="footer-linkedin" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <div>
+      <div class="footer-col-title">Products</div>
+      <ul class="footer-links">
+        <li><a href="regbes-cms.html">Cable Management Systems</a></li>
+                <li><a href="regbes-autonomous.html">Autonomous Charging Interface</a></li>
+        <li><a href="regbes-manual-hub.html">Manual Charging Hub</a></li>
+        <li><a href="regbes-ems-pms.html">EMS / PMS</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="regbes-about.html">About</a></li>
+        <li><a href="regbes-projects.html">Projects</a></li>
+        <li><a href="regbes-resources.html">Resources</a></li>
+        <li><a href="regbes-blog.html">Blog</a></li>
+        <li><a href="regbes-contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 REGBES B.V. · Rotterdam, Netherlands</div>
+  </div>
+</footer>
+
+
+<script>
+(function() {
+  var dd = document.querySelector('.nav-dropdown');
+  if (!dd) return;
+  var menu = dd.querySelector('.nav-dropdown-menu');
+  var timer;
+  dd.addEventListener('mouseenter', function() {
+    clearTimeout(timer);
+    menu.classList.add('open');
+  });
+  dd.addEventListener('mouseleave', function() {
+    timer = setTimeout(function() {
+      menu.classList.remove('open');
+    }, 120);
+  });
+})();
+</script>
+
+</body>
+</html>

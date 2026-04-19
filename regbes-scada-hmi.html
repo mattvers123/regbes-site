@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REGBES EMS — Port Shore Power Management Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --bg2: #f5f4f0;
+    --bg3: #eceae4;
+    --t1: #1a1a18;
+    --t2: #5a5954;
+    --t3: #9c9a92;
+    --b: rgba(0,0,0,0.12);
+    --b2: rgba(0,0,0,0.22);
+    --info-bg: #e6f1fb;
+    --info-t: #185fa5;
+    --warn-bg: #faeeda;
+    --warn-t: #854f0b;
+    --danger-bg: #fcebeb;
+    --danger-t: #a32d2d;
+    --success-bg: #eaf3de;
+    --success-t: #3b6d11;
+    --rad: 8px;
+    --radl: 12px;
+    --grid-c: rgba(0,0,0,0.07);
+    --tick-c: #aaa;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1e1e1c;
+      --bg2: #272725;
+      --bg3: #1a1a18;
+      --t1: #e8e6de;
+      --t2: #a8a69e;
+      --t3: #6a6860;
+      --b: rgba(255,255,255,0.1);
+      --b2: rgba(255,255,255,0.2);
+      --info-bg: #0c447c;
+      --info-t: #b5d4f4;
+      --warn-bg: #633806;
+      --warn-t: #fac775;
+      --danger-bg: #791f1f;
+      --danger-t: #f7c1c1;
+      --success-bg: #27500a;
+      --success-t: #c0dd97;
+      --grid-c: rgba(255,255,255,0.07);
+      --tick-c: #666;
+    }
+  }
+
+  html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg3); color: var(--t1); font-size: 13px; }
+
+  /* TOPBAR */
+  .topbar {
+    background: var(--bg);
+    border-bottom: 0.5px solid var(--b2);
+    height: 46px;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    gap: 14px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo { font-size: 13px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--t1); white-space: nowrap; }
+  .logo span { color: #1D9E75; }
+  .topbar-tabs { display: flex; gap: 3px; margin-left: 14px; flex-wrap: wrap; }
+  .tab-btn {
+    padding: 4px 12px; border-radius: var(--rad); border: none;
+    background: transparent; color: var(--t2); font-size: 12px;
+    cursor: pointer; font-family: inherit; transition: all .15s;
+  }
+  .tab-btn:hover { background: var(--bg2); color: var(--t1); }
+  .tab-btn.active { background: rgba(29,158,117,0.12); color: #1D9E75; font-weight: 500; }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
+  .status-txt { font-size: 11px; color: #3b6d11; }
+  .alarm-badge {
+    background: var(--danger-bg); color: var(--danger-t);
+    font-size: 11px; padding: 3px 9px; border-radius: 10px;
+    font-weight: 500; cursor: pointer;
+  }
+  .alarm-badge.ok { background: var(--success-bg); color: var(--success-t); }
+  .clock { font-size: 11px; color: var(--t3); font-variant-numeric: tabular-nums; }
+
+  /* LAYOUT */
+  .layout { display: flex; min-height: calc(100vh - 46px); }
+  .sidebar {
+    width: 204px; flex-shrink: 0;
+    background: var(--bg);
+    border-right: 0.5px solid var(--b);
+    padding: 12px 0;
+    display: flex; flex-direction: column; gap: 2px;
+    position: sticky; top: 46px; height: calc(100vh - 46px); overflow-y: auto;
+  }
+  .sidebar-section {
+    padding: 8px 14px 4px;
+    font-size: 10px; font-weight: 500; color: var(--t3);
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 16px; cursor: pointer; color: var(--t2);
+    font-size: 12px; transition: all .14s;
+    border-left: 2px solid transparent;
+  }
+  .nav-item:hover { background: var(--bg2); color: var(--t1); }
+  .nav-item.active { background: var(--bg2); color: #1D9E75; border-left-color: #1D9E75; font-weight: 500; }
+  .nav-icon { width: 14px; height: 14px; flex-shrink: 0; }
+  .nav-badge { margin-left: auto; background: var(--danger-bg); color: var(--danger-t); font-size: 10px; padding: 1px 5px; border-radius: 8px; }
+
+  /* CONTENT */
+  .content { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 14px; min-width: 0; overflow-y: auto; }
+  .view { display: none; flex-direction: column; gap: 14px; }
+  .view.active { display: flex; }
+
+  /* CARDS */
+  .card {
+    background: var(--bg);
+    border: 0.5px solid var(--b);
+    border-radius: var(--radl);
+    padding: 14px 16px;
+  }
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .card-title { font-size: 13px; font-weight: 500; color: var(--t1); }
+  .ctrl-row { display: flex; gap: 4px; }
+  .ctrl-btn {
+    padding: 3px 8px; border-radius: var(--rad); border: 0.5px solid var(--b2);
+    background: transparent; color: var(--t2); font-size: 11px; cursor: pointer; font-family: inherit;
+  }
+  .ctrl-btn:hover { background: var(--bg2); }
+  .ctrl-btn.active { background: rgba(29,158,117,0.12); color: #1D9E75; border-color: transparent; }
+
+  /* KPI GRID */
+  .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .kpi-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .kpi-card { background: var(--bg); border: 0.5px solid var(--b); border-radius: var(--radl); padding: 12px 14px; }
+  .kpi-label { font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; }
+  .kpi-val { font-size: 22px; font-weight: 500; line-height: 1; color: var(--t1); }
+  .kpi-unit { font-size: 11px; color: var(--t2); margin-left: 2px; }
+  .kpi-delta { font-size: 11px; margin-top: 5px; }
+  .kpi-delta.up { color: var(--danger-t); }
+  .kpi-delta.dn { color: var(--success-t); }
+  .kpi-delta.nu { color: var(--t3); }
+  .kpi-bar { height: 3px; background: var(--bg3); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+  .kpi-fill { height: 100%; border-radius: 2px; }
+
+  /* TWO / THREE COL */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  /* LOAD LIST */
+  .load-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--b); }
+  .load-row:last-child { border-bottom: none; }
+  .load-name { width: 130px; flex-shrink: 0; font-size: 12px; }
+  .load-bar-bg { flex: 1; height: 6px; background: var(--bg3); border-radius: 3px; overflow: hidden; }
+  .load-bar-in { height: 100%; border-radius: 3px; transition: width .4s; }
+  .load-kw { width: 52px; text-align: right; font-size: 12px; font-weight: 500; }
+  .load-status { width: 50px; text-align: right; }
+  .pill { display: inline-block; padding: 1px 6px; border-radius: 8px; font-size: 10px; font-weight: 500; }
+  .pill-on { background: var(--success-bg); color: var(--success-t); }
+  .pill-off { background: var(--bg3); color: var(--t3); border: 0.5px solid var(--b); }
+  .pill-fault { background: var(--danger-bg); color: var(--danger-t); }
+
+  /* TOGGLE */
+  .tog { position: relative; width: 30px; height: 17px; cursor: pointer; flex-shrink: 0; margin-left: 6px; }
+  .tog input { opacity: 0; width: 0; height: 0; }
+  .tog-slider { position: absolute; inset: 0; background: var(--b2); border-radius: 9px; transition: .2s; }
+  .tog input:checked + .tog-slider { background: #3b82f6; }
+  .tog-slider::before { content: ""; position: absolute; height: 13px; width: 13px; left: 2px; bottom: 2px; background: white; border-radius: 50%; transition: .2s; }
+  .tog input:checked + .tog-slider::before { transform: translateX(13px); }
+  .tog input:disabled + .tog-slider { opacity: .4; cursor: not-allowed; }
+
+  /* PLC GRID */
+  .plc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .plc-card { background: var(--bg); border: 0.5px solid var(--b); border-radius: var(--radl); padding: 12px; }
+  .plc-title { font-size: 12px; font-weight: 500; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .plc-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .plc-dot.run { background: #22c55e; }
+  .plc-dot.fault { background: #fbbf24; animation: blink 1s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .plc-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 0.5px solid var(--b); font-size: 11px; color: var(--t2); }
+  .plc-row:last-child { border-bottom: none; }
+  .plc-v { font-weight: 500; color: var(--t1); font-size: 12px; }
+  .tag { display: inline-block; padding: 1px 5px; border-radius: 4px; font-size: 10px; background: var(--bg3); color: var(--t2); border: 0.5px solid var(--b); font-family: 'Courier New', monospace; }
+
+  /* ALARM TABLE */
+  .alarm-wrap { overflow-x: auto; }
+  .alarm-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 620px; }
+  .alarm-table th { text-align: left; padding: 6px 10px; font-size: 10px; font-weight: 500; color: var(--t3); text-transform: uppercase; letter-spacing: .05em; border-bottom: 0.5px solid var(--b2); }
+  .alarm-table td { padding: 8px 10px; border-bottom: 0.5px solid var(--b); vertical-align: middle; }
+  .alarm-table tr:last-child td { border-bottom: none; }
+  .alarm-table tbody tr:hover td { background: var(--bg2); }
+  .sev { display: inline-block; padding: 2px 7px; border-radius: 8px; font-size: 10px; font-weight: 500; }
+  .sev-hi { background: var(--danger-bg); color: var(--danger-t); }
+  .sev-md { background: var(--warn-bg); color: var(--warn-t); }
+  .sev-lo { background: var(--success-bg); color: var(--success-t); }
+  .ack-btn { padding: 2px 8px; border-radius: var(--rad); border: 0.5px solid var(--b2); background: transparent; color: var(--t2); font-size: 11px; cursor: pointer; font-family: inherit; }
+  .ack-btn:hover { background: var(--bg2); }
+  .ack-btn:disabled { opacity: .4; cursor: default; }
+
+  /* SETPOINTS */
+  .sp-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .sp-table th { text-align: left; padding: 6px 10px; font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .05em; border-bottom: 0.5px solid var(--b2); }
+  .sp-table td { padding: 7px 10px; border-bottom: 0.5px solid var(--b); }
+  .sp-table tr:last-child td { border-bottom: none; }
+  .sp-input { width: 72px; padding: 3px 6px; border: 0.5px solid var(--b2); border-radius: var(--rad); background: var(--bg2); color: var(--t1); font-family: inherit; font-size: 12px; text-align: right; }
+  .sp-input:focus { outline: none; border-color: #3b82f6; }
+  .apply-btn { padding: 3px 10px; border-radius: var(--rad); border: none; background: rgba(29,158,117,0.12); color: #1D9E75; font-size: 11px; cursor: pointer; font-family: inherit; font-weight: 500; }
+  .apply-btn:hover { opacity: .85; }
+
+  /* PQ CARDS */
+  .pq-row { display: flex; gap: 10px; margin-bottom: 12px; }
+  .pq-card { flex: 1; background: var(--bg2); border-radius: var(--rad); padding: 10px; text-align: center; }
+  .pq-label { font-size: 10px; color: var(--t3); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+  .pq-val { font-size: 16px; font-weight: 500; }
+
+  /* ENERGY MIX */
+  .mix-row { display: flex; align-items: center; gap: 24px; }
+  .mix-legend { display: flex; flex-direction: column; gap: 8px; }
+  .mix-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--t2); }
+  .mix-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .mix-pct { margin-left: auto; padding-left: 16px; font-weight: 500; color: var(--t1); }
+
+  /* SLD */
+  .sld-svg { width: 100%; overflow: visible; }
+
+  /* CANVAS heights */
+  .ch-180 { height: 180px; }
+  .ch-130 { height: 130px; }
+  .ch-160 { height: 160px; }
+  .ch-200 { height: 200px; }
+  .ch-120 { height: 120px; }
+
+  /* SHIP / BERTH ROWS */
+  .ship-row {
+    display: grid;
+    grid-template-columns: 18px 130px 90px 1fr 64px 70px 68px 44px 36px;
+    gap: 8px;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 0.5px solid var(--b);
+  }
+  .ship-row:last-child { border-bottom: none; }
+  .ship-row.hidden { display: none; }
+  .berth-num { font-size: 10px; font-weight: 600; color: var(--t3); text-transform: uppercase; letter-spacing: .04em; }
+  .ship-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .ship-name { font-size: 12px; font-weight: 500; color: var(--t1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ship-imo { font-size: 10px; color: var(--t3); font-family: 'Courier New', monospace; }
+  .ship-type-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 500; white-space: nowrap; }
+  .badge-container { background: #e6f1fb; color: #1D9E75; }
+  .badge-tanker    { background: #faeeda; color: #854f0b; }
+  .badge-cruise    { background: #f3f0fd; color: #5b21b6; }
+  .badge-roro      { background: #eaf3de; color: #3b6d11; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--b2); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="logo" style="color:#0A1628;">REG<span style="color:#1D9E75">BES</span> &middot; EMS Dashboard</div>
+  <div class="topbar-tabs">
+    <button class="tab-btn active" onclick="switchView('overview',this)">Overview</button>
+    <button class="tab-btn" onclick="switchView('loads',this)">Load Management</button>
+    <button class="tab-btn" onclick="switchView('quality',this)">Power Quality</button>
+    <button class="tab-btn" onclick="switchView('plc',this)">PLC Status</button>
+    <button class="tab-btn" onclick="switchView('alarms',this)">Alarms</button>
+    <button class="tab-btn" onclick="switchView('setpoints',this)">Setpoints</button>
+  </div>
+  <div class="topbar-right">
+    <div class="status-dot"></div>
+    <span class="status-txt">PLC Connected</span>
+    <div class="alarm-badge" id="alarmBadge" onclick="switchView('alarms')">3 Active Alarms</div>
+    <div class="clock" id="clock">--:--:--</div>
+  </div>
+</div>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-section">Monitoring</div>
+    <div class="nav-item active" id="nav-overview" onclick="switchView('overview')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
+      Overview
+    </div>
+    <div class="nav-item" id="nav-quality" onclick="switchView('quality')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><polyline points="1,10 4,5 7,9 10,3 13,7 15,4" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+      Power Quality
+    </div>
+    <div class="nav-item" id="nav-plc" onclick="switchView('plc')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><circle cx="4.5" cy="8" r="1.2" fill="currentColor"/><circle cx="8" cy="8" r="1.2" fill="currentColor"/><circle cx="11.5" cy="8" r="1.2" fill="currentColor"/></svg>
+      PLC Status
+    </div>
+    <div class="sidebar-section">Management</div>
+    <div class="nav-item" id="nav-loads" onclick="switchView('loads')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1v4M8 11v4M1 8h4M11 8h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.2"/></svg>
+      Load Management
+    </div>
+    <div class="nav-item" id="nav-setpoints" onclick="switchView('setpoints')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.2"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      Setpoints
+    </div>
+    <div class="sidebar-section">Events</div>
+    <div class="nav-item" id="nav-alarms" onclick="switchView('alarms')">
+      <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M8 1L1 13h14L8 1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><line x1="8" y1="6" x2="8" y2="9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="11.5" r=".8" fill="currentColor"/></svg>
+      Alarms
+      <span class="nav-badge" id="navBadge">3</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+
+    <!-- ===== OVERVIEW ===== -->
+    <div class="view active" id="view-overview">
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Total Active Power</div>
+          <div class="kpi-val" id="kpi-pw">847<span class="kpi-unit">kW</span></div>
+          <div class="kpi-delta up">▲ +3.2% vs last hour</div>
+          <div class="kpi-bar"><div class="kpi-fill" style="width:72%;background:#fbbf24"></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Reactive Power</div>
+          <div class="kpi-val">312<span class="kpi-unit">kVAR</span></div>
+          <div class="kpi-delta nu">Power Factor: 0.94</div>
+          <div class="kpi-bar"><div class="kpi-fill" style="width:56%;background:#3b82f6"></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Grid Voltage (L-L)</div>
+          <div class="kpi-val" id="kpi-v">399<span class="kpi-unit">V</span></div>
+          <div class="kpi-delta dn">▼ Nominal ±1.2%</div>
+          <div class="kpi-bar"><div class="kpi-fill" style="width:50%;background:#22c55e"></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Today's Consumption</div>
+          <div class="kpi-val">6,821<span class="kpi-unit">kWh</span></div>
+          <div class="kpi-delta dn">▼ –8% vs yesterday</div>
+          <div class="kpi-bar"><div class="kpi-fill" style="width:62%;background:#3b82f6"></div></div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Peak Demand</div>
+          <div class="kpi-val">1,140<span class="kpi-unit">kW</span></div>
+          <div class="kpi-delta nu">At 09:42 today</div>
+          <div class="kpi-bar"><div class="kpi-fill" style="width:85%;background:#f87171"></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Active Power — 24h Trend</span>
+          <div class="ctrl-row">
+            <button class="ctrl-btn active" onclick="setRange(this,'1h')">1h</button>
+            <button class="ctrl-btn" onclick="setRange(this,'8h')">8h</button>
+            <button class="ctrl-btn" onclick="setRange(this,'24h')">24h</button>
+          </div>
+        </div>
+        <div class="ch-180"><canvas id="powerChart"></canvas></div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Energy Mix</span></div>
+          <div class="mix-row">
+            <canvas id="donutChart" width="120" height="120" style="flex-shrink:0;width:120px;height:120px"></canvas>
+            <div class="mix-legend">
+              <div class="mix-item"><div class="mix-dot" style="background:#3b82f6"></div>Grid Import<span class="mix-pct">54%</span></div>
+              <div class="mix-item"><div class="mix-dot" style="background:#22c55e"></div>Solar PV<span class="mix-pct">28%</span></div>
+              <div class="mix-item"><div class="mix-dot" style="background:#f59e0b"></div>Battery ESS<span class="mix-pct">12%</span></div>
+              <div class="mix-item"><div class="mix-dot" style="background:#a78bfa"></div>Generator<span class="mix-pct">6%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Phase Currents (A)</span></div>
+          <div class="ch-130"><canvas id="phaseChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- Single-Line Diagram -->
+      <div class="card">
+        <div class="card-header"><span class="card-title">Single-Line Diagram — Main Distribution</span></div>
+        <svg class="sld-svg" viewBox="0 0 700 210">
+          <defs>
+            <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+              <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          <!-- Grid utility box -->
+          <rect x="20" y="74" width="92" height="46" rx="6" fill="#e6f1fb" stroke="#b5d4f4" stroke-width="0.8"/>
+          <text x="66" y="93" text-anchor="middle" font-family="inherit" font-size="11" fill="#185fa5" font-weight="600">Grid</text>
+          <text x="66" y="108" text-anchor="middle" font-family="inherit" font-size="10" fill="#185fa5">20kV / 0.4kV</text>
+          <!-- Cable to CB1 -->
+          <line x1="112" y1="97" x2="158" y2="97" stroke="#888" stroke-width="1.5" opacity=".6"/>
+          <!-- CB1 -->
+          <rect x="158" y="85" width="28" height="24" rx="3" fill="#eaf3de" stroke="#c0dd97" stroke-width="0.8"/>
+          <text x="172" y="100" text-anchor="middle" font-family="inherit" font-size="9" fill="#3b6d11" font-weight="600">CB1</text>
+          <!-- Main Busbar -->
+          <line x1="186" y1="97" x2="600" y2="97" stroke="#374151" stroke-width="3" opacity=".2"/>
+          <text x="390" y="87" text-anchor="middle" font-family="inherit" font-size="10" fill="#9c9a92">Main Busbar — 400V AC</text>
+          <!-- Drop lines & boxes -->
+          <!-- MCC-1 -->
+          <line x1="245" y1="97" x2="245" y2="128" stroke="#9c9a92" stroke-width="1.2"/>
+          <rect x="212" y="128" width="66" height="36" rx="5" fill="#f5f4f0" stroke="#d3d1c7" stroke-width="0.5"/>
+          <text x="245" y="143" text-anchor="middle" font-family="inherit" font-size="11" fill="#1a1a18" font-weight="600">MCC-1</text>
+          <text x="245" y="157" text-anchor="middle" font-family="inherit" font-size="10" fill="#5a5954">280 kW</text>
+          <!-- MCC-2 -->
+          <line x1="345" y1="97" x2="345" y2="128" stroke="#9c9a92" stroke-width="1.2"/>
+          <rect x="312" y="128" width="66" height="36" rx="5" fill="#f5f4f0" stroke="#d3d1c7" stroke-width="0.5"/>
+          <text x="345" y="143" text-anchor="middle" font-family="inherit" font-size="11" fill="#1a1a18" font-weight="600">MCC-2</text>
+          <text x="345" y="157" text-anchor="middle" font-family="inherit" font-size="10" fill="#5a5954">195 kW</text>
+          <!-- HVAC -->
+          <line x1="445" y1="97" x2="445" y2="128" stroke="#9c9a92" stroke-width="1.2"/>
+          <rect x="412" y="128" width="66" height="36" rx="5" fill="#f5f4f0" stroke="#d3d1c7" stroke-width="0.5"/>
+          <text x="445" y="143" text-anchor="middle" font-family="inherit" font-size="11" fill="#1a1a18" font-weight="600">HVAC</text>
+          <text x="445" y="157" text-anchor="middle" font-family="inherit" font-size="10" fill="#5a5954">220 kW</text>
+          <!-- Solar PV -->
+          <line x1="545" y1="97" x2="545" y2="128" stroke="#16a34a" stroke-width="1.2"/>
+          <rect x="512" y="128" width="66" height="36" rx="5" fill="#eaf3de" stroke="#c0dd97" stroke-width="0.5"/>
+          <text x="545" y="143" text-anchor="middle" font-family="inherit" font-size="11" fill="#3b6d11" font-weight="600">Solar PV</text>
+          <text x="545" y="157" text-anchor="middle" font-family="inherit" font-size="10" fill="#3b6d11">+237 kW</text>
+          <!-- ESS -->
+          <line x1="186" y1="97" x2="186" y2="164" stroke="#d97706" stroke-width="1.2"/>
+          <rect x="153" y="164" width="66" height="36" rx="5" fill="#fef3c7" stroke="#fde68a" stroke-width="0.5"/>
+          <text x="186" y="179" text-anchor="middle" font-family="inherit" font-size="11" fill="#92400e" font-weight="600">ESS</text>
+          <text x="186" y="193" text-anchor="middle" font-family="inherit" font-size="10" fill="#b45309">±102 kW</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ===== LOADS — BERTH / SHIP ===== -->
+    <div class="view" id="view-loads">
+
+      <!-- KPI row -->
+      <div class="kpi-grid-4">
+        <div class="kpi-card"><div class="kpi-label">Total Shore Power</div><div class="kpi-val" id="kpi-total-shore">847<span class="kpi-unit">kW</span></div><div class="kpi-delta nu">6 berths occupied</div></div>
+        <div class="kpi-card"><div class="kpi-label">Berths Energised</div><div class="kpi-val">6<span class="kpi-unit"> / 8</span></div><div class="kpi-delta nu">2 berths available</div></div>
+        <div class="kpi-card"><div class="kpi-label">Peak Berth Load</div><div class="kpi-val">265<span class="kpi-unit">kW</span></div><div class="kpi-delta up">Berth 3 — Container</div></div>
+        <div class="kpi-card"><div class="kpi-label">Port Load Factor</div><div class="kpi-val">0.81</div><div class="kpi-delta dn">Good</div></div>
+      </div>
+
+      <!-- Shore power by berth bar chart -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Shore Power by Berth</span>
+          <div class="ctrl-row">
+            <button class="ctrl-btn active" onclick="setBerthView(this,'kw')">kW</button>
+            <button class="ctrl-btn" onclick="setBerthView(this,'pct')">% Capacity</button>
+          </div>
+        </div>
+        <div class="ch-160"><canvas id="loadBarChart"></canvas></div>
+      </div>
+
+      <!-- Individual ship cards -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Individual Vessel Shore Connection</span>
+          <div class="ctrl-row">
+            <button class="ctrl-btn active" onclick="filterShips(this,'all')">All</button>
+            <button class="ctrl-btn" onclick="filterShips(this,'container')">Container</button>
+            <button class="ctrl-btn" onclick="filterShips(this,'tanker')">Tanker</button>
+            <button class="ctrl-btn" onclick="filterShips(this,'cruise')">Cruise</button>
+            <button class="ctrl-btn" onclick="filterShips(this,'roro')">Ro-Ro</button>
+          </div>
+        </div>
+
+        <!-- Column headers -->
+        <div style="display:grid;grid-template-columns:18px 130px 90px 1fr 64px 70px 68px 44px 36px;gap:8px;align-items:center;padding:4px 0 6px;border-bottom:0.5px solid var(--b2);font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.04em;">
+          <span></span>
+          <span>Vessel / IMO</span>
+          <span>Type</span>
+          <span>Load</span>
+          <span style="text-align:right">kW</span>
+          <span style="text-align:right">Current (A)</span>
+          <span style="text-align:center">PF</span>
+          <span style="text-align:center">Status</span>
+          <span style="text-align:center">OPS</span>
+        </div>
+
+        <div id="ship-list">
+
+          <!-- BERTH 1 — Container A -->
+          <div class="ship-row" data-type="container">
+            <div class="berth-num">B1</div>
+            <div class="ship-info">
+              <span class="ship-name">MSC Adriana</span>
+              <span class="ship-imo">IMO 9839123</span>
+            </div>
+            <div><span class="ship-type-badge badge-container">Container</span></div>
+            <div class="load-bar-bg"><div class="load-bar-in" style="width:88%;background:#3b82f6"></div></div>
+            <span class="load-kw">265 kW</span>
+            <span class="load-kw">383 A</span>
+            <span class="load-kw" style="text-align:center">0.96</span>
+            <span class="load-status"><span class="pill pill-on">CONN</span></span>
+            <label class="tog"><input type="checkbox" checked onchange="toggleShip(this)"><span class="tog-slider"></span></label>
+          </div>
+
+          <!-- BERTH 2 — Container B -->
+          <div class="ship-row" data-type="container">
+            <div class="berth-num">B2</div>
+            <div class="ship-info">
+              <span class="ship-name">Evergreen Unity</span>
+              <span class="ship-imo">IMO 9762541</span>
+            </div>
+            <div><span class="ship-type-badge badge-container">Container</span></div>
+            <div class="load-bar-bg"><div class="load-bar-in" style="width:72%;background:#3b82f6"></div></div>
+            <span class="load-kw">218 kW</span>
+            <span class="load-kw">315 A</span>
+            <span class="load-kw" style="text-align:center">0.95</span>
+            <span class="load-status"><span class="pill pill-on">CONN</span></span>
+            <label class="tog"><input type="checkbox" checked onchange="toggleShip(this)"><span class="tog-slider"></span></label>
+          </div>
+
+          <!-- BERTH 3 — Cruise -->
+          <div class="ship-row" data-type="cruise">
+            <div class="berth-num">B3</div>
+            <div class="ship-info">
+              <span class="ship-name">Costa Fortuna</span>
+              <span class="ship-imo">IMO 9239783</span>
+            </div>
+            <div><span class="ship-type-badge badge-cruise">Cruise</span></div>
+            <div class="load-bar-bg"><div class="load-bar-in" style="width:62%;background:#a78bfa"></div></div>
+            <span class="load-kw">188 kW</span>
+            <span class="load-kw">272 A</span>
+            <span class="load-kw" style="text-align:center">0.92</span>
+            <span class="load-status"><span class="pill pill-on">CONN</span></span>
+            <label class="tog"><input type="checkbox" checked onchange="toggleShip(this)"><span class="tog-slider"></span></label>
+          </div>
+
+          <!-- BERTH 4 — Tanker A -->
+          <div class="ship-row" data-type="tanker">
+            <div class="berth-num">B4</div>
+            <div class="ship-info">
+              <span class="ship-name">Nordic Hawk</span>
+              <span class="ship-imo">IMO 9401284</span>
+            </div>
+            <div><span class="ship-type-badge badge-tanker">Tanker</span></div>
+            <div class="load-bar-bg"><div class="load-bar-in" style="width:44%;background:#f59e0b"></div></div>
+            <span class="load-kw">132 kW</span>
+            <span class="load-kw">191 A</span>
+            <span class="load-kw" style="text-align:center">0.91</span>
+            <span class="load-status"><span class="pill pill-on">CONN</span></span>
+            <label class="tog"><input type="checkbox" checked onchange="toggleShip(this)"><span class="tog-slider"></span></label>
+          </div>
+
+          <!-- BERTH 5 — Ro-Ro -->
+          <div class="ship-row" data-type="roro">
+            <div class="berth-num">B5</div>
+            <div class="ship-info">
+              <span class="ship-name">Stena Carrier</span>
+              <span class="ship-imo">IMO 9588147</span>
+            </div>
+            <div><span class="ship-type-badge badge-roro">Ro-Ro</span></div>
+            <div class="load-bar-bg"><div class="load-bar-in" style="width:28%;background:#22c55e"></div></div>
+            <span class="load-kw">84 kW</span>
+            <span class="load-kw">122 A</span>
+            <span class="load-kw" style="text-align:center">0.94</span>
+            <span class="load-status"><span class="pill pill-on">CONN</span></span>
+            <label class="tog"><input type="checkbox" checked onchange="toggleShip(this)"><span class="tog-slider"></span></label>
+          </div>
+
+          <!-- BERTH 6 — Tanker B -->
+          <div class="ship-row" data-type="tanker">
+            <div class="berth-num">B6</div>
+            <div class="ship-info">
+              <span class="ship-name">Atlantic Pioneer</span>
+              <span class="ship-imo">IMO 9312098</span>
+            </div>
+            <div><span class="ship-type-badge badge-tanker">Tanker</span></div>
+            <div class="load-bar-bg"><div class="load-bar-in" style="width:53%;background:#f59e0b"></div></div>
+            <span class="load-kw">160 kW</span>
+            <span class="load-kw">231 A</span>
+            <span class="load-kw" style="text-align:center">0.90</span>
+            <span class="load-status"><span class="pill" style="background:var(--warn-bg);color:var(--warn-t)">WARN</span></span>
+            <label class="tog"><input type="checkbox" checked onchange="toggleShip(this)"><span class="tog-slider"></span></label>
+          </div>
+
+          <!-- BERTH 7 — Empty -->
+          <div class="ship-row" data-type="empty">
+            <div class="berth-num" style="opacity:.4">B7</div>
+            <div class="ship-info" style="opacity:.4">
+              <span class="ship-name">— No vessel —</span>
+              <span class="ship-imo">Berth available</span>
+            </div>
+            <div><span class="ship-type-badge" style="background:var(--bg3);color:var(--t3);border:0.5px solid var(--b)">Empty</span></div>
+            <div class="load-bar-bg"><div class="load-bar-in" style="width:0%;background:#3b82f6"></div></div>
+            <span class="load-kw" style="opacity:.4">0 kW</span>
+            <span class="load-kw" style="opacity:.4">0 A</span>
+            <span class="load-kw" style="text-align:center;opacity:.4">—</span>
+            <span class="load-status"><span class="pill pill-off">IDLE</span></span>
+            <label class="tog"><input type="checkbox" disabled><span class="tog-slider"></span></label>
+          </div>
+
+          <!-- BERTH 8 — Fault -->
+          <div class="ship-row" data-type="container">
+            <div class="berth-num">B8</div>
+            <div class="ship-info">
+              <span class="ship-name">Maersk Elba</span>
+              <span class="ship-imo">IMO 9741055</span>
+            </div>
+            <div><span class="ship-type-badge badge-container">Container</span></div>
+            <div class="load-bar-bg"><div class="load-bar-in" style="width:0%;background:#f87171"></div></div>
+            <span class="load-kw">0 kW</span>
+            <span class="load-kw">0 A</span>
+            <span class="load-kw" style="text-align:center">—</span>
+            <span class="load-status"><span class="pill pill-fault">FAULT</span></span>
+            <label class="tog"><input type="checkbox" disabled><span class="tog-slider"></span></label>
+          </div>
+
+        </div><!-- /ship-list -->
+      </div><!-- /card -->
+    </div><!-- /view-loads -->
+
+    <!-- ===== POWER QUALITY ===== -->
+    <div class="view" id="view-quality">
+      <div class="kpi-grid-4">
+        <div class="kpi-card"><div class="kpi-label">Power Factor</div><div class="kpi-val">0.94</div><div class="kpi-delta up">Target ≥ 0.95</div><div class="kpi-bar"><div class="kpi-fill" style="width:94%;background:#fbbf24"></div></div></div>
+        <div class="kpi-card"><div class="kpi-label">THD Voltage</div><div class="kpi-val">2.3<span class="kpi-unit">%</span></div><div class="kpi-delta dn">Limit: 5%</div><div class="kpi-bar"><div class="kpi-fill" style="width:46%;background:#22c55e"></div></div></div>
+        <div class="kpi-card"><div class="kpi-label">THD Current</div><div class="kpi-val">4.8<span class="kpi-unit">%</span></div><div class="kpi-delta nu">Limit: 8%</div><div class="kpi-bar"><div class="kpi-fill" style="width:60%;background:#fbbf24"></div></div></div>
+        <div class="kpi-card"><div class="kpi-label">Frequency</div><div class="kpi-val">50.01<span class="kpi-unit">Hz</span></div><div class="kpi-delta dn">Nominal 50 Hz</div><div class="kpi-bar"><div class="kpi-fill" style="width:50%;background:#22c55e"></div></div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Phase Voltages &amp; Currents — Real-time</span></div>
+        <div class="pq-row">
+          <div class="pq-card"><div class="pq-label">V L1-N</div><div class="pq-val" style="color:#3b82f6">231.4V</div></div>
+          <div class="pq-card"><div class="pq-label">V L2-N</div><div class="pq-val" style="color:#22c55e">229.8V</div></div>
+          <div class="pq-card"><div class="pq-label">V L3-N</div><div class="pq-val" style="color:#f59e0b">230.5V</div></div>
+          <div class="pq-card"><div class="pq-label">I L1</div><div class="pq-val" style="color:#3b82f6">348A</div></div>
+          <div class="pq-card"><div class="pq-label">I L2</div><div class="pq-val" style="color:#22c55e">341A</div></div>
+          <div class="pq-card"><div class="pq-label">I L3</div><div class="pq-val" style="color:#f59e0b">353A</div></div>
+        </div>
+        <div class="ch-120"><canvas id="waveChart"></canvas></div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Voltage Phasors</span></div>
+          <div class="ch-200"><canvas id="phasorChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Harmonic Spectrum</span></div>
+          <div class="ch-200"><canvas id="harmonicChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PLC STATUS ===== -->
+    <div class="view" id="view-plc">
+      <div class="plc-grid">
+        <div class="plc-card">
+          <div class="plc-title"><div class="plc-dot run"></div>S7-1500 · CPU1515-2</div>
+          <div class="plc-row"><span>Module</span><span class="plc-v">CPU 1515-2 PN</span></div>
+          <div class="plc-row"><span>Firmware</span><span class="plc-v">V2.9.4</span></div>
+          <div class="plc-row"><span>Cycle Time</span><span class="plc-v">4.2 ms</span></div>
+          <div class="plc-row"><span>I/O Points</span><span class="plc-v">128 DI / 96 DO</span></div>
+          <div class="plc-row"><span>Status</span><span class="plc-v" style="color:#22c55e">RUN</span></div>
+          <div class="plc-row"><span>Tag: DB1.DBW0</span><span class="tag">0x00A3</span></div>
+        </div>
+        <div class="plc-card">
+          <div class="plc-title"><div class="plc-dot run"></div>S7-1200 · Energy Meter 1</div>
+          <div class="plc-row"><span>Module</span><span class="plc-v">CPU 1214C DC/DC</span></div>
+          <div class="plc-row"><span>Firmware</span><span class="plc-v">V4.5.0</span></div>
+          <div class="plc-row"><span>Cycle Time</span><span class="plc-v">10 ms</span></div>
+          <div class="plc-row"><span>Analog Inputs</span><span class="plc-v">2 AI (4-20mA)</span></div>
+          <div class="plc-row"><span>Status</span><span class="plc-v" style="color:#22c55e">RUN</span></div>
+          <div class="plc-row"><span>Tag: MW100</span><span class="tag">847.2 kW</span></div>
+        </div>
+        <div class="plc-card">
+          <div class="plc-title"><div class="plc-dot fault"></div>S7-1200 · Drive Controller</div>
+          <div class="plc-row"><span>Module</span><span class="plc-v">CPU 1212C AC/DC</span></div>
+          <div class="plc-row"><span>Firmware</span><span class="plc-v">V4.4.1</span></div>
+          <div class="plc-row"><span>Cycle Time</span><span class="plc-v">— ms</span></div>
+          <div class="plc-row"><span>Analog Inputs</span><span class="plc-v">—</span></div>
+          <div class="plc-row"><span>Status</span><span class="plc-v" style="color:#fbbf24">FAULT</span></div>
+          <div class="plc-row"><span>Error Code</span><span class="tag">E-0x0712</span></div>
+        </div>
+        <div class="plc-card">
+          <div class="plc-title"><div class="plc-dot run"></div>ET200SP · Dist I/O A</div>
+          <div class="plc-row"><span>Module</span><span class="plc-v">IM 155-6 PN HF</span></div>
+          <div class="plc-row"><span>Slot Count</span><span class="plc-v">12 slots</span></div>
+          <div class="plc-row"><span>Comm.</span><span class="plc-v">PROFINET</span></div>
+          <div class="plc-row"><span>Cycle</span><span class="plc-v">2 ms</span></div>
+          <div class="plc-row"><span>Status</span><span class="plc-v" style="color:#22c55e">RUN</span></div>
+          <div class="plc-row"><span>Protocol</span><span class="plc-v">PROFINET</span></div>
+        </div>
+        <div class="plc-card">
+          <div class="plc-title"><div class="plc-dot run"></div>SENTRON PAC3220</div>
+          <div class="plc-row"><span>Protocol</span><span class="plc-v">Modbus RTU</span></div>
+          <div class="plc-row"><span>Address</span><span class="plc-v">Slave 1</span></div>
+          <div class="plc-row"><span>Active Power</span><span class="plc-v">847 kW</span></div>
+          <div class="plc-row"><span>Reactive Power</span><span class="plc-v">312 kVAR</span></div>
+          <div class="plc-row"><span>Status</span><span class="plc-v" style="color:#22c55e">OK</span></div>
+          <div class="plc-row"><span>PF</span><span class="plc-v">0.94</span></div>
+        </div>
+        <div class="plc-card">
+          <div class="plc-title"><div class="plc-dot run"></div>SINAMICS G120 · VFD</div>
+          <div class="plc-row"><span>Protocol</span><span class="plc-v">PROFIDRIVE</span></div>
+          <div class="plc-row"><span>Output Freq.</span><span class="plc-v">47.2 Hz</span></div>
+          <div class="plc-row"><span>Output Curr.</span><span class="plc-v">86.3 A</span></div>
+          <div class="plc-row"><span>Motor Speed</span><span class="plc-v">1,416 RPM</span></div>
+          <div class="plc-row"><span>Status</span><span class="plc-v" style="color:#22c55e">RUN</span></div>
+          <div class="plc-row"><span>Torque</span><span class="plc-v">87%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ALARMS ===== -->
+    <div class="view" id="view-alarms">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Active &amp; Recent Alarms</span>
+          <div class="ctrl-row">
+            <button class="ctrl-btn active">Active</button>
+            <button class="ctrl-btn">History</button>
+            <button class="ctrl-btn" onclick="ackAll()">Ack All</button>
+          </div>
+        </div>
+        <div class="alarm-wrap">
+          <table class="alarm-table">
+            <thead>
+              <tr><th>Time</th><th>Tag / Source</th><th>Description</th><th>Severity</th><th>Status</th><th>Action</th></tr>
+            </thead>
+            <tbody id="alarm-body">
+              <tr>
+                <td>14:32:08</td>
+                <td><span class="tag">Drive.CPU_1212C</span></td>
+                <td>CPU fault — communication timeout on PROFINET</td>
+                <td><span class="sev sev-hi">HIGH</span></td>
+                <td>Active</td>
+                <td><button class="ack-btn" onclick="ackAlarm(this)">Ack</button></td>
+              </tr>
+              <tr>
+                <td>13:55:21</td>
+                <td><span class="tag">MW.PF_L3</span></td>
+                <td>Power Factor L3 below limit (0.91 &lt; 0.93)</td>
+                <td><span class="sev sev-md">MED</span></td>
+                <td>Active</td>
+                <td><button class="ack-btn" onclick="ackAlarm(this)">Ack</button></td>
+              </tr>
+              <tr>
+                <td>13:10:47</td>
+                <td><span class="tag">PAC3220.THD_I</span></td>
+                <td>THD Current above warning threshold (4.8 &gt; 4.5%)</td>
+                <td><span class="sev sev-md">MED</span></td>
+                <td>Active</td>
+                <td><button class="ack-btn" onclick="ackAlarm(this)">Ack</button></td>
+              </tr>
+              <tr style="opacity:.5">
+                <td>11:28:00</td>
+                <td><span class="tag">EM1.V_L2</span></td>
+                <td>Voltage L2 unbalance momentary dip (–6.2V)</td>
+                <td><span class="sev sev-lo">LOW</span></td>
+                <td>Cleared</td>
+                <td><button class="ack-btn" disabled>Acked</button></td>
+              </tr>
+              <tr style="opacity:.5">
+                <td>09:41:15</td>
+                <td><span class="tag">MW.PEAK_DEMAND</span></td>
+                <td>Peak demand exceeded contract threshold 1,140 kW</td>
+                <td><span class="sev sev-md">MED</span></td>
+                <td>Cleared</td>
+                <td><button class="ack-btn" disabled>Acked</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SETPOINTS ===== -->
+    <div class="view" id="view-setpoints">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Demand Management Setpoints</span></div>
+          <table class="sp-table">
+            <thead><tr><th>Parameter</th><th>Current</th><th>Setpoint</th><th>Unit</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>Contract Demand Limit</td><td>1,140</td><td><input class="sp-input" value="1200" id="sp1"></td><td>kW</td><td><button class="apply-btn" onclick="applySetpoint('sp1',this)">Apply</button></td></tr>
+              <tr><td>Peak Demand Warning</td><td>1,050</td><td><input class="sp-input" value="1050" id="sp2"></td><td>kW</td><td><button class="apply-btn" onclick="applySetpoint('sp2',this)">Apply</button></td></tr>
+              <tr><td>Load Shed Threshold</td><td>—</td><td><input class="sp-input" value="1100" id="sp3"></td><td>kW</td><td><button class="apply-btn" onclick="applySetpoint('sp3',this)">Apply</button></td></tr>
+              <tr><td>ESS Charge Limit</td><td>80</td><td><input class="sp-input" value="80" id="sp4"></td><td>%</td><td><button class="apply-btn" onclick="applySetpoint('sp4',this)">Apply</button></td></tr>
+              <tr><td>ESS Discharge Limit</td><td>20</td><td><input class="sp-input" value="20" id="sp5"></td><td>%</td><td><button class="apply-btn" onclick="applySetpoint('sp5',this)">Apply</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">Power Quality Setpoints</span></div>
+          <table class="sp-table">
+            <thead><tr><th>Parameter</th><th>Current</th><th>Setpoint</th><th>Unit</th><th></th></tr></thead>
+            <tbody>
+              <tr><td>Power Factor Target</td><td>0.94</td><td><input class="sp-input" value="0.95" id="sp6"></td><td>—</td><td><button class="apply-btn" onclick="applySetpoint('sp6',this)">Apply</button></td></tr>
+              <tr><td>THD Voltage Limit</td><td>2.3</td><td><input class="sp-input" value="5.0" id="sp7"></td><td>%</td><td><button class="apply-btn" onclick="applySetpoint('sp7',this)">Apply</button></td></tr>
+              <tr><td>THD Current Limit</td><td>4.8</td><td><input class="sp-input" value="8.0" id="sp8"></td><td>%</td><td><button class="apply-btn" onclick="applySetpoint('sp8',this)">Apply</button></td></tr>
+              <tr><td>Freq. Deviation Max</td><td>0.01</td><td><input class="sp-input" value="0.50" id="sp9"></td><td>Hz</td><td><button class="apply-btn" onclick="applySetpoint('sp9',this)">Apply</button></td></tr>
+              <tr><td>Cap Bank Step Size</td><td>—</td><td><input class="sp-input" value="50" id="sp10"></td><td>kVAR</td><td><button class="apply-btn" onclick="applySetpoint('sp10',this)">Apply</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Tariff &amp; Time-of-Use Schedule</span></div>
+        <div class="ch-120"><canvas id="touChart"></canvas></div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /layout -->
+
+<script>
+  // ─── Clock ───────────────────────────────────────────────
+  function tick() { document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-GB'); }
+  setInterval(tick, 1000); tick();
+
+  // ─── Chart.js defaults ───────────────────────────────────
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const gridC = dark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.06)';
+  const tickC = dark ? '#666' : '#bbb';
+  Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = tickC;
+
+  function rnd(n, base, amp) {
+    return Array.from({length:n}, (_,i) => Math.round(base + amp * Math.sin(i/n*Math.PI*4) + (Math.random()-0.5)*60));
+  }
+
+  // ─── Power Trend ─────────────────────────────────────────
+  const ptx = document.getElementById('powerChart').getContext('2d');
+  const pChart = new Chart(ptx, {
+    type: 'line',
+    data: {
+      labels: Array.from({length:24}, (_,i) => `${i}:00`),
+      datasets: [
+        { label:'Active Power (kW)', data: rnd(24,750,200), borderColor:'#3b82f6', backgroundColor:'rgba(59,130,246,0.07)', fill:true, tension:0.4, borderWidth:1.5, pointRadius:0, pointHoverRadius:4 },
+        { label:'Demand Limit', data: Array(24).fill(1200), borderColor:'rgba(248,113,113,0.55)', borderDash:[5,3], borderWidth:1, pointRadius:0, fill:false }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{mode:'index',intersect:false} },
+      scales:{ x:{grid:{color:gridC},ticks:{color:tickC,maxTicksLimit:8}}, y:{grid:{color:gridC},ticks:{color:tickC},min:0,max:1400} }
+    }
+  });
+
+  function setRange(btn, r) {
+    document.querySelectorAll('.card-header .ctrl-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const n = r==='1h'?12 : r==='8h'?48 : 96;
+    pChart.data.labels = Array.from({length:n}, (_,i)=>`${i}`);
+    pChart.data.datasets[0].data = rnd(n, 750, 200);
+    pChart.data.datasets[1].data = Array(n).fill(1200);
+    pChart.update();
+  }
+
+  // ─── Donut ───────────────────────────────────────────────
+  new Chart(document.getElementById('donutChart'), {
+    type:'doughnut',
+    data:{ datasets:[{ data:[54,28,12,6], backgroundColor:['#3b82f6','#22c55e','#f59e0b','#a78bfa'], borderWidth:0, hoverOffset:4 }] },
+    options:{ responsive:false, cutout:'70%', plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>` ${c.parsed}%`}}} }
+  });
+
+  // ─── Phase Currents ──────────────────────────────────────
+  new Chart(document.getElementById('phaseChart'), {
+    type:'bar',
+    data:{ labels:['L1','L2','L3'], datasets:[{ data:[348,341,353], backgroundColor:['rgba(59,130,246,.7)','rgba(34,197,94,.7)','rgba(245,158,11,.7)'], borderWidth:0, borderRadius:4 }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{display:false}},y:{grid:{color:gridC},min:310,max:370}} }
+  });
+
+  // ─── Berth Shore-Power Chart ─────────────────────────────
+  const berthLabels = ['B1 MSC Adriana','B2 Evergreen Unity','B3 Costa Fortuna','B4 Nordic Hawk','B5 Stena Carrier','B6 Atlantic Pioneer','B7 — Empty','B8 Maersk Elba'];
+  const berthKW     = [265, 218, 188, 132, 84, 160, 0, 0];
+  const berthCap    = [300, 300, 350, 200, 180, 200, 300, 300];
+  const berthPct    = berthKW.map((v,i) => berthCap[i] ? Math.round(v/berthCap[i]*100) : 0);
+  const berthColors = ['rgba(59,130,246,.75)','rgba(59,130,246,.75)','rgba(167,139,250,.75)','rgba(245,158,11,.75)','rgba(34,197,94,.75)','rgba(245,158,11,.6)','rgba(180,180,180,.3)','rgba(248,113,113,.5)'];
+
+  const berthChartData = {
+    kw: { active: berthKW, capacity: berthCap, activeLabel:'Active (kW)', capLabel:'Capacity (kW)', max:400 },
+    pct:{ active: berthPct, capacity: Array(8).fill(100), activeLabel:'Load (%)', capLabel:'Capacity (%)', max:120 }
+  };
+
+  const berthChart = new Chart(document.getElementById('loadBarChart'), {
+    type:'bar',
+    data:{
+      labels: berthLabels,
+      datasets:[
+        { label:'Active (kW)', data: berthKW, backgroundColor: berthColors, borderWidth:0, borderRadius:4 },
+        { label:'Capacity (kW)', data: berthCap, backgroundColor:'rgba(100,100,100,.08)', borderWidth:0, borderRadius:4 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{position:'top',labels:{boxWidth:8,padding:10}} },
+      scales:{
+        x:{ grid:{display:false}, ticks:{color:tickC, font:{size:10}, maxRotation:25} },
+        y:{ grid:{color:gridC}, max:400 }
+      }
+    }
+  });
+
+  function setBerthView(btn, mode) {
+    document.querySelectorAll('#view-loads .ctrl-row .ctrl-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const d = berthChartData[mode];
+    berthChart.data.datasets[0].data = d.active;
+    berthChart.data.datasets[0].label = d.activeLabel;
+    berthChart.data.datasets[1].data = d.capacity;
+    berthChart.data.datasets[1].label = d.capLabel;
+    berthChart.options.scales.y.max = d.max;
+    berthChart.update();
+  }
+
+  // ─── Ship Filter ─────────────────────────────────────────
+  function filterShips(btn, type) {
+    // only touch the filter buttons row (second ctrl-row in loads card)
+    btn.closest('.ctrl-row').querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('#ship-list .ship-row').forEach(row => {
+      const t = row.dataset.type;
+      row.classList.toggle('hidden', type !== 'all' && t !== type);
+    });
+  }
+
+  // ─── Toggle Ship ─────────────────────────────────────────
+  function toggleShip(el) {
+    const row = el.closest('.ship-row');
+    const pill = row.querySelector('.pill');
+    if (el.checked) { pill.className='pill pill-on'; pill.textContent='CONN'; }
+    else { pill.className='pill pill-off'; pill.textContent='DISC'; }
+  }
+
+  // ─── Waveform ─────────────────────────────────────────────
+  const wpts = Array.from({length:100}, (_,i) => i/100*2*Math.PI);
+  new Chart(document.getElementById('waveChart'), {
+    type:'line',
+    data:{
+      labels: wpts.map(()=>''),
+      datasets:[
+        { label:'V L1', data:wpts.map(x=>231*Math.sin(x)), borderColor:'#3b82f6', borderWidth:1.3, pointRadius:0, fill:false, tension:0.2 },
+        { label:'V L2', data:wpts.map(x=>229.8*Math.sin(x+2.094)), borderColor:'#22c55e', borderWidth:1.3, pointRadius:0, fill:false, tension:0.2 },
+        { label:'V L3', data:wpts.map(x=>230.5*Math.sin(x+4.189)), borderColor:'#f59e0b', borderWidth:1.3, pointRadius:0, fill:false, tension:0.2 }
+      ]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{display:false},y:{grid:{color:gridC}}} }
+  });
+
+  // ─── Phasor Radar ────────────────────────────────────────
+  new Chart(document.getElementById('phasorChart'), {
+    type:'radar',
+    data:{
+      labels:['0°','30°','60°','90°','120°','150°','180°','210°','240°','270°','300°','330°'],
+      datasets:[
+        { label:'V L1', data:[231,200,115,0,-115,-200,-231,-200,-115,0,115,200], borderColor:'#3b82f6', borderWidth:1.5, pointRadius:0, fill:false },
+        { label:'V L2', data:[0,115,200,231,200,115,0,-115,-200,-231,-200,-115], borderColor:'#22c55e', borderWidth:1.5, pointRadius:0, fill:false },
+        { label:'V L3', data:[-200,-231,-200,-115,0,115,200,231,200,115,0,-115], borderColor:'#f59e0b', borderWidth:1.5, pointRadius:0, fill:false }
+      ]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{position:'top',labels:{boxWidth:8,padding:8}}}, scales:{r:{grid:{color:gridC},ticks:{display:false},pointLabels:{font:{size:9}}}} }
+  });
+
+  // ─── Harmonic Spectrum ───────────────────────────────────
+  new Chart(document.getElementById('harmonicChart'), {
+    type:'bar',
+    data:{
+      labels:['1st','3rd','5th','7th','9th','11th','13th'],
+      datasets:[{ data:[100,2.1,3.8,1.6,0.8,1.2,0.5], backgroundColor:['rgba(59,130,246,.7)','rgba(245,158,11,.65)','rgba(248,113,113,.65)','rgba(245,158,11,.45)','rgba(34,197,94,.45)','rgba(245,158,11,.35)','rgba(34,197,94,.35)'], borderWidth:0, borderRadius:3 }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{display:false}},y:{grid:{color:gridC},ticks:{callback:v=>v+'%'}}} }
+  });
+
+  // ─── TOU Chart ───────────────────────────────────────────
+  const touRates = [0.08,0.08,0.08,0.08,0.08,0.08,0.12,0.18,0.22,0.22,0.22,0.20,0.18,0.18,0.18,0.18,0.22,0.22,0.22,0.18,0.14,0.12,0.10,0.08];
+  new Chart(document.getElementById('touChart'), {
+    type:'bar',
+    data:{
+      labels: Array.from({length:24},(_,i)=>`${i}h`),
+      datasets:[{ data:touRates, backgroundColor:touRates.map(r=>r>=0.20?'rgba(248,113,113,.7)':r>=0.16?'rgba(245,158,11,.6)':'rgba(34,197,94,.55)'), borderWidth:0, borderRadius:2 }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{x:{grid:{display:false},ticks:{maxTicksLimit:12}},y:{grid:{color:gridC},ticks:{callback:v=>`€${v}`}}} }
+  });
+
+  // ─── Live Simulation ─────────────────────────────────────
+  setInterval(() => {
+    const pw = 840 + Math.round((Math.random()-0.5)*40);
+    document.getElementById('kpi-pw').innerHTML = pw + '<span class="kpi-unit">kW</span>';
+    const v = (398 + (Math.random()*3-1.5)).toFixed(0);
+    document.getElementById('kpi-v').innerHTML = v + '<span class="kpi-unit">V</span>';
+  }, 2500);
+
+  // ─── View Switching ──────────────────────────────────────
+  const views = ['overview','loads','quality','plc','alarms','setpoints'];
+  function switchView(id) {
+    views.forEach(v => {
+      document.getElementById('view-'+v)?.classList.remove('active');
+      document.getElementById('nav-'+v)?.classList.remove('active');
+    });
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('view-'+id)?.classList.add('active');
+    document.getElementById('nav-'+id)?.classList.add('active');
+    const idx = views.indexOf(id);
+    document.querySelectorAll('.tab-btn')[idx]?.classList.add('active');
+  }
+
+
+
+  // ─── Alarm ACK ───────────────────────────────────────────
+  function ackAlarm(btn) {
+    const row = btn.closest('tr');
+    row.cells[4].textContent = 'Acked';
+    row.style.opacity = '.5';
+    btn.disabled = true; btn.textContent = 'Acked';
+    updateBadge();
+  }
+  function ackAll() {
+    document.querySelectorAll('#alarm-body .ack-btn:not([disabled])').forEach(b => ackAlarm(b));
+  }
+  function updateBadge() {
+    const n = document.querySelectorAll('#alarm-body .ack-btn:not([disabled])').length;
+    const badge = document.getElementById('alarmBadge');
+    const nb = document.getElementById('navBadge');
+    if (n === 0) { badge.className='alarm-badge ok'; badge.textContent='No Active Alarms'; if(nb) nb.style.display='none'; }
+    else { badge.className='alarm-badge'; badge.textContent=n+' Active Alarm'+(n>1?'s':''); if(nb) nb.textContent=n; }
+  }
+
+  // ─── Apply Setpoint ──────────────────────────────────────
+  function applySetpoint(id, btn) {
+    const val = document.getElementById(id).value;
+    const row = document.getElementById(id).closest('tr');
+    row.cells[1].textContent = val;
+    btn.textContent = '✓ Sent';
+    btn.style.background = '#eaf3de'; btn.style.color = '#3b6d11';
+    setTimeout(() => { btn.textContent='Apply'; btn.style.background=''; btn.style.color=''; }, 1600);
+  }
+</script>
+</body>
+</html>

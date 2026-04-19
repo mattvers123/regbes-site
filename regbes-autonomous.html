@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autonomous Robotic Shore-to-Ship Charging Interface │ REGBES</title>
+<meta name="description" content="REGBES autonomous robotic charging interface automates shore-to-ship connection for e-ferries and electric tugs — fast, reliable, zero manual handling. Image-processing guided alignment, IEC 80005-compliant.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-mid: #0d1e38;
+  --navy-deep: #060f1e;
+  --teal: #1D9E75;
+  --teal-dark: #0F6E56;
+  --grey-light: #F5F5F3;
+  --grey-border: #e5e7eb;
+  --grey-mid: #6b7280;
+  --grey-dark: #374151;
+  --white: #ffffff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--navy); font-size: 17px; line-height: 1.7; }
+
+/* NAV */
+nav { position: sticky; top: 0; z-index: 100; background: var(--navy); padding: 0 48px; height: 64px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.nav-logo { font-size: 20px; font-weight: 600; color: white; letter-spacing: 0.06em; text-decoration: none; }
+.nav-logo span { color: var(--teal); }
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 15px; font-weight: 400; transition: color 0.2s; }
+.nav-links a:hover { color: white; }
+.nav-links a.active { color: white; border-bottom: 1px solid var(--teal); padding-bottom: 2px; }
+
+
+
+
+.nav-cta { background: var(--teal) !important; color: white !important; font-size: 14px !important; font-weight: 500 !important; padding: 9px 20px; border-radius: 5px; }
+
+/* BREADCRUMB */
+.breadcrumb { background: var(--grey-light); border-bottom: 1px solid var(--grey-border); padding: 10px 48px; font-size: 13px; color: var(--grey-mid); }
+.breadcrumb a { color: var(--teal); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* HERO */
+.hero { background: var(--navy-mid); padding: 72px 48px 64px; display: flex; gap: 48px; align-items: center; min-height: 500px; }
+.hero-left { flex: 1.2; }
+.hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; }
+.hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--teal); }
+.hero h1 { font-size: 48px; font-weight: 500; color: white; line-height: 1.18; margin-bottom: 20px; letter-spacing: -0.02em; }
+.hero-sub { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.75; margin-bottom: 28px; max-width: 500px; }
+.hero-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
+.hero-badge { font-size: 11px; background: rgba(29,158,117,0.15); color: var(--teal); border-radius: 4px; padding: 3px 10px; font-weight: 600; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-primary { background: var(--teal); color: white; font-size: 15px; font-weight: 500; padding: 13px 26px; border-radius: 6px; text-decoration: none; transition: background 0.2s; display: inline-block; font-family: 'DM Sans', sans-serif; }
+.btn-primary:hover { background: var(--teal-dark); }
+.btn-ghost { border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.7); font-size: 15px; padding: 13px 26px; border-radius: 6px; text-decoration: none; transition: border-color 0.2s; display: inline-block; }
+.btn-ghost:hover { border-color: rgba(255,255,255,0.45); color: white; }
+.hero-right { flex: 1; display: flex; align-items: center; justify-content: center; }
+.hero-img-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; width: 100%; max-width: 400px; height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+.il { font-size: 13px; color: rgba(255,255,255,0.3); }
+.if { font-size: 12px; color: var(--teal); font-family: 'DM Mono', monospace; }
+
+/* PROBLEM STRIP */
+.problem { background: var(--navy); padding: 36px 48px; }
+.problem-inner { display: flex; gap: 0; align-items: stretch; }
+.problem-text { flex: 1.4; padding-right: 40px; border-right: 1px solid rgba(255,255,255,0.08); }
+.problem-label { font-size: 11px; font-weight: 600; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+.problem-title { font-size: 22px; font-weight: 500; color: white; margin-bottom: 14px; line-height: 1.3; letter-spacing: -0.01em; }
+.problem-desc { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.75; }
+.problem-stats { flex: 1; padding-left: 40px; display: flex; flex-direction: column; justify-content: center; gap: 20px; }
+.p-stat { }
+.p-stat-num { font-size: 28px; font-weight: 500; color: var(--teal); line-height: 1; margin-bottom: 4px; letter-spacing: -0.02em; }
+.p-stat-label { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.5; }
+
+/* HOW IT WORKS */
+.how { background: var(--grey-light); padding: 72px 48px; }
+.sec-label { font-size: 13px; font-weight: 500; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+.sec-h2 { font-size: 34px; font-weight: 500; color: var(--navy); line-height: 1.2; margin-bottom: 12px; letter-spacing: -0.01em; }
+.sec-sub { font-size: 16px; color: var(--grey-mid); line-height: 1.7; max-width: 580px; margin-bottom: 48px; }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.step { background: white; border-radius: 12px; overflow: hidden; border: 1px solid var(--grey-border); transition: border-color 0.2s; }
+.step:hover { border-color: var(--teal); }
+.step-img { height: 180px; background: var(--grey-light); border-bottom: 1px solid var(--grey-border); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+.step-img .sil { font-size: 12px; color: #9ca3af; }
+.step-img .sif { font-size: 11px; color: var(--teal); font-family: 'DM Mono', monospace; }
+.step-body { padding: 22px; }
+.step-num { font-size: 11px; font-weight: 700; color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; font-family: 'DM Mono', monospace; }
+.step-title { font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+.step-desc { font-size: 14px; color: var(--grey-mid); line-height: 1.65; }
+
+/* KEY BENEFITS */
+.benefits { background: white; padding: 72px 48px; }
+.benefits-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 40px; }
+.benefit-card { background: var(--grey-light); border-radius: 10px; padding: 28px 26px; border: 1px solid transparent; transition: border-color 0.2s; }
+.benefit-card:hover { border-color: var(--teal); }
+.benefit-icon { width: 40px; height: 40px; background: var(--teal); border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; }
+.benefit-icon svg { width: 18px; height: 18px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.benefit-title { font-size: 17px; font-weight: 600; color: var(--navy); margin-bottom: 10px; line-height: 1.3; }
+.benefit-desc { font-size: 15px; color: var(--grey-mid); line-height: 1.65; }
+
+/* TECHNICAL DETAIL */
+.technical { background: var(--grey-light); padding: 72px 48px; }
+.tech-inner { display: flex; gap: 48px; align-items: flex-start; margin-top: 36px; }
+.tech-imgs { flex: 1; display: flex; flex-direction: column; gap: 14px; }
+.tech-img-main { background: white; border: 1px solid var(--grey-border); border-radius: 10px; height: 240px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+.tech-img-main .til { font-size: 13px; color: #9ca3af; }
+.tech-img-main .tif { font-size: 11px; color: var(--teal); font-family: 'DM Mono', monospace; }
+.tech-img-sub { background: white; border: 1px solid var(--grey-border); border-radius: 8px; height: 100px; display: flex; align-items: center; justify-content: center; }
+.tech-img-sub span { font-size: 10px; color: #9ca3af; font-family: 'DM Mono', monospace; }
+.tech-content { flex: 1.2; }
+.tech-title { font-size: 26px; font-weight: 500; color: var(--navy); margin-bottom: 16px; letter-spacing: -0.01em; }
+.tech-desc { font-size: 15px; color: var(--grey-mid); line-height: 1.75; margin-bottom: 24px; }
+.tech-specs { display: flex; flex-direction: column; gap: 10px; }
+.tech-spec { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: white; border-radius: 8px; border: 1px solid var(--grey-border); }
+.tech-spec-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; margin-top: 8px; }
+.tech-spec-text { }
+.tech-spec-title { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+.tech-spec-desc { font-size: 13px; color: var(--grey-mid); line-height: 1.5; }
+
+/* VESSEL APPLICATIONS */
+.vessels { background: var(--navy); padding: 72px 48px; }
+.vessels .sec-label { color: var(--teal); }
+.vessels .sec-h2 { color: white; }
+.vessels .sec-sub { color: rgba(255,255,255,0.45); }
+.vessels-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
+.vessel-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 20px; transition: border-color 0.2s; }
+.vessel-card:hover { border-color: rgba(29,158,117,0.35); }
+.vessel-icon { font-size: 24px; margin-bottom: 12px; }
+.vessel-name { font-size: 16px; font-weight: 600; color: white; margin-bottom: 6px; }
+.vessel-why { font-size: 13px; color: rgba(255,255,255,0.42); line-height: 1.6; }
+.vessel-tag { display: inline-block; margin-top: 10px; font-size: 11px; color: var(--teal); font-weight: 500; }
+
+/* INSTALLATION */
+.installation { background: white; padding: 72px 48px; }
+.install-inner { display: flex; gap: 48px; align-items: center; margin-top: 36px; }
+.install-content { flex: 1; }
+.install-items { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+.install-item { display: flex; align-items: flex-start; gap: 16px; padding: 18px 20px; background: var(--grey-light); border-radius: 8px; }
+.install-num { font-size: 13px; font-weight: 700; color: var(--teal); font-family: 'DM Mono', monospace; flex-shrink: 0; margin-top: 2px; }
+.install-text { }
+.install-title { font-size: 15px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+.install-desc { font-size: 14px; color: var(--grey-mid); line-height: 1.6; }
+.install-img { flex: 1; }
+.install-img-box { background: var(--grey-light); border: 1px solid var(--grey-border); border-radius: 10px; height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+.install-img-box .iil { font-size: 13px; color: #9ca3af; }
+.install-img-box .iif { font-size: 11px; color: var(--teal); font-family: 'DM Mono', monospace; }
+.install-note { font-size: 12px; color: #9ca3af; margin-top: 6px; text-align: center; font-style: italic; }
+
+/* FINAL CTA */
+.final-cta { background: var(--navy-mid); padding: 80px 48px; text-align: center; }
+.final-cta h2 { font-size: 38px; font-weight: 500; color: white; margin-bottom: 14px; letter-spacing: -0.01em; }
+.final-cta p { font-size: 16px; color: rgba(255,255,255,0.5); margin-bottom: 32px; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.75; }
+.cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.cta-ghost { border: 1px solid rgba(255,255,255,0.22); color: rgba(255,255,255,0.65); font-size: 15px; padding: 13px 26px; border-radius: 6px; text-decoration: none; transition: border-color 0.2s; font-family: 'DM Sans', sans-serif; }
+.cta-ghost:hover { border-color: rgba(255,255,255,0.4); color: white; }
+
+/* RELATED */
+.related { padding: 56px 48px; background: white; }
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 28px; }
+.rel-card { border: 1px solid var(--grey-border); border-radius: 10px; padding: 22px; transition: border-color 0.2s; }
+.rel-card:hover { border-color: var(--teal); }
+.rel-tag { font-size: 11px; color: var(--teal); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+.rel-title { font-size: 16px; font-weight: 600; color: var(--navy); margin-bottom: 8px; }
+.rel-desc { font-size: 14px; color: var(--grey-mid); line-height: 1.6; margin-bottom: 14px; }
+.rel-link { font-size: 13px; color: var(--teal); font-weight: 500; text-decoration: none; }
+.rel-link:hover { text-decoration: underline; }
+
+/* FOOTER */
+footer { background: var(--navy-deep); padding: 52px 48px 26px; }
+.footer-grid { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 48px; margin-bottom: 44px; }
+.footer-logo { font-size: 18px; font-weight: 600; color: white; letter-spacing: 0.06em; margin-bottom: 14px; }
+.footer-logo span { color: var(--teal); }
+.footer-contact { font-size: 14px; color: rgba(255,255,255,0.38); line-height: 2; margin-bottom: 18px; }
+.footer-contact a { color: rgba(255,255,255,0.5); text-decoration: none; }
+.footer-linkedin { font-size: 13px; color: rgba(255,255,255,0.32); text-decoration: none; border: 1px solid rgba(255,255,255,0.12); padding: 5px 14px; border-radius: 4px; display: inline-block; }
+.footer-col-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 16px; letter-spacing: 0.05em; text-transform: uppercase; }
+.footer-links { list-style: none; }
+.footer-links li { padding: 5px 0; }
+.footer-links a { font-size: 15px; color: rgba(255,255,255,0.32); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: rgba(255,255,255,0.7); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 22px; }
+.footer-copy { font-size: 13px; color: rgba(255,255,255,0.22); }
+
+
+.nav-dropdown { position: relative; display: inline-block; }
+.nav-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: -12px;
+  z-index: 9999;
+  min-width: 240px;
+  padding-top: 4px;
+}
+.nav-dropdown-menu.open { display: block; }
+.nav-dropdown-menu-inner {
+  background: #0d1e38;
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 8px;
+  padding: 6px 0;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+}
+.nav-dropdown > a {
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+.nav-dropdown > a:hover { color: white; }
+.nav-dropdown-menu-inner a {
+  display: block !important;
+  padding: 10px 20px !important;
+  font-size: 14px !important;
+  color: rgba(255,255,255,0.65) !important;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-dropdown-menu-inner a:hover {
+  color: white !important;
+  background: rgba(255,255,255,0.07) !important;
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo"><img src="images/regbes-logo-dark.webp" alt="REGBES" style="height:34px;width:auto;display:block;"></a>
+  <div class="nav-links">
+    <div class="nav-dropdown">
+        <a href="#">Products ▾</a>
+        <div class="nav-dropdown-menu">
+          <div class="nav-dropdown-menu-inner">
+            <a href="regbes-cms.html">Cable Management Systems</a>
+            <a href="regbes-autonomous.html">Autonomous Charging Interface</a>
+            <a href="regbes-manual-hub.html">Manual Charging Hub</a>
+            <a href="regbes-ems-pms.html">EMS / PMS</a>
+          </div>
+        </div>
+      </div>
+    <a href="regbes-projects.html">Projects</a>
+    <a href="regbes-resources.html">Resources</a>
+    <a href="regbes-blog.html">Blog</a>
+    <a href="regbes-about.html">About</a>
+    <a href="regbes-contact.html" class="nav-cta">Get in touch</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb"><a href="/">Home</a> › <a href="regbes-cms.html">Products</a> › Autonomous Charging Interface</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Products · Autonomous Systems</div>
+    <h1>Autonomous Robotic Shore-to-Ship Charging Interface</h1>
+    <p class="hero-sub">Designed for e-ferries and electric tugs where turnaround time is measured in minutes — the REGBES robotic interface connects automatically, every time, without manual cable handling.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">IEC 80005-1 compliant</span>
+      <span class="hero-badge">Image-processing guided</span>
+      <span class="hero-badge">Zero manual handling</span>
+      <span class="hero-badge">E-ferries · Electric tugs</span>
+    </div>
+    <div class="hero-btns">
+      <a href="regbes-contact.html" class="btn-primary">Book a technical demo</a>
+      <a href="regbes-contact.html" class="btn-ghost">Request a datasheet</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-box" style="padding:0; overflow:hidden;">
+      <img src="images/regbes-autonomous-charging-interface-hero.webp" alt="REGBES autonomous shore-to-ship charging interface" style="width:100%; height:100%; object-fit:cover; border-radius:12px;">
+    </div>
+  </div>
+</div>
+
+<!-- PROBLEM STRIP -->
+<div class="problem">
+  <div class="problem-inner">
+    <div class="problem-text">
+      <div class="problem-label">The challenge</div>
+      <div class="problem-title">Electric vessels charge fast. Manual cable connection doesn't.</div>
+      <p class="problem-desc">E-ferries and electric tugs operate on tight turnaround schedules — often less than 10 minutes at berth. Manual connection of high-voltage shore power cables is slow, physically demanding, and operationally inconsistent. Missed connections mean missed charging windows. The REGBES autonomous interface solves this by removing the manual step entirely — the system detects, aligns, and connects without operator intervention, every departure cycle.</p>
+    </div>
+    <div class="problem-stats">
+      <div class="p-stat">
+        <div class="p-stat-num">&lt; 10 min</div>
+        <div class="p-stat-label">Typical e-ferry turnaround window at berth</div>
+      </div>
+      <div class="p-stat">
+        <div class="p-stat-num">0</div>
+        <div class="p-stat-label">Manual handling steps with autonomous interface</div>
+      </div>
+      <div class="p-stat">
+        <div class="p-stat-num">Every cycle</div>
+        <div class="p-stat-label">Consistent, reliable connection — regardless of tide or vessel position</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how">
+  <div class="sec-label">How it works</div>
+  <div class="sec-h2">Three steps. Fully automatic.</div>
+  <p class="sec-sub">From vessel arrival to shore power connected — the REGBES autonomous interface handles the entire connection process without operator intervention.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-img"><img src="images/regbes-autonomous-scissor-arm-plug-plate-diagram.webp" alt="REGBES autonomous interface components — port side extension arm, plug plate, and ship side plug" style="width:100%; height:100%; object-fit:contain; background:#f5f5f3; padding:8px;"></div>
+      <div class="step-body">
+        <div class="step-num">Step 01</div>
+        <div class="step-title">Vessel detected — system ready</div>
+        <p class="step-desc">As the vessel approaches the berth, the interface enters standby. The image-processing system begins monitoring the vessel hull and connection point in real time, accounting for tide, drift, and vessel position variation.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-img"><img src="images/regbes-autonomous-full-system-arm-extended.webp" alt="REGBES autonomous charging interface with arm fully extended — alignment phase" style="width:100%; height:100%; object-fit:cover;"></div>
+      <div class="step-body">
+        <div class="step-num">Step 02</div>
+        <div class="step-title">Alignment — robotic arm deploys</div>
+        <p class="step-desc">The robotic arm extends and aligns with the vessel's shore power inlet using continuous image-processing feedback. The system compensates for movement in real time, guiding the plug head to the correct position regardless of berth layout or plug standard.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-img"><img src="images/regbes-autonomous-plug-connection-closeup.webp" alt="REGBES autonomous interface plug head engaged — shore-to-ship connection complete" style="width:100%; height:100%; object-fit:cover;"></div>
+      <div class="step-body">
+        <div class="step-num">Step 03</div>
+        <div class="step-title">Connected — charging begins</div>
+        <p class="step-desc">The plug engages and shore power transfer begins. The system monitors the connection throughout the charging cycle and disconnects safely when the vessel is ready to depart — fully automated, no operator required at any stage.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- KEY BENEFITS -->
+<div class="benefits">
+  <div class="sec-label">Key benefits</div>
+  <div class="sec-h2">Built for operations that can't afford delays</div>
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+      </div>
+      <div class="benefit-title">Maximises charging time within the turnaround window</div>
+      <p class="benefit-desc">Automatic connection begins the moment the vessel is in position — no waiting for an operator. Every available minute of turnaround time is used for charging, not handling.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="benefit-title">Eliminates manual handling of high-voltage cables</div>
+      <p class="benefit-desc">Shore power cables carrying high currents are heavy and physically demanding to handle. Removing the manual step eliminates the associated injury risk and reduces operator fatigue across multiple daily cycles.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="benefit-title">Consistent connection — regardless of conditions</div>
+      <p class="benefit-desc">Tidal variation, vessel drift, and berth layout differences that complicate manual connection are handled automatically by the image-processing system. The same reliable connection, every cycle.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      </div>
+      <div class="benefit-title">Compatible with multiple plug standards and berth layouts</div>
+      <p class="benefit-desc">The system is not tied to a single plug standard or a fixed berth geometry. It adapts to the vessel and the installation — reducing the integration work required at each terminal.</p>
+    </div>
+  </div>
+</div>
+
+<!-- TECHNICAL DETAIL -->
+<div class="technical">
+  <div class="sec-label">Technical overview</div>
+  <div class="sec-h2">What's inside the system</div>
+  <div class="tech-inner">
+    <div class="tech-imgs" style="display:flex; align-items:center; justify-content:center;">
+      <div class="tech-img-main" style="height:auto; display:flex; align-items:center; justify-content:center; background:var(--grey-light); border:1px solid var(--grey-border); border-radius:10px; overflow:hidden; padding:0;">
+        <img src="images/regbes-autonomous-charger-cabinet-internal-render.webp" alt="REGBES autonomous charging interface — containerised unit internal render showing robotic arm, cable management, and power electronics" style="width:100%; height:auto; object-fit:contain; display:block;">
+      </div>
+    </div>
+    <div class="tech-content">
+      <div class="tech-title">Integrated hardware and control in one unit</div>
+      <p class="tech-desc">The REGBES autonomous charging interface combines a motorised cable reel, robotic arm, image-processing camera system, and shore power control electronics in a single integrated unit. The system can be connected directly to a shore power cabinet or grid interface — a separate CMS is not required.</p>
+      <div class="tech-specs">
+        <div class="tech-spec">
+          <div class="tech-spec-dot"></div>
+          <div class="tech-spec-text">
+            <div class="tech-spec-title">Image-processing alignment</div>
+            <div class="tech-spec-desc">Real-time camera system guides robotic arm to vessel connection point — compensates for vessel movement, tide, and position variation.</div>
+          </div>
+        </div>
+        <div class="tech-spec">
+          <div class="tech-spec-dot"></div>
+          <div class="tech-spec-text">
+            <div class="tech-spec-title">Motorised cable reel</div>
+            <div class="tech-spec-desc">Integrated reel handles deployment and retrieval of shore power cables — no manual cable handling at any stage.</div>
+          </div>
+        </div>
+        <div class="tech-spec">
+          <div class="tech-spec-dot"></div>
+          <div class="tech-spec-text">
+            <div class="tech-spec-title">Shore power control electronics</div>
+            <div class="tech-spec-desc">Integrated cabinet with power management and control systems. Direct grid connection — compatible with existing port infrastructure.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VESSEL APPLICATIONS -->
+<div class="vessels">
+  <div class="sec-label">Applications</div>
+  <div class="sec-h2">Built for electric vessels on tight schedules</div>
+  <p class="sec-sub">The autonomous interface is most valuable where turnaround time is short, cycle frequency is high, and manual handling becomes a bottleneck.</p>
+  <div class="vessels-grid">
+    <div class="vessel-card">
+      <div class="vessel-icon">⛴</div>
+      <div class="vessel-name">E-ferries</div>
+      <p class="vessel-why">High-frequency routes with short turnaround windows — 5 to 15 minutes at berth. Every departure cycle requires a reliable connection. Automation eliminates the manual bottleneck entirely.</p>
+      <span class="vessel-tag">Primary application</span>
+    </div>
+    <div class="vessel-card">
+      <div class="vessel-icon">🚢</div>
+      <div class="vessel-name">Electric tugs</div>
+      <p class="vessel-why">Tugs operate continuously across a port — multiple berthing cycles per shift. Automated connection reduces crew workload and ensures the battery is topped up between jobs.</p>
+      <span class="vessel-tag">Primary application</span>
+    </div>
+    <div class="vessel-card">
+      <div class="vessel-icon">🔋</div>
+      <div class="vessel-name">Other electric vessels</div>
+      <p class="vessel-why">Any full-electric vessel with a high cycle frequency and limited berth time benefits from automated connection — harbour craft, patrol vessels, and electric workboats.</p>
+      <span class="vessel-tag">Applicable</span>
+    </div>
+  </div>
+</div>
+
+<!-- INSTALLATION -->
+<div class="installation">
+  <div class="sec-label">Installation</div>
+  <div class="sec-h2">What's needed at the berth</div>
+  <div class="install-inner">
+    <div class="install-content">
+      <p style="font-size: 15px; color: var(--grey-mid); line-height: 1.75; margin-bottom: 24px;">The autonomous interface is designed to integrate with existing port infrastructure. A separate cable management system is not required — the unit connects directly to your shore power supply or grid interface.</p>
+      <div class="install-items">
+        <div class="install-item">
+          <div class="install-num">01</div>
+          <div class="install-text">
+            <div class="install-title">Shore power supply or grid connection</div>
+            <div class="install-desc">The interface connects directly to an existing shore power cabinet or grid interface unit. REGBES can supply the complete shore power cabinet if required.</div>
+          </div>
+        </div>
+        <div class="install-item">
+          <div class="install-num">02</div>
+          <div class="install-text">
+            <div class="install-title">Vessel-side connection point</div>
+            <div class="install-desc">The vessel requires a compatible shore power inlet at a fixed, accessible location on the hull. REGBES works with vessel operators to confirm compatibility before installation.</div>
+          </div>
+        </div>
+        <div class="install-item">
+          <div class="install-num">03</div>
+          <div class="install-text">
+            <div class="install-title">Berth mounting position</div>
+            <div class="install-desc">The interface is mounted at quayside at a fixed position relative to the berth. REGBES engineering team handles the installation survey, positioning, and commissioning.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="install-img">
+      <div style="background: var(--grey-light); border: 1px solid var(--grey-border); border-radius: 10px; padding: 28px;">
+        <div style="font-size: 11px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px;">Demo application</div>
+        <div style="font-size: 18px; font-weight: 500; color: var(--navy); margin-bottom: 12px; line-height: 1.3;">See the autonomous connection in operation</div>
+        <p style="font-size: 15px; color: var(--grey-mid); line-height: 1.75; margin-bottom: 20px;">The Smart Power Booster project — backed by Rotterdam Municipality — demonstrates the automated shore-to-ship connection in a live port environment. The demo shows the full connection cycle without manual operator intervention.</p>
+        <a href="https://youtube.com/shorts/pbld9uI-ujE" target="_blank" style="display:inline-flex; align-items:center; gap:10px; background:var(--navy); color:white; font-size:14px; font-weight:500; padding:12px 20px; border-radius:6px; text-decoration:none; font-family:'DM Sans',sans-serif;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Watch demo video ↗
+        </a>
+        <p style="font-size: 12px; color: #9ca3af; margin-top: 12px; font-style: italic;">Opens on YouTube · Smart Power Booster — Rotterdam Municipality</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- SHORE POWER SUPPLY OPTIONS -->
+<div style="background: var(--grey-light); padding: 56px 48px; border-top: 1px solid var(--grey-border);">
+  <div style="font-size: 13px; font-weight: 500; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;">Optional add-on</div>
+  <div style="font-size: 28px; font-weight: 500; color: var(--navy); margin-bottom: 12px; letter-spacing: -0.01em;">Shore power supply — two installation formats</div>
+  <p style="font-size: 16px; color: var(--grey-mid); line-height: 1.7; max-width: 580px; margin-bottom: 36px;">The autonomous charging interface connects to your existing shore power supply — or REGBES can supply the grid interface unit as part of the installation. Two formats are available depending on your berth layout and infrastructure requirements.</p>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div style="background: white; border: 1px solid var(--grey-border); border-radius: 10px; padding: 26px;">
+      <div style="width: 36px; height: 36px; background: var(--teal); border-radius: 8px; margin-bottom: 14px; display: flex; align-items: center; justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      </div>
+      <div style="font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 8px;">Quayside tower</div>
+      <p style="font-size: 14px; color: var(--grey-mid); line-height: 1.65; margin-bottom: 14px;">A fixed pedestal-mounted shore power cabinet installed at the berth. Integrates directly with the autonomous charging interface on the same structure. Suited to permanent berth installations where quayside space allows a dedicated tower unit.</p>
+      <div style="background: var(--grey-light); border-radius: 6px; padding: 10px 14px;">
+        <div style="font-size: 11px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;">Typical for</div>
+        <div style="font-size: 13px; color: var(--grey-dark);">Ferry terminals · Dedicated electric vessel berths · New-build OPS installations</div>
+      </div>
+    </div>
+    <div style="background: white; border: 1px solid var(--grey-border); border-radius: 10px; padding: 26px;">
+      <div style="width: 36px; height: 36px; background: var(--teal); border-radius: 8px; margin-bottom: 14px; display: flex; align-items: center; justify-content: center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+      </div>
+      <div style="font-size: 18px; font-weight: 600; color: var(--navy); margin-bottom: 8px;">Containerised unit</div>
+      <p style="font-size: 14px; color: var(--grey-mid); line-height: 1.65; margin-bottom: 14px;">A self-contained shore power unit housed in a standard container format. Rapidly deployable — can be positioned at any berth with a grid connection, without permanent civil works. Suited to ports requiring flexibility or phased OPS rollout.</p>
+      <div style="background: var(--grey-light); border-radius: 6px; padding: 10px 14px;">
+        <div style="font-size: 11px; font-weight: 700; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;">Typical for</div>
+        <div style="font-size: 13px; color: var(--grey-dark);">Retrofit installations · Flexible berth coverage · Ports phasing OPS rollout</div>
+      </div>
+    </div>
+  </div>
+  <div style="background: white; border: 1px solid var(--grey-border); border-radius: 8px; padding: 16px 20px; margin-top: 16px; display: flex; align-items: center; gap: 12px;">
+    <div style="width: 5px; height: 5px; border-radius: 50%; background: var(--teal); flex-shrink: 0;"></div>
+    <p style="font-size: 14px; color: var(--grey-mid);">Both formats use the internal cabinet render (IEC 80005-1 compliant power electronics) — IEC 80005-1 compliant power electronics, compatible with existing port grid connections. REGBES can supply as part of a complete installation or integrate with your existing shore power supply.</p>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <h2>See the autonomous interface in action</h2>
+  <p>Book a technical demo with the REGBES engineering team — we'll walk you through the system, discuss your berth layout, and answer your integration questions.</p>
+  <div class="cta-btns">
+    <a href="regbes-contact.html" class="btn-primary">Book a technical demo</a>
+    <a href="regbes-contact.html" class="cta-ghost">Request a datasheet</a>
+  </div>
+</div>
+
+<!-- RELATED PRODUCTS -->
+<div class="related">
+  <div class="sec-label">Related products</div>
+  <div class="sec-h2">Complete the shore power stack</div>
+  <div class="related-grid">
+    <div class="rel-card">
+      <div class="rel-tag">Cable management</div>
+      <div class="rel-title">Cable Management Systems</div>
+      <div class="rel-desc">For applications where a separate cable management system is preferred — Compact Mobile, Modular Mobile, and Cable Reel variants.</div>
+      <a href="regbes-cms.html" class="rel-link">Learn more →</a>
+    </div>
+    <div class="rel-card">
+      <div class="rel-tag">Software</div>
+      <div class="rel-title">Energy &amp; Power Management</div>
+      <div class="rel-desc">AI-powered EMS and PMS optimise charging schedules around grid load, vessel turnaround times, and real-time energy pricing.</div>
+      <a href="regbes-ems-pms.html" class="rel-link">Learn more →</a>
+    </div>
+    <div class="rel-card">
+      <div class="rel-tag">Small vessels</div>
+      <div class="rel-title">Manual Charging Hub</div>
+      <div class="rel-desc">Fixed shore power connection point for smaller electric vessels, yachts, and harbour craft where full automation is not required.</div>
+      <a href="regbes-manual-hub.html" class="rel-link">Learn more →</a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">REGBES</div>
+      <div class="footer-contact">Rotterdam, Netherlands<br><a href="mailto:info@regbes.com">info@regbes.com</a></div>
+      <a href="https://www.linkedin.com/company/regbes" target="_blank" class="footer-linkedin">LinkedIn</a>
+    </div>
+    <div>
+      <div class="footer-col-title">Products</div>
+      <ul class="footer-links">
+        <li><a href="regbes-cms.html">Cable Management Systems</a></li>
+                        <li><a href="regbes-autonomous.html">Autonomous Charging Interface</a></li>
+        <li><a href="regbes-manual-hub.html">Manual Charging Hub</a></li>
+        <li><a href="regbes-ems-pms.html">EMS / PMS</a></li>
+              </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="regbes-about.html">About</a></li>
+        <li><a href="regbes-projects.html">Projects</a></li>
+        <li><a href="regbes-resources.html">Resources</a></li>
+        <li><a href="regbes-blog.html">Blog</a></li>
+        <li><a href="regbes-contact.html">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 REGBES B.V. · Rotterdam, Netherlands</div>
+  </div>
+</footer>
+
+
+<script>
+(function() {
+  var dd = document.querySelector('.nav-dropdown');
+  if (!dd) return;
+  var menu = dd.querySelector('.nav-dropdown-menu');
+  var timer;
+  dd.addEventListener('mouseenter', function() {
+    clearTimeout(timer);
+    menu.classList.add('open');
+  });
+  dd.addEventListener('mouseleave', function() {
+    timer = setTimeout(function() {
+      menu.classList.remove('open');
+    }, 120);
+  });
+})();
+</script>
+
+</body>
+</html>
