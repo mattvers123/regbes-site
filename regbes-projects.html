@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Maritime Electrification Projects: BlueBARGE, Hy2FISH & More │ REGBES</title>
 <meta name="description" content="REGBES contributes shore power and energy management technology to EU-funded maritime projects including BlueBARGE (offshore bunkering) and Hy2FISH (hydrogen-electric fishing vessels), and delivers commercial installations for port operators and defence companies.">
+  <!-- SEO: canonical + Open Graph -->
+  <link rel="canonical" href="https://www.regbes.com/regbes-projects.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="REGBES">
+  <meta property="og:url" content="https://www.regbes.com/regbes-projects.html">
+  <meta property="og:title" content="Maritime Electrification Projects: BlueBARGE, Hy2FISH & More │ REGBES">
+  <meta property="og:description" content="REGBES contributes shore power and energy management technology to EU-funded maritime projects including BlueBARGE and Hy2FISH, and delivers commercial installations for port operators worldwide.">
+  <meta property="og:image" content="https://www.regbes.com/images/regbes-fem-stress-analysis-cable-reel-rd.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Maritime Electrification Projects: BlueBARGE, Hy2FISH & More │ REGBES">
+  <meta name="twitter:description" content="REGBES contributes shore power and energy management technology to EU-funded maritime projects including BlueBARGE and Hy2FISH, and delivers commercial installations for port operators worldwide.">
+  <meta name="twitter:image" content="https://www.regbes.com/images/regbes-fem-stress-analysis-cable-reel-rd.webp">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -41,11 +53,14 @@ nav { position: sticky; top: 0; z-index: 100; background: var(--navy); padding: 
 .breadcrumb a { color: var(--teal); text-decoration: none; }
 
 /* HERO */
-.hero { background: var(--navy-mid); padding: 72px 48px 64px; }
+.hero { background: var(--navy-mid); padding: 72px 48px 64px; display: flex; gap: 56px; align-items: center; }
+.hero-left { flex: 1.1; }
+.hero-right { flex: 1; border-radius: 12px; overflow: hidden; max-height: 320px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.04); }
+.hero-right img { width: 100%; height: auto; max-height: 320px; object-fit: contain; display: block; }
 .hero-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; color: var(--teal); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 20px; }
 .hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--teal); }
-.hero h1 { font-size: 48px; font-weight: 500; color: white; line-height: 1.18; margin-bottom: 20px; letter-spacing: -0.02em; max-width: 700px; }
-.hero-sub { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.75; max-width: 580px; margin-bottom: 36px; }
+.hero h1 { font-size: 48px; font-weight: 500; color: white; line-height: 1.18; margin-bottom: 20px; letter-spacing: -0.02em; }
+.hero-sub { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.75; margin-bottom: 36px; }
 .hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
 .hero-stat { }
 .hero-stat-num { font-size: 30px; font-weight: 500; color: var(--teal); line-height: 1; margin-bottom: 4px; letter-spacing: -0.02em; }
@@ -68,9 +83,9 @@ nav { position: sticky; top: 0; z-index: 100; background: var(--navy); padding: 
 .project-card { display: flex; gap: 40px; align-items: stretch; padding: 36px 0; border-bottom: 1px solid var(--grey-border); }
 .project-card:last-child { border-bottom: none; }
 .project-card.reverse { flex-direction: row-reverse; }
-.proj-imgs { flex: 1; flex-shrink: 0; max-width: 340px; border-radius: 10px; overflow: hidden; }
-.proj-img-main { border-radius: 10px; height: 100%; min-height: 260px; overflow: hidden; }
-.proj-content { flex: 1; }
+.proj-imgs { flex: 1.1; flex-shrink: 0; border-radius: 10px; overflow: hidden; }
+.proj-img-main { border-radius: 10px; height: 100%; min-height: 320px; overflow: hidden; }
+.proj-content { flex: 0.9; }
 .proj-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
 .proj-tag { font-size: 11px; font-weight: 700; border-radius: 4px; padding: 3px 10px; letter-spacing: 0.03em; }
 .tag-commercial { background: #dbeafe; color: #1e40af; }
@@ -219,26 +234,31 @@ footer { background: var(--navy-deep); padding: 52px 48px 26px; }
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-eyebrow">Projects &amp; deployments</div>
-  <h1>From R&amp;D partnerships to live commercial deployments</h1>
-  <p class="hero-sub">REGBES works with port operators, defence companies, and EU research consortia — delivering hardware, software, and engineering expertise across maritime electrification projects in Europe and beyond.</p>
-  <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="hero-stat-num">5</div>
-      <div class="hero-stat-label">Active &amp; completed projects</div>
+  <div class="hero-left">
+    <div class="hero-eyebrow">Projects &amp; deployments</div>
+    <h1>Maritime Electrification Projects — From R&amp;D to Commercial Deployments</h1>
+    <p class="hero-sub">REGBES works with port operators, defence companies, and EU research consortia — delivering hardware, software, and engineering expertise across maritime electrification projects in Europe and beyond.</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">5</div>
+        <div class="hero-stat-label">Active &amp; completed projects</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">2</div>
+        <div class="hero-stat-label">EU-funded R&amp;D projects</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">2</div>
+        <div class="hero-stat-label">Commercial deliveries</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">3</div>
+        <div class="hero-stat-label">Countries</div>
+      </div>
     </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num">2</div>
-      <div class="hero-stat-label">EU-funded R&amp;D projects</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num">2</div>
-      <div class="hero-stat-label">Commercial deliveries</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-num">3</div>
-      <div class="hero-stat-label">Countries</div>
-    </div>
+  </div>
+  <div class="hero-right">
+    <img src="images/regbes-fem-stress-analysis-cable-reel-rd.webp" alt="REGBES R&D — FEM stress analysis, cable reel structural design">
   </div>
 </div>
 
@@ -260,7 +280,7 @@ footer { background: var(--navy-deep); padding: 52px 48px 26px; }
 
   <!-- MARDAS -->
   <div class="project-card" id="mardas">
-    <div class="proj-imgs"><img src="images/regbes-mobile-cms-container-terminal-shipping.webp" alt="MARDAS Container Terminal — Compact Mobile CMS delivery, Istanbul" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
+    <div class="proj-imgs"><img src="images/regbes-mobile-cms-container-terminal-shipping.webp" alt="MARDAS Container Terminal — Compact Mobile CMS delivery, Istanbul" style="width:100%; height:100%; min-height:320px; object-fit:cover; display:block;"></div>
     <div class="proj-content">
       <div class="proj-meta">
         <span class="proj-tag tag-commercial">Commercial deployment</span>
@@ -289,7 +309,7 @@ footer { background: var(--navy-deep); padding: 52px 48px 26px; }
 
   <!-- TEDEG -->
   <div class="project-card reverse" id="tedeg">
-    <div class="proj-imgs"><img src="images/regbes-tedeg-frequency-converter-power-system.webp" alt="TEDEG Engineering — frequency converter power system" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
+    <div class="proj-imgs" style="background:white; display:flex; align-items:center; justify-content:center; padding:24px;"><img src="images/regbes-tedeg-frequency-converter-power-system.webp" alt="TEDEG Engineering — frequency converter power system" style="width:100%; height:auto; max-height:420px; object-fit:contain; display:block;"></div>
     <div class="proj-content">
       <div class="proj-meta">
         <span class="proj-tag tag-defence">Defence sector</span>
@@ -325,7 +345,7 @@ footer { background: var(--navy-deep); padding: 52px 48px 26px; }
 
   <!-- BLUEBARGE -->
   <div class="project-card">
-    <div class="proj-imgs"><img src="images/regbes-bluebarge-barge-to-ship-cms-in-operation.webp" alt="BlueBARGE — barge-to-ship cable management system in operation" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
+    <div class="proj-imgs" style="flex:0.77; background:#f8f8f8; display:flex; align-items:center; justify-content:center; padding:20px; min-height:280px;"><img src="images/regbes-bluebarge-barge-to-ship-cms-in-operation.webp" alt="BlueBARGE — barge-to-ship cable management system in operation" style="width:100%; height:auto; max-height:360px; object-fit:contain; display:block;"></div>
     <div class="proj-content">
       <div class="proj-meta">
         <span class="proj-tag tag-eu">EU Horizon Europe</span>
@@ -353,7 +373,7 @@ footer { background: var(--navy-deep); padding: 52px 48px 26px; }
 
   <!-- HY2FISH -->
   <div class="project-card reverse">
-    <div class="proj-imgs"><img src="images/regbes-ems-pms-vessel-power-architecture-hy2fish.webp" alt="Hy2FISH — vessel power architecture diagram, EMS/PMS integration" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
+    <div class="proj-imgs" style="flex:0.77; background:#f8f8f8; display:flex; align-items:center; justify-content:center; padding:20px; min-height:280px;"><img src="images/regbes-ems-pms-vessel-power-architecture-hy2fish.webp" alt="Hy2FISH — vessel power architecture diagram, EMS/PMS integration" style="width:100%; height:auto; max-height:360px; object-fit:contain; display:block;"></div>
     <div class="proj-content">
       <div class="proj-meta">
         <span class="proj-tag tag-eu">EU-funded</span>
@@ -381,7 +401,7 @@ footer { background: var(--navy-deep); padding: 52px 48px 26px; }
 
   <!-- SMART POWER BOOSTER -->
   <div class="project-card">
-    <div class="proj-imgs"><img src="images/regbes-team-barge-shore-power-framework-presentation.webp" alt="Smart Power Booster — Rotterdam shore power framework presentation" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
+    <div class="proj-imgs" style="flex:0.77; background:#f8f8f8; display:flex; align-items:center; justify-content:center; padding:20px; min-height:280px;"><img src="images/regbes-smart-power-booster-hybrid-cms-unit.webp" alt="Smart Power Booster — hybrid cable management unit, multi-fuel and multi-plug delivery" style="width:100%; height:auto; max-height:360px; object-fit:contain; display:block;"></div>
     <div class="proj-content">
       <div class="proj-meta">
         <span class="proj-tag tag-municipal">Rotterdam Municipality</span>
@@ -391,11 +411,12 @@ footer { background: var(--navy-deep); padding: 52px 48px 26px; }
       <div class="proj-title">Smart Power Booster</div>
       <div class="proj-client">Rotterdam Municipality · Smart Energy Systems Subsidy</div>
       <p class="proj-desc">The Smart Power Booster is a Rotterdam Municipality-backed project, funded through the Smart Energy Systems Subsidy programme. Its goal is to deliver power and alternative fuel to inland port vessels at berths where permanent shore power infrastructure is not available — addressing the growing electrification needs of inland waterway shipping on Dutch and European waterways.</p>
-      <p class="proj-desc">REGBES developed a hybrid cable management system enabling a single mobile tower to serve multiple vessels efficiently — reducing the infrastructure investment required per berth and making shore power economically viable at smaller inland ports. The demo phase has been successfully completed. Work continues on integrating the autonomous connection system to further reduce operator workload.</p>
+      <p class="proj-desc">REGBES developed a hybrid cable management system enabling a single mobile tower to serve multiple vessels efficiently — reducing the infrastructure investment required per berth and making shore power economically viable at smaller inland ports. The system is designed for hybrid delivery: different fuel types or plug standards can be served from the same unit depending on the vessel and application, making it viable at ports with a mixed inland fleet. The demo phase has been successfully completed. Work continues on integrating the autonomous connection system to further reduce operator workload.</p>
       <div class="proj-role-box">
         <div class="proj-role-label">REGBES scope of work</div>
         <div class="proj-role-items">
           <div class="proj-role-item"><div class="role-dot"></div>Hybrid cable management system — one tower, multiple vessels</div>
+          <div class="proj-role-item"><div class="role-dot"></div>Hybrid delivery — different fuel types or plug standards from the same unit</div>
           <div class="proj-role-item"><div class="role-dot"></div>Shore power and alternative fuel delivery to inland waterway vessels</div>
           <div class="proj-role-item"><div class="role-dot"></div>Demo phase complete — autonomous connection integration in progress</div>
         </div>
