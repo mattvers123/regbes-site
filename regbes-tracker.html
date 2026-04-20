@@ -6,7 +6,6 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="icon" type="image/png" href="favicon.png">
 <title>REGBES Time Tracker — Internal</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Segoe UI', sans-serif; background: #0A1628; min-height: 100vh; display: flex; flex-direction: column; }
@@ -56,7 +55,7 @@
       <label>Password</label>
       <input type="password" id="inp-pass" placeholder="••••••••" autocomplete="current-password">
     </div>
-    <button class="login-btn" id="login-btn" onclick="doLogin()">Sign in</button>
+    <button class="login-btn" id="login-btn">Sign in</button>
     <div class="login-err" id="login-err"></div>
     <div class="login-back"><a href="index.html">← Back to regbes.com</a></div>
   </div>
@@ -71,17 +70,18 @@
     </div>
     <div class="app-header-right">
       <span class="app-user">Signed in as <strong id="app-username"></strong></span>
-      <button class="logout-btn" onclick="doLogout()">Sign out</button>
+      <button class="logout-btn" id="logout-btn">Sign out</button>
     </div>
   </div>
   <iframe id="tracker-frame" src="regbes-tracker-app.html"></iframe>
 </div>
 
-<script>
+<script type="module">
 // ── Supabase ──────────────────────────────────────────────────────────────
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 const SB_URL = 'https://zgjuszjthpcbeqlhbsjy.supabase.co';
 const SB_KEY = 'sb_publishable_yHZwQfx-9uwWypIIQHWL2Q_58hs6jRW';
-const sb = window.supabase.createClient(SB_URL, SB_KEY);
+const sb = createClient(SB_URL, SB_KEY);
 
 // ── Projects list ────────────────────────────────────────────────────────
 const PROJECTS = [
@@ -91,9 +91,10 @@ const PROJECTS = [
 ];
 
 // ── Team credentials ──────────────────────────────────────────────────────
- const TEAM = [
-  { username: 'ozhan', password: 'regbes2024', name: 'Özhan Atmaca',  id: '3cee58d9-24f7-4d6b-91bd-c859749d8a4a', role: 'admin' },
-  { username: 'mert',  password: 'regbes2025', name: 'Mert Doganli',  id: '3490702f-dfc0-4749-8971-d453109fde2d', role: 'admin' },
+const TEAM = [
+  { username: 'ozhan',   password: 'regbes2024', name: 'Özhan Atmaca',  id: 'u1', role: 'admin'  },
+  { username: 'member1', password: 'tracker01',  name: 'Team Member 1', id: 'u2', role: 'member' },
+  { username: 'member2', password: 'tracker02',  name: 'Team Member 2', id: 'u3', role: 'member' },
 ];
 
 // ── DB helpers ────────────────────────────────────────────────────────────
@@ -203,6 +204,8 @@ window.addEventListener('message', async (e) => {
   if (saved) { try { currentMember = JSON.parse(saved); showApp(currentMember); } catch {} }
   document.getElementById('inp-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
   document.getElementById('inp-user').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('inp-pass').focus(); });
+  document.getElementById('login-btn').addEventListener('click', doLogin);
+  document.getElementById('logout-btn').addEventListener('click', doLogout);
 })();
 </script>
 </body>
