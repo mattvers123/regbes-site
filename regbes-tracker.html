@@ -163,7 +163,7 @@ function showApp(member) {
   const frame = document.getElementById('tracker-frame');
   const sendInit = async () => {
     const entries = await getEntries();
-    frame.contentWindow.postMessage({ type: 'INIT', member, isAdmin: member.role === 'admin', entries, projects: PROJECTS }, '*');
+    frame.contentWindow.postMessage({ type: 'INIT', member, isAdmin: member.role === 'admin', items: entries, projects: PROJECTS }, '*');
   };
   if (frame.contentDocument?.readyState === 'complete') sendInit();
   else frame.onload = sendInit;
@@ -177,13 +177,13 @@ window.addEventListener('message', async (e) => {
 
   if (msg.type === 'GET_ENTRIES') {
     const entries = await getEntries();
-    frame.contentWindow.postMessage({ type: 'ENTRIES', entries }, '*');
+    frame.contentWindow.postMessage({ type: 'ENTRIES', items: entries }, '*');
   }
   if (msg.type === 'SAVE_ENTRY') {
     try {
       await saveEntry(msg.entry);
       const entries = await getEntries();
-      frame.contentWindow.postMessage({ type: 'SAVE_OK', entries }, '*');
+      frame.contentWindow.postMessage({ type: 'SAVE_OK', items: entries }, '*');
     } catch(e) {
       frame.contentWindow.postMessage({ type: 'SAVE_ERR', message: e.message }, '*');
     }
@@ -192,7 +192,7 @@ window.addEventListener('message', async (e) => {
     try {
       await deleteEntry(msg.id);
       const entries = await getEntries();
-      frame.contentWindow.postMessage({ type: 'DELETE_OK', entries }, '*');
+      frame.contentWindow.postMessage({ type: 'DELETE_OK', items: entries }, '*');
     } catch(e) { console.error(e); }
   }
 });
