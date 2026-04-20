@@ -190,7 +190,110 @@ footer { background: var(--navy-deep); padding: 52px 48px 26px; }
   color: white !important;
   background: rgba(255,255,255,0.07) !important;
 }
-</style>
+
+  /* =============================================
+     MOBILE RESPONSIVE — breakpoint 768px
+     ============================================= */
+  @media (max-width: 768px) {
+
+    /* ── Global ── */
+    section, .projects-section { padding: 36px 20px; }
+    .variants-header { padding: 36px 20px 0; }
+
+    /* ── Nav ── */
+    nav { padding: 0 20px; gap: 0; }
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+
+    /* ── Hero — all pages ── */
+    .hero { flex-direction: column; padding: 48px 20px 40px; gap: 32px; }
+    .hero-left, .hero-right { flex: unset; width: 100%; }
+    .hero-right { max-height: 240px; }
+    .hero h1 { font-size: 32px; }
+    .hero-sub { font-size: 15px; }
+    .hero-stats { gap: 24px; flex-wrap: wrap; }
+    .hero-stat-num { font-size: 24px; }
+    .hero-btns { flex-direction: column; }
+    .hero-badges { gap: 6px; }
+    .hero-img-box { max-width: 100%; height: 220px; }
+
+    /* ── Section headings ── */
+    .sec-h2 { font-size: 26px; }
+    .product-title, .detail-title { font-size: 22px; }
+
+    /* ── Variant sections (CMS) ── */
+    .v-inner, .v-inner.reverse { flex-direction: column; gap: 24px; }
+    .v-imgs { width: 100%; }
+    .v-img-main { min-height: 240px; }
+
+    /* ── Detail section (Manual Hub) ── */
+    .detail-inner { flex-direction: column; gap: 24px; }
+    .detail-imgs { width: 100%; }
+    .detail-img-main { min-height: 240px; }
+
+    /* ── Project cards ── */
+    .project-card, .project-card.reverse { flex-direction: column; gap: 20px; padding: 24px 0; }
+    .proj-imgs { width: 100%; max-width: 100%; flex: unset; }
+    .proj-title { font-size: 22px; }
+
+    /* ── EMS/PMS sections ── */
+    .ems-inner { gap: 24px; }
+    .pms-inner { flex-direction: column !important; gap: 24px; }
+    .pms-imgs { width: 100%; flex: unset; }
+    .pms-img-main { min-height: 220px; }
+
+    /* ── Tech section (Autonomous) ── */
+    .tech-inner { flex-direction: column; gap: 24px; }
+    .tech-imgs { width: 100%; }
+    .tech-img-main { min-height: 220px; }
+    .steps { grid-template-columns: 1fr; }
+    .step-img { height: 200px; }
+
+    /* ── Compatibility grid (CMS) ── */
+    .compat-grid { grid-template-columns: 1fr; }
+
+    /* ── Products grid (Homepage) ── */
+    .products-grid, .prod-grid { grid-template-columns: 1fr; }
+    .sol-inner { flex-direction: column; gap: 24px; }
+
+    /* ── Footer ── */
+    .footer-grid { flex-direction: column; gap: 28px; padding: 36px 20px; }
+    .footer-bottom { flex-direction: column; gap: 8px; padding: 20px 20px 0; text-align: center; }
+
+    /* ── CTA sections ── */
+    .collab-inner, .final-cta-inner { flex-direction: column; gap: 24px; padding: 32px 20px; }
+    .collab-text { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); padding-right: 0; padding-bottom: 24px; }
+    .collab-cta-right { padding-left: 0; }
+    .cta-btns { flex-direction: column; align-items: flex-start; }
+
+    /* ── Resources ── */
+    .tool-header { flex-direction: column; gap: 16px; }
+    .tool-header-right { flex-direction: row; flex-wrap: wrap; }
+    .modules-grid { grid-template-columns: 1fr; }
+    .future-grid { grid-template-columns: 1fr; }
+    .preview-screens { grid-template-columns: 1fr; }
+
+    /* ── Blog ── */
+    .blog-grid { grid-template-columns: 1fr; }
+
+    /* ── About ── */
+    .about-inner, .team-inner, .values-inner { flex-direction: column; gap: 24px; }
+
+    /* ── Contact ── */
+    .contact-inner { flex-direction: column; gap: 24px; }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb { padding: 10px 20px; }
+
+    /* ── Overview strip ── */
+    .overview-inner { flex-direction: column; gap: 24px; padding: 32px 20px; }
+
+    /* ── Concept/install sections (Autonomous) ── */
+    .concept-inner { flex-direction: column; gap: 24px; }
+    .install-inner { flex-direction: column; gap: 24px; }
+  }
+
+  </style>
 </head>
 <body>
 

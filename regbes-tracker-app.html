@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #1a2332; }
+  .header { background: #1a3a5c; color: white; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+  .header h1 { font-size: 18px; font-weight: 600; letter-spacing: 0.3px; }
+  .header .user-info { font-size: 13px; opacity: 0.85; }
+  .not-logged { display: flex; align-items: center; justify-content: center; height: 300px; font-size: 15px; color: #666; }
+  nav { background: white; border-bottom: 1px solid #e2e8f0; display: flex; gap: 0; padding: 0 24px; }
+  nav button { background: none; border: none; border-bottom: 3px solid transparent; padding: 14px 18px; font-size: 13px; font-weight: 500; color: #64748b; cursor: pointer; transition: all 0.15s; }
+  nav button:hover { color: #1a3a5c; }
+  nav button.active { border-bottom-color: #1a3a5c; color: #1a3a5c; }
+  .content { padding: 24px; max-width: 1100px; margin: 0 auto; }
+  .card { background: white; border-radius: 10px; border: 1px solid #e2e8f0; padding: 20px; margin-bottom: 20px; }
+  .card-title { font-size: 13px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 500; color: #64748b; margin-bottom: 4px; }
+  .form-group select, .form-group input { width: 100%; padding: 9px 12px; border: 1px solid #e2e8f0; border-radius: 7px; font-size: 14px; color: #1a2332; background: #f8fafc; outline: none; transition: border 0.15s; }
+  .form-group select:focus, .form-group input:focus { border-color: #1a3a5c; background: white; }
+  .btn { padding: 10px 20px; border-radius: 7px; border: none; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+  .btn-primary { background: #1a3a5c; color: white; }
+  .btn-primary:hover { background: #0f2640; }
+  .btn-success { background: #16a34a; color: white; }
+  .btn-success:hover { background: #15803d; }
+  .btn-danger { background: #fee2e2; color: #dc2626; font-size: 12px; padding: 4px 10px; border-radius: 6px; border: none; cursor: pointer; }
+  .btn-danger:hover { background: #fecaca; }
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .metric { background: white; border-radius: 10px; border: 1px solid #e2e8f0; padding: 16px; }
+  .metric .label { font-size: 11px; color: #94a3b8; font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 6px; }
+  .metric .value { font-size: 24px; font-weight: 600; color: #1a3a5c; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.4px; padding: 8px 10px; border-bottom: 1px solid #e2e8f0; }
+  td { padding: 10px 10px; border-bottom: 1px solid #f1f5f9; color: #1a2332; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8fafc; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; background: #dbeafe; color: #1e40af; }
+  .filter-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filter-row label { font-size: 12px; color: #64748b; font-weight: 500; }
+  .filter-row input[type=month] { padding: 7px 10px; border: 1px solid #e2e8f0; border-radius: 7px; font-size: 13px; background: white; outline: none; }
+  .msg-ok { color: #16a34a; font-size: 13px; margin-top: 8px; }
+  .msg-err { color: #dc2626; font-size: 13px; margin-top: 8px; }
+  .bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .bar { height: 6px; border-radius: 3px; background: #1a3a5c; }
+  .bar-bg { width: 80px; height: 6px; background: #e2e8f0; border-radius: 3px; overflow: hidden; }
+  .empty { color: #94a3b8; font-size: 13px; padding: 20px 0; }
+  .loading { color: #94a3b8; font-size: 13px; padding: 20px 0; }
+
+  /* Calendar styles */
+  .cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .cal-nav h2 { font-size: 16px; font-weight: 600; color: #1a3a5c; }
+  .cal-nav button { background: white; border: 1px solid #e2e8f0; border-radius: 7px; padding: 7px 14px; font-size: 13px; cursor: pointer; color: #1a3a5c; font-weight: 500; }
+  .cal-nav button:hover { background: #f0f4f8; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-dow { text-align: center; font-size: 11px; font-weight: 600; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.4px; padding: 6px 0; }
+  .cal-day { background: white; border: 1px solid #e2e8f0; border-radius: 8px; min-height: 80px; padding: 8px; position: relative; }
+  .cal-day.empty-day { background: #f8fafc; border-color: #f1f5f9; }
+  .cal-day.today { border-color: #1a3a5c; border-width: 2px; }
+  .cal-day .day-num { font-size: 12px; font-weight: 600; color: #64748b; margin-bottom: 4px; }
+  .cal-day.today .day-num { color: #1a3a5c; }
+  .cal-day .day-total { font-size: 18px; font-weight: 700; color: #1a3a5c; line-height: 1; }
+  .cal-day .day-label { font-size: 10px; color: #94a3b8; margin-top: 1px; }
+  .cal-day .day-entries { margin-top: 4px; }
+  .cal-day .day-entry { font-size: 10px; color: #475569; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.4; }
+  .cal-day.has-hours { background: #f0f7ff; border-color: #bfdbfe; }
+  .cal-day.has-hours .day-num { color: #1e40af; }
+  .cal-legend { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; font-size: 12px; color: #64748b; }
+  .cal-legend span { display: flex; align-items: center; gap: 5px; }
+  .legend-box { width: 14px; height: 14px; border-radius: 3px; display:inline-block; flex-shrink:0; }
+
+  .export-row { display: flex; align-items: center; gap: 12px; margin-bottom: 0; flex-wrap: wrap; justify-content: flex-end; }
+  @media(max-width:700px){ .metrics{grid-template-columns:1fr 1fr;} .form-row{grid-template-columns:1fr;} .cal-day{min-height:55px;padding:5px;} .cal-day .day-total{font-size:14px;} }
+</style>
+</head>
+<body>
+<div id="root"><div class="not-logged">Connecting to REGBES workspace...</div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+let STATE = {
+  member: null, projects: [], entries: [], tab: 'log',
+  filterMonth: new Date().toISOString().slice(0,7),
+  calMonth: new Date().getFullYear() * 100 + (new Date().getMonth() + 1)
+};
+
+window.addEventListener('message', (e) => {
+  const msg = e.data;
+  if (msg.type === 'INIT') {
+    STATE.member = msg.member;
+    STATE.projects = msg.projects || [];
+    if (STATE.member) { render(); loadEntries(); }
+    else { document.getElementById('root').innerHTML = '<div class="not-logged">Please log in to access the R&D Hours Tracker.</div>'; }
+  }
+  if (msg.type === 'ENTRIES') { STATE.entries = msg.items || []; renderTabContent(); }
+  if (msg.type === 'SAVE_OK') {
+    const el = document.getElementById('msg');
+    if(el){ el.className='msg-ok'; el.textContent='✓ Hours saved successfully!'; }
+    loadEntries();
+    document.getElementById('f-proj') && (document.getElementById('f-proj').value='');
+    document.getElementById('f-hrs') && (document.getElementById('f-hrs').value='');
+    document.getElementById('f-notes') && (document.getElementById('f-notes').value='');
+    setTimeout(()=>{ const e=document.getElementById('msg'); if(e) e.textContent=''; },3000);
+  }
+  if (msg.type === 'DELETE_OK') { loadEntries(); }
+});
+
+function postMsg(data) { window.parent.postMessage(data, '*'); }
+function loadEntries() { postMsg({ type: 'GET_ENTRIES' }); }
+
+function render() {
+  const tabs = ['log','my','team','calendar','summary'];
+  const labels = ['Log Hours','My Hours','Team View','Calendar','Summary'];
+  const navHtml = tabs.map((t,i)=>`<button onclick="switchTab('${t}')" id="tab-${t}" class="${STATE.tab===t?'active':''}">${labels[i]}</button>`).join('');
+  document.getElementById('root').innerHTML = `
+    <div class="header">
+      <h1>REGBES — R&D Hours Tracker</h1>
+      <div class="user-info">${STATE.member.name}</div>
+    </div>
+    <nav>${navHtml}</nav>
+    <div class="content" id="tab-content"><div class="loading">Loading entries...</div></div>`;
+}
+
+function switchTab(t) {
+  STATE.tab = t;
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  const el = document.getElementById('tab-'+t);
+  if(el) el.classList.add('active');
+  renderTabContent();
+}
+
+function renderTabContent() {
+  const el = document.getElementById('tab-content');
+  if(!el) return;
+  if(STATE.tab==='log') el.innerHTML = renderLog();
+  if(STATE.tab==='my') el.innerHTML = renderMy();
+  if(STATE.tab==='team') el.innerHTML = renderTeam();
+  if(STATE.tab==='calendar') el.innerHTML = renderCalendar();
+  if(STATE.tab==='summary') el.innerHTML = renderSummary();
+}
+
+// ── LOG TAB ──────────────────────────────────────────────
+function renderLog() {
+  const today = new Date().toISOString().slice(0,10);
+  const minDateObj = new Date(); minDateObj.setDate(minDateObj.getDate() - 10);
+  const minDate = minDateObj.toISOString().slice(0,10);
+  const opts = STATE.projects.map(p=>`<option value="${p.projectId}">${p.projectId} — ${p.projectName}</option>`).join('');
+  const recent = STATE.entries.filter(e=>e.userId===STATE.member.id).slice(0,5);
+  const rows = recent.map(e=>`<tr>
+    <td>${fmtDate(e.date)}</td><td><span class="badge">${e.projectId}</span></td>
+    <td>${e.projectName}</td><td style="font-weight:600">${e.hours}h</td>
+    <td style="color:#64748b">${e.notes||'—'}</td>
+    <td><button class="btn btn-danger" onclick="deleteEntry('${e._id}')">✕</button></td></tr>`).join('');
+  return `
+  <div class="card">
+    <div class="card-title">Log new hours</div>
+    <div class="form-row">
+      <div class="form-group"><label>Project</label>
+        <select id="f-proj"><option value="">Select project...</option>${opts}</select></div>
+      <div class="form-group"><label>Date <span id="date-hint" style="font-size:11px;color:#94a3b8;font-weight:400">(max 10 days back)</span></label>
+        <input type="date" id="f-date" value="${today}" min="${minDate}" max="${today}" onchange="checkDateLimit(this)"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Hours</label>
+        <input type="number" id="f-hrs" min="0.5" max="24" step="0.5" placeholder="e.g. 3.5"></div>
+      <div class="form-group"><label>Notes (optional)</label>
+        <input type="text" id="f-notes" placeholder="What did you work on?"></div>
+    </div>
+    <button class="btn btn-primary" onclick="saveEntry()">Save Hours</button>
+    <div id="msg"></div>
+  </div>
+  ${recent.length ? `<div class="card"><div class="card-title">Your recent entries</div>
+  <table><thead><tr><th>Date</th><th>Project ID</th><th>Project Name</th><th>Hours</th><th>Notes</th><th></th></tr></thead>
+  <tbody>${rows}</tbody></table></div>` : '<div class="empty">No entries yet — log your first hours above.</div>'}`;
+}
+
+// ── MY HOURS TAB ─────────────────────────────────────────
+function renderMy() {
+  const mine = STATE.entries.filter(e=>e.userId===STATE.member.id && fmtMonth(e.date)===STATE.filterMonth);
+  const total = mine.reduce((s,e)=>s+e.hours,0);
+  const projs = new Set(mine.map(e=>e.projectId)).size;
+  const rows = mine.map(e=>`<tr>
+    <td>${fmtDate(e.date)}</td><td><span class="badge">${e.projectId}</span></td>
+    <td>${e.projectName}</td><td style="font-weight:600">${e.hours}h</td>
+    <td style="color:#64748b">${e.notes||'—'}</td>
+    <td style="color:#94a3b8;font-size:12px">${e._createdDate?fmtDateTime(e._createdDate):'—'}</td>
+    <td><button class="btn btn-danger" onclick="deleteEntry('${e._id}')">✕</button></td></tr>`).join('');
+  return `
+  <div class="filter-row">
+    <label>Month:</label>
+    <input type="month" value="${STATE.filterMonth}" onchange="STATE.filterMonth=this.value;renderTabContent()">
+  </div>
+  <div class="metrics">
+    <div class="metric"><div class="label">Total hours</div><div class="value">${total}h</div></div>
+    <div class="metric"><div class="label">Entries</div><div class="value">${mine.length}</div></div>
+    <div class="metric"><div class="label">Projects</div><div class="value">${projs}</div></div>
+    <div class="metric"><div class="label">Avg/entry</div><div class="value">${mine.length?Math.round(total/mine.length*10)/10:0}h</div></div>
+  </div>
+  <div class="card">
+    ${mine.length ? `<table><thead><tr><th>Date</th><th>Project ID</th><th>Project Name</th><th>Hours</th><th>Notes</th><th>Logged On</th><th></th></tr></thead>
+    <tbody>${rows}</tbody></table>` : '<div class="empty">No entries for this month.</div>'}
+  </div>`;
+}
+
+// ── TEAM TAB ─────────────────────────────────────────────
+function renderTeam() {
+  const filtered = STATE.entries.filter(e=>fmtMonth(e.date)===STATE.filterMonth);
+  const byUser = {};
+  filtered.forEach(e=>{
+    if(!byUser[e.userId]) byUser[e.userId]={name:e.userName,total:0,projects:new Set()};
+    byUser[e.userId].total+=e.hours; byUser[e.userId].projects.add(e.projectId);
+  });
+  const grand = Object.values(byUser).reduce((s,u)=>s+u.total,0);
+  const userRows = Object.entries(byUser).sort((a,b)=>b[1].total-a[1].total).map(([id,u])=>{
+    const pct=grand>0?Math.round(u.total/grand*100):0; const isMe=id===STATE.member.id;
+    return `<tr><td style="font-weight:${isMe?'600':'400'}">${u.name}${isMe?' <span style="font-size:11px;color:#16a34a">(you)</span>':''}</td>
+      <td>${u.projects.size}</td><td style="font-weight:600">${u.total}h</td>
+      <td><div class="bar-wrap"><div class="bar-bg"><div class="bar" style="width:${pct}%"></div></div>
+      <span style="font-size:12px;color:#64748b">${pct}%</span></div></td></tr>`;
+  }).join('');
+  const byProj = {};
+  filtered.forEach(e=>{
+    if(!byProj[e.projectId]) byProj[e.projectId]={name:e.projectName,total:0,members:new Set()};
+    byProj[e.projectId].total+=e.hours; byProj[e.projectId].members.add(e.userId);
+  });
+  const projRows = Object.entries(byProj).sort((a,b)=>b[1].total-a[1].total).map(([id,p])=>`<tr>
+    <td><span class="badge">${id}</span></td><td>${p.name}</td>
+    <td>${p.members.size}</td><td style="font-weight:600">${p.total}h</td></tr>`).join('');
+  return `
+  <div class="filter-row">
+    <label>Month:</label>
+    <input type="month" value="${STATE.filterMonth}" onchange="STATE.filterMonth=this.value;renderTabContent()">
+  </div>
+  <div class="metrics" style="grid-template-columns:1fr 1fr">
+    <div class="metric"><div class="label">Team total hours</div><div class="value">${grand}h</div></div>
+    <div class="metric"><div class="label">Active members</div><div class="value">${Object.keys(byUser).length}</div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">By team member</div>
+    ${Object.keys(byUser).length?`<table><thead><tr><th>Name</th><th>Projects</th><th>Hours</th><th>Share</th></tr></thead><tbody>${userRows}</tbody></table>`:'<div class="empty">No entries for this month.</div>'}
+  </div>
+  <div class="card">
+    <div class="card-title">By project</div>
+    ${Object.keys(byProj).length?`<table><thead><tr><th>Project ID</th><th>Name</th><th>Contributors</th><th>Hours</th></tr></thead><tbody>${projRows}</tbody></table>`:'<div class="empty">No project entries for this month.</div>'}
+  </div>`;
+}
+
+// ── CALENDAR TAB ─────────────────────────────────────────
+function getCalYear()  { return Math.floor(STATE.calMonth / 100); }
+function getCalMonthN(){ return STATE.calMonth % 100; }
+
+function renderCalendar() {
+  const year = getCalYear(), month = getCalMonthN();
+  const monthStr = `${year}-${String(month).padStart(2,'0')}`;
+  const monthName = new Date(year, month-1, 1).toLocaleString('default',{month:'long', year:'numeric'});
+  const filtered = STATE.entries.filter(e=>fmtMonth(e.date)===monthStr);
+
+  // build day map: date -> {total, byUser: {userId: {name, hrs}}}
+  const dayMap = {};
+  filtered.forEach(e=>{
+    const d = fmtDate(e.date);
+    if(!dayMap[d]) dayMap[d]={total:0, byUser:{}};
+    dayMap[d].total += e.hours;
+    if(!dayMap[d].byUser[e.userId]) dayMap[d].byUser[e.userId]={name:e.userName, hrs:0};
+    dayMap[d].byUser[e.userId].hrs += e.hours;
+  });
+
+  // get first name only for compact display
+  function firstName(n){ return n?n.split(' ')[0]:n; }
+
+  const firstDay = new Date(year, month-1, 1).getDay();
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const todayStr = new Date().toISOString().slice(0,10);
+  const totalMonthHrs = filtered.reduce((s,e)=>s+e.hours,0);
+  const activeDays = Object.keys(dayMap).length;
+
+  let cells = '';
+  for(let i=0;i<firstDay;i++) cells+=`<div class="cal-day empty-day"></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const ds = `${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const info = dayMap[ds];
+    const isToday = ds===todayStr;
+    let inner = `<div class="day-num">${d}</div>`;
+    if(info){
+      inner += `<div class="day-total">${info.total}h</div>`;
+      inner += `<div class="day-label">team total</div>`;
+      // show each person's hours
+      const people = Object.values(info.byUser).sort((a,b)=>b.hrs-a.hrs);
+      inner += `<div class="day-entries">`;
+      people.forEach(u=>{
+        inner += `<div class="day-entry"><span style="font-weight:600;color:#1e40af">${firstName(u.name)}</span>: ${u.hrs}h</div>`;
+      });
+      inner += `</div>`;
+    }
+    cells+=`<div class="cal-day ${info?'has-hours':''} ${isToday?'today':''}">${inner}</div>`;
+  }
+
+  const dows = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const dowRow = dows.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+
+  return `
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px">
+    <div class="metrics" style="grid-template-columns:repeat(3,1fr);margin-bottom:0;flex:1;min-width:280px">
+      <div class="metric"><div class="label">Month total</div><div class="value">${totalMonthHrs}h</div></div>
+      <div class="metric"><div class="label">Active days</div><div class="value">${activeDays}</div></div>
+      <div class="metric"><div class="label">Avg/active day</div><div class="value">${activeDays?Math.round(totalMonthHrs/activeDays*10)/10:0}h</div></div>
+    </div>
+    <button class="btn btn-success" onclick="exportCalendarExcel('${monthStr}','${monthName}')">⬇ Export to Excel</button>
+  </div>
+  <div class="card" style="padding:16px">
+    <div class="cal-nav">
+      <button onclick="calPrev()">← Prev</button>
+      <h2>${monthName}</h2>
+      <button onclick="calNext()">Next →</button>
+    </div>
+    <div class="cal-legend">
+      <span><div class="legend-box" style="background:#f0f7ff;border-color:#bfdbfe;border-width:1px"></div> Has hours</span>
+      <span><div class="legend-box" style="background:white;border-color:#1a3a5c;border-width:2px"></div> Today</span>
+      <span><div class="legend-box" style="background:#f8fafc;border-color:#e2e8f0;border-width:1px"></div> No hours</span>
+    </div>
+    <div class="cal-grid">${dowRow}${cells}</div>
+  </div>`;
+}
+
+function calPrev() {
+  let y=getCalYear(), m=getCalMonthN()-1;
+  if(m<1){m=12;y--;}
+  STATE.calMonth=y*100+m; renderTabContent();
+}
+function calNext() {
+  let y=getCalYear(), m=getCalMonthN()+1;
+  if(m>12){m=1;y++;}
+  STATE.calMonth=y*100+m; renderTabContent();
+}
+
+// ── SUMMARY TAB ──────────────────────────────────────────
+function renderSummary() {
+  const allMonths=[...new Set(STATE.entries.map(e=>fmtMonth(e.date)))].sort().reverse();
+  const grandTotal=STATE.entries.reduce((s,e)=>s+e.hours,0);
+  const byProj={};
+  STATE.entries.forEach(e=>{ if(!byProj[e.projectId]) byProj[e.projectId]={name:e.projectName,total:0}; byProj[e.projectId].total+=e.hours; });
+  const monthRows=allMonths.map(m=>{
+    const hrs=STATE.entries.filter(e=>fmtMonth(e.date)===m).reduce((s,e)=>s+e.hours,0);
+    const pct=grandTotal>0?Math.round(hrs/grandTotal*100):0;
+    return `<tr><td>${m}</td><td style="font-weight:600">${hrs}h</td>
+    <td><div class="bar-wrap"><div class="bar-bg"><div class="bar" style="width:${pct}%"></div></div>
+    <span style="font-size:12px;color:#64748b">${pct}%</span></div></td></tr>`;
+  }).join('');
+  const projRows=Object.entries(byProj).sort((a,b)=>b[1].total-a[1].total).map(([id,p])=>{
+    const pct=grandTotal>0?Math.round(p.total/grandTotal*100):0;
+    return `<tr><td><span class="badge">${id}</span></td><td>${p.name}</td><td style="font-weight:600">${p.total}h</td>
+    <td><div class="bar-wrap"><div class="bar-bg"><div class="bar" style="width:${pct}%"></div></div>
+    <span style="font-size:12px;color:#64748b">${pct}%</span></div></td></tr>`;
+  }).join('');
+  return `
+  <div class="metrics">
+    <div class="metric"><div class="label">All-time hours</div><div class="value">${grandTotal}h</div></div>
+    <div class="metric"><div class="label">Total entries</div><div class="value">${STATE.entries.length}</div></div>
+    <div class="metric"><div class="label">Projects tracked</div><div class="value">${Object.keys(byProj).length}</div></div>
+    <div class="metric"><div class="label">Months tracked</div><div class="value">${allMonths.length}</div></div>
+  </div>
+  <div class="card" style="margin-bottom:16px">
+    <div class="card-title">Monthly breakdown</div>
+    ${allMonths.length?`<table><thead><tr><th>Month</th><th>Hours</th><th>Share</th></tr></thead><tbody>${monthRows}</tbody></table>`:'<div class="empty">No data yet.</div>'}
+  </div>
+  <div class="card">
+    <div class="card-title">By project — all time</div>
+    ${Object.keys(byProj).length?`<table><thead><tr><th>Project ID</th><th>Name</th><th>Hours</th><th>Share</th></tr></thead><tbody>${projRows}</tbody></table>`:'<div class="empty">No data yet.</div>'}
+  </div>`;
+}
+
+// ── EXCEL EXPORT ─────────────────────────────────────────
+function applyAuditColors(ws, data, colIdx, dataStartRow) {
+  // colIdx = 0-based column index of Audit Status
+  // dataStartRow = 0-based row index where data starts
+  const GREEN = {fgColor:{rgb:'C6EFCE'}}; // light green fill
+  const RED   = {fgColor:{rgb:'FFC7CE'}}; // light red fill
+  const GREEN_FONT = {color:{rgb:'276221'}, bold:true};
+  const RED_FONT   = {color:{rgb:'9C0006'}, bold:true};
+  data.forEach((row, ri) => {
+    if(ri < dataStartRow) return;
+    const val = row[colIdx];
+    if(val !== 'OK' && val !== 'LATE') return;
+    const cellRef = XLSX.utils.encode_cell({r:ri, c:colIdx});
+    if(!ws[cellRef]) return;
+    ws[cellRef].s = {
+      fill: {patternType:'solid', fgColor: val==='OK' ? GREEN.fgColor : RED.fgColor},
+      font: val==='OK' ? GREEN_FONT : RED_FONT,
+      alignment: {horizontal:'center'}
+    };
+  });
+}
+function exportCalendarExcel(monthStr, monthName) {
+  if(typeof XLSX === 'undefined'){ alert('Excel library not loaded yet. Please wait a moment and try again.'); return; }
+  const year = parseInt(monthStr.slice(0,4));
+  const month = parseInt(monthStr.slice(5,7));
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const filtered = STATE.entries.filter(e=>fmtMonth(e.date)===monthStr);
+
+  // get unique projects that have entries this month
+  const projIds = [...new Set(filtered.map(e=>e.projectId))].sort();
+  const projNames = {};
+  filtered.forEach(e=>{ projNames[e.projectId]=e.projectName; });
+
+  // build day->project->hours map
+  const dayProjMap = {};
+  filtered.forEach(e=>{
+    const d = fmtDate(e.date);
+    if(!dayProjMap[d]) dayProjMap[d]={};
+    if(!dayProjMap[d][e.projectId]) dayProjMap[d][e.projectId]=0;
+    dayProjMap[d][e.projectId]+=e.hours;
+  });
+
+  // ── Sheet 1: Calendar Grid ──
+  const wb = XLSX.utils.book_new();
+  const calData = [];
+
+  // Title row
+  calData.push([`REGBES R&D Hours — ${monthName}`, ...Array(6).fill('')]);
+  calData.push([]);
+
+  // Day-of-week header row
+  const dows = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  calData.push(dows);
+
+  // Build calendar weeks
+  const firstDow = new Date(year, month-1, 1).getDay();
+  let week = Array(7).fill('');
+  const todayStr = new Date().toISOString().slice(0,10);
+
+  for(let d=1; d<=daysInMonth; d++){
+    const ds = `${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dow = new Date(year, month-1, d).getDay();
+    const info = dayProjMap[ds];
+    let cell = `${d}`;
+    if(info){
+      const total = Object.values(info).reduce((s,h)=>s+h,0);
+      cell += `\n${total}h total`;
+      Object.entries(info).forEach(([pid,hrs])=>{ cell+=`\n${pid}: ${hrs}h`; });
+    }
+    week[dow] = cell;
+    if(dow===6 || d===daysInMonth){
+      calData.push([...week]);
+      week = Array(7).fill('');
+    }
+  }
+
+  calData.push([]);
+  calData.push(['* Hours shown are total team hours per day']);
+
+  const ws1 = XLSX.utils.aoa_to_sheet(calData);
+  // set column widths
+  ws1['!cols'] = Array(7).fill({wch:18});
+  // set row heights for calendar rows (taller to show multiline)
+  ws1['!rows'] = calData.map((_,i)=> i>2 ? {hpt:60} : {hpt:20});
+  XLSX.utils.book_append_sheet(wb, ws1, 'Calendar');
+
+  // ── Sheet 2: Hours by Project per Day ──
+  const detailData = [];
+  detailData.push([`REGBES R&D Hours by Project — ${monthName}`]);
+  detailData.push([]);
+  // header: Date, Day, project columns, Total
+  detailData.push(['Date','Day', ...projIds.map(id=>`${id}\n${projNames[id]||''}`), 'TOTAL']);
+
+  let monthTotal = Array(projIds.length).fill(0);
+  for(let d=1;d<=daysInMonth;d++){
+    const ds = `${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayName = new Date(year,month-1,d).toLocaleString('default',{weekday:'short'});
+    const info = dayProjMap[ds] || {};
+    const projHrs = projIds.map((id,i)=>{ const h=info[id]||0; monthTotal[i]+=h; return h||''; });
+    const rowTotal = projIds.reduce((s,id)=>s+(info[id]||0),0);
+    detailData.push([ds, dayName, ...projHrs, rowTotal||'']);
+  }
+  // totals row
+  detailData.push(['','TOTAL', ...monthTotal.map(h=>h||0), monthTotal.reduce((s,h)=>s+h,0)]);
+
+  const ws2 = XLSX.utils.aoa_to_sheet(detailData);
+  const colWidths = [12, 8, ...projIds.map(()=>20), 10];
+  ws2['!cols'] = colWidths.map(w=>({wch:w}));
+  XLSX.utils.book_append_sheet(wb, ws2, 'By Project');
+
+  // -- One sheet per member --
+  const userIds = [...new Set(filtered.map(e=>e.userId))];
+  const userNames = {};
+  filtered.forEach(e=>{ userNames[e.userId]=e.userName; });
+  userIds.sort((a,b)=>userNames[a].localeCompare(userNames[b]));
+
+  userIds.forEach(uid=>{
+    const fullName = userNames[uid] || uid;
+    const sheetName = fullName.slice(0,31);
+    const userEntries = filtered.filter(e=>e.userId===uid)
+      .sort((a,b)=>fmtDate(a.date).localeCompare(fmtDate(b.date)));
+
+    const sheetData = [];
+    sheetData.push([`REGBES R&D Hours — ${fullName} — ${monthName}`]);
+    sheetData.push([]);
+    sheetData.push(['Date of Work','Day','Project ID','Project Name','Hours','Notes','Created On','Last Modified','Days Gap','Audit Status']);
+
+    let memberTotal = 0;
+    for(let d=1;d<=daysInMonth;d++){
+      const ds = `${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const dayEntries = userEntries.filter(e=>fmtDate(e.date)===ds);
+      if(dayEntries.length===0) continue;
+      dayEntries.forEach(e=>{
+        const dayName = new Date(year,month-1,d).toLocaleString('default',{weekday:'short'});
+        const audit = auditDays(ds, e._createdDate);
+        sheetData.push([ds, dayName, e.projectId, e.projectName, e.hours, e.notes||'',
+          e._createdDate ? fmtDateTime(e._createdDate) : '',
+          e._updatedDate ? fmtDateTime(e._updatedDate) : '',
+          audit.days !== null ? audit.days : '',
+          audit.ok === null ? '' : audit.ok ? 'OK' : 'LATE']);
+        memberTotal += e.hours;
+      });
+    }
+    sheetData.push([]);
+    sheetData.push(['TOTAL','','','',memberTotal,'','','','','']);
+
+    const wsm = XLSX.utils.aoa_to_sheet(sheetData);
+    wsm['!cols'] = [{wch:12},{wch:8},{wch:12},{wch:28},{wch:8},{wch:28},{wch:18},{wch:18},{wch:10},{wch:14}];
+    // Apply green/red coloring to Audit Status column (col index 9, data starts row 3)
+    applyAuditColors(wsm, sheetData, 9, 3);
+    XLSX.utils.book_append_sheet(wb, wsm, sheetName);
+  });
+
+  // ── Sheet 4: Detail log ──
+  const logData = [['Date of Work','Day','Person','Project ID','Project Name','Hours','Notes','Created On','Last Modified','Days Gap','Audit Status']];
+  filtered.sort((a,b)=>fmtDate(a.date).localeCompare(fmtDate(b.date))).forEach(e=>{
+    const dayName = new Date(e.date).toLocaleString('default',{weekday:'short'});
+    const auditD = auditDays(fmtDate(e.date), e._createdDate);
+    logData.push([fmtDate(e.date), dayName, e.userName, e.projectId, e.projectName, e.hours,
+      e.notes||'',
+      e._createdDate ? fmtDateTime(e._createdDate) : '',
+      e._updatedDate ? fmtDateTime(e._updatedDate) : '',
+      auditD.days !== null ? auditD.days : '',
+      auditD.ok === null ? '' : auditD.ok ? 'OK' : 'LATE']);
+  });
+  const ws4 = XLSX.utils.aoa_to_sheet(logData);
+  ws4['!cols'] = [{wch:12},{wch:8},{wch:20},{wch:12},{wch:28},{wch:8},{wch:28},{wch:18},{wch:18},{wch:10},{wch:14}];
+  applyAuditColors(ws4, logData, 10, 1);
+  XLSX.utils.book_append_sheet(wb, ws4, 'Detail Log');
+
+  XLSX.writeFile(wb, `REGBES_RD_Hours_${monthStr}.xlsx`, {cellStyles:true});
+}
+
+// ── ACTIONS ──────────────────────────────────────────────
+function saveEntry() {
+  const proj=document.getElementById('f-proj').value;
+  const date=document.getElementById('f-date').value;
+  const hrs=parseFloat(document.getElementById('f-hrs').value);
+  const notes=document.getElementById('f-notes').value.trim();
+  const msg=document.getElementById('msg');
+  if(!proj){msg.className='msg-err';msg.textContent='Please select a project.';return;}
+  if(!date){msg.className='msg-err';msg.textContent='Please select a date.';return;}
+  const todayStr = new Date().toISOString().slice(0,10);
+  const minAllowed = new Date(); minAllowed.setDate(minAllowed.getDate()-10);
+  const minAllowedStr = minAllowed.toISOString().slice(0,10);
+  if(date < minAllowedStr){
+    msg.className='msg-err';
+    msg.textContent=`⚠ Entry not allowed: ${date} is more than 10 days ago. The earliest allowed date is ${minAllowedStr}.`;
+    return;
+  }
+  if(date > todayStr){
+    msg.className='msg-err';
+    msg.textContent='⚠ Entry not allowed: future dates are not permitted.';
+    return;
+  }
+  if(!hrs||hrs<=0||hrs>24){msg.className='msg-err';msg.textContent='Please enter valid hours (0.5–24).';return;}
+  const projObj=STATE.projects.find(p=>p.projectId===proj);
+  msg.className='';msg.textContent='Saving...';
+  postMsg({type:'SAVE_ENTRY',entry:{userId:STATE.member.id,userName:STATE.member.name,
+    projectId:proj,projectName:projObj?projObj.projectName:'',date,hours:hrs,notes}});
+}
+
+function deleteEntry(id) {
+  if(!confirm('Delete this entry?')) return;
+  postMsg({type:'DELETE_ENTRY',id});
+}
+
+function checkDateLimit(input) {
+  const today = new Date().toISOString().slice(0,10);
+  const minD = new Date(); minD.setDate(minD.getDate()-10);
+  const minStr = minD.toISOString().slice(0,10);
+  const hint = document.getElementById('date-hint');
+  if(input.value < minStr) {
+    input.style.borderColor='#dc2626';
+    input.style.background='#fff5f5';
+    if(hint){ hint.style.color='#dc2626'; hint.textContent=`(too old — earliest: ${minStr})`; }
+  } else if(input.value > today) {
+    input.style.borderColor='#dc2626';
+    input.style.background='#fff5f5';
+    if(hint){ hint.style.color='#dc2626'; hint.textContent='(future dates not allowed)'; }
+  } else {
+    input.style.borderColor='';
+    input.style.background='';
+    const days = Math.floor((new Date(today)-new Date(input.value))/(1000*60*60*24));
+    if(hint){ hint.style.color='#16a34a'; hint.textContent=`(${days} day${days===1?'':'s'} ago — OK)`; }
+  }
+}
+function fmtDate(d) {
+  if(!d) return '—';
+  return new Date(d).toISOString().slice(0,10);
+}
+function fmtDateTime(d) {
+  if(!d) return '';
+  const dt = new Date(d);
+  const date = dt.toISOString().slice(0,10);
+  const time = dt.toTimeString().slice(0,5);
+  return `${date} ${time}`;
+}
+function auditDays(workDateStr, createdDate) {
+  if(!createdDate || !workDateStr) return {days: null, ok: null};
+  const work = new Date(workDateStr);
+  const created = new Date(createdDate);
+  const days = Math.floor((created - work) / (1000*60*60*24));
+  return {days, ok: days <= 10};
+}
+function fmtMonth(d) {
+  if(!d) return '';
+  return new Date(d).toISOString().slice(0,7);
+}
+</script>
+</body>
+</html>
