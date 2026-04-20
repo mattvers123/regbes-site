@@ -83,10 +83,18 @@ const SB_URL = 'https://zgjuszjthpcbeqlhbsjy.supabase.co';
 const SB_KEY = 'sb_publishable_yHZwQfx-9uwWypIIQHWL2Q_58hs6jRW';
 const sb = window.supabase.createClient(SB_URL, SB_KEY);
 
+// ── Projects list ────────────────────────────────────────────────────────
+const PROJECTS = [
+  { projectId: '2026-Prj-1', projectName: 'CMS and Crane Barge Delivery' },
+  { projectId: '2026-Prj-2', projectName: 'Robotic Charger' },
+  { projectId: '2026-Prj-3', projectName: 'PMS/EMS' },
+];
+
 // ── Team credentials ──────────────────────────────────────────────────────
- const TEAM = [
-  { username: 'ozhan', password: 'regbes2024', name: 'Özhan Atmaca',  id: '3cee58d9-24f7-4d6b-91bd-c859749d8a4a', role: 'admin' },
-  { username: 'mert',  password: 'regbes2025', name: 'Mert Doganli',  id: '3490702f-dfc0-4749-8971-d453109fde2d', role: 'admin' },
+const TEAM = [
+  { username: 'ozhan',   password: 'regbes2024', name: 'Özhan Atmaca',  id: 'u1', role: 'admin'  },
+  { username: 'member1', password: 'tracker01',  name: 'Team Member 1', id: 'u2', role: 'member' },
+  { username: 'member2', password: 'tracker02',  name: 'Team Member 2', id: 'u3', role: 'member' },
 ];
 
 // ── DB helpers ────────────────────────────────────────────────────────────
@@ -156,7 +164,7 @@ function showApp(member) {
   const frame = document.getElementById('tracker-frame');
   const sendInit = async () => {
     const entries = await getEntries();
-    frame.contentWindow.postMessage({ type: 'INIT', member, isAdmin: member.role === 'admin', entries }, '*');
+    frame.contentWindow.postMessage({ type: 'INIT', member, isAdmin: member.role === 'admin', entries, projects: PROJECTS }, '*');
   };
   if (frame.contentDocument?.readyState === 'complete') sendInit();
   else frame.onload = sendInit;
