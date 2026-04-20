@@ -163,7 +163,12 @@ function showApp(member) {
   const frame = document.getElementById('tracker-frame');
   const sendInit = async () => {
     const entries = await getEntries();
+    // Send INIT first
     frame.contentWindow.postMessage({ type: 'INIT', member, isAdmin: member.role === 'admin', items: entries, projects: PROJECTS }, '*');
+    // Then immediately follow with ENTRIES so STATE.entries is populated
+    setTimeout(() => {
+      frame.contentWindow.postMessage({ type: 'ENTRIES', items: entries }, '*');
+    }, 300);
   };
   if (frame.contentDocument?.readyState === 'complete') sendInit();
   else frame.onload = sendInit;
