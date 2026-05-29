@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shore Power Questionnaire – Quy Nhon Port Berth No. 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0d1f3c;
+    --navy-mid: #1a3d6e;
+    --accent: #5aabf0;
+    --accent-light: #dbeeff;
+    --warn-bg: #fefce8;
+    --warn-border: #fbbf24;
+    --warn-text: #78350f;
+    --surface: #f8fafc;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--surface);
+    background-image: radial-gradient(circle at 1px 1px, #cbd5e1 1px, transparent 0);
+    background-size: 24px 24px;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 0;
+  }
+
+  /* HEADER BANNER */
+  .banner {
+    background: var(--navy);
+    color: #fff;
+    padding: 2rem 2.5rem;
+    border-bottom: 3px solid var(--accent);
+  }
+  .banner-left {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .regbes-logo {
+    height: 44px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
+  }
+  .banner-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
+    margin: 0 20px;
+    flex-shrink: 0;
+  }
+  .banner-doc-ref {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .doc-ref-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    margin-bottom: 2px;
+  }
+  .doc-ref-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 15px;
+    font-weight: 500;
+    color: #38bdf8;
+  }
+  .doc-ref-date {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 2px;
+  }
+  @media print {
+    .regbes-logo { filter: none; }
+    .banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  .banner-inner {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .banner-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .banner h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.3;
+  }
+  .banner p {
+    font-size: 13px;
+    color: #94a3b8;
+    margin-top: 4px;
+  }
+  .badge-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+  }
+  .badge {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: #cbd5e1;
+    font-family: 'DM Mono', monospace;
+  }
+  .badge span { color: #38bdf8; font-weight: 500; }
+
+  /* MAIN LAYOUT */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2rem 2.5rem 4rem;
+  }
+
+  /* SECTION */
+  .section {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .section-head {
+    background: var(--navy);
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-letter {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+  }
+  .section-head h2 {
+    font-size: 13px;
+    font-weight: 500;
+    color: #e2e8f0;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .section-body {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  /* FIELDS */
+  .field {}
+  .field > label, .field > .qlabel {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    padding-left: 2px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  textarea,
+  select {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    background: #fff;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+  }
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  textarea:focus,
+  select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(14,165,233,0.12);
+  }
+  textarea {
+    resize: vertical;
+    min-height: 72px;
+    line-height: 1.5;
+  }
+
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  /* CHECK / RADIO ITEMS */
+  .check-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .check-group.inline {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 6px;
+  }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.1s, border-color 0.1s;
+    background: var(--surface);
+  }
+  .check-item:hover {
+    background: var(--accent-light);
+    border-color: var(--accent);
+  }
+  .check-item input[type="checkbox"],
+  .check-item input[type="radio"] {
+    width: auto;
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .clabel {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .csub {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* ALERT */
+  .alert {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--warn-text);
+    line-height: 1.5;
+  }
+  .alert strong { font-weight: 600; }
+
+  /* INFO CALLOUT */
+  .info-box {
+    background: var(--accent-light);
+    border: 1px solid #bae6fd;
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #0c4a6e;
+    line-height: 1.5;
+  }
+
+  /* SUB-DIVIDER */
+  .sub-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--text-muted);
+    margin-top: 4px;
+    margin-bottom: 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  /* PRINT BUTTON */
+  .save-tip {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    font-size: 12px;
+    color: #166534;
+    margin-bottom: 12px;
+    line-height: 1.6;
+  }
+  .save-tip kbd {
+    background: #fff;
+    border: 1px solid #86efac;
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+  }
+  @media print { .save-tip { display: none; } }
+
+  .footer-bar {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .footer-bar p {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .btn-group { display: flex; gap: 10px; }
+  .btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 20px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    border: 1px solid;
+    transition: all 0.15s;
+  }
+  .btn-outline {
+    background: #fff;
+    border-color: var(--border-strong);
+    color: var(--text);
+  }
+  .btn-outline:hover { background: var(--surface); }
+  .btn-primary {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--navy-mid); }
+
+  /* VESSEL MATRIX TABLE */
+  .vessel-matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .vessel-matrix thead tr {
+    background: var(--navy);
+  }
+  .vessel-matrix thead th {
+    padding: 8px 12px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 500;
+    color: #e2e8f0;
+    letter-spacing: 0.04em;
+    border: none;
+  }
+  .vessel-matrix thead th:first-child { text-align: left; }
+  .vessel-matrix thead th span { display: block; font-weight: 400; color: #94a3b8; font-size: 10px; margin-top: 2px; }
+  .vessel-matrix tbody tr { border-bottom: 1px solid var(--border); }
+  .vessel-matrix tbody tr:last-child { border-bottom: none; }
+  .vessel-matrix tbody tr:hover { background: #f8fafc; }
+  .vessel-matrix td { padding: 10px 12px; vertical-align: middle; }
+  .vessel-matrix td:first-child { font-size: 13px; color: var(--text); }
+  .cb-cell { text-align: center; }
+  .cb-cell input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; vertical-align: middle; }
+  .volt-tag { font-size: 10px; font-weight: 600; padding: 2px 5px; border-radius: 4px; letter-spacing: 0.04em; vertical-align: middle; }
+  .volt-tag.hv { background: #fef3c7; color: #92400e; }
+  .volt-tag.lv { background: #dbeafe; color: #1e40af; }
+  .std-badge { font-size: 11px; font-family: 'DM Mono', monospace; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; color: var(--text-muted); white-space: nowrap; }
+
+  /* COMMENT FIELD */
+  .comment-field {
+    margin-top: 8px;
+    position: relative;
+  }
+  .comment-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+  }
+  .comment-field textarea {
+    min-height: 48px;
+    font-size: 12px;
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text-muted);
+    padding: 6px 10px;
+  }
+  .comment-field textarea:focus {
+    background: #fff;
+    color: var(--text);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(14,165,233,0.08);
+  }
+
+  /* PRINT STYLES */
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section-head { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .footer-bar .btn-group { display: none; }
+    .container { padding: 1rem; }
+    .section { break-inside: avoid; margin-bottom: 1rem; }
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 1rem; }
+    .banner { padding: 1.25rem; }
+    .row2, .row3 { grid-template-columns: 1fr; }
+    .check-group.inline { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="banner-inner">
+    <div class="banner-top">
+      <div class="banner-left">
+        <img src="data:image/webp;base64,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" alt="REGBES" class="regbes-logo">
+        <div class="banner-divider"></div>
+        <div>
+          <h1>Shore Power Feasibility Questionnaire</h1>
+          <p>Mobile Cold Ironing Management System (CMS) – Berth No. 1, Quy Nhon Port</p>
+        </div>
+      </div>
+      <div class="banner-doc-ref">
+        <div class="doc-ref-label">Document ref</div>
+        <div class="doc-ref-value">QNH-B1-2025</div>
+        <div class="doc-ref-date" id="doc-date"></div>
+      </div>
+    </div>
+    <div class="badge-group">
+      <div class="badge">Berth: <span>480 m</span></div>
+      <div class="badge">Input: <span>22 kV / 50 Hz</span></div>
+      <div class="badge">Output: <span>6.6 kV / 60 Hz</span></div>
+      <div class="badge">Phase: <span>Feasibility Study</span></div>
+    </div>
+  </div>
+</div>
+<script>
+  const d = new Date();
+  document.getElementById('doc-date').textContent = d.toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'});
+</script>
+
+<div class="container">
+
+  <!-- SECTION A -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-letter">A</div>
+      <h2>Respondent Information</h2>
+    </div>
+    <div class="section-body">
+      <div class="row2">
+        <div class="field"><label>Name</label><input type="text" placeholder="Full name"></div>
+        <div class="field"><label>Title / Role</label><input type="text" placeholder="e.g. Port Engineer, Project Manager"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Organisation</label><input type="text" placeholder="Port authority / terminal operator"></div>
+        <div class="field"><label>Date</label><input type="text" placeholder="DD / MM / YYYY"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Email</label><input type="email" placeholder="contact@example.com"></div>
+        <div class="field"><label>Phone</label><input type="text" placeholder="+84 …"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION B -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-letter">B</div>
+      <h2>Terminal Layout &amp; Available Space</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="info-box">This section is critical for equipment sizing, cable management design, and determining whether a standard or compact mobile CMS unit is required.</div>
+
+      <div class="field">
+        <div class="qlabel">B1. What is the available clearance between the quayside cranes (or other obstructions) and the terminal edge / quay face?</div>
+        <div class="hint">Typical container terminal: ~1.5 m. Please confirm the actual dimension for this berth.</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="clearance"> <span class="clabel">&lt; 1.0 m <span class="csub">Very restricted – special compact cabinet may be required</span></span></label>
+          <label class="check-item"><input type="radio" name="clearance"> <span class="clabel">1.0 – 1.5 m <span class="csub">Standard container terminal allowance</span></span></label>
+          <label class="check-item"><input type="radio" name="clearance"> <span class="clabel">1.5 – 2.5 m <span class="csub">Comfortable for a mobile trolley / skid-mounted unit</span></span></label>
+          <label class="check-item"><input type="radio" name="clearance"> <span class="clabel">&gt; 2.5 m <span class="csub">No space constraint for standard mobile CMS footprint</span></span></label>
+          <label class="check-item"><input type="radio" name="clearance"> <span class="clabel">Not yet measured – to be confirmed by site survey</span></label>
+        </div>
+        <div style="margin-top:8px;"><label style="font-size:12px;color:var(--text-muted);display:block;margin-bottom:4px;">Measured value (if available)</label><input type="text" placeholder="e.g. 1.4 m at crane no. 3 position"></div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">B2. Quay surface type at the planned CMS connection point(s)</div>
+        <div class="check-group inline">
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Concrete apron</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Asphalt</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Rail tracks present</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Recessed cable ducts</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Uneven / cracked surface</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Not assessed yet</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">B3. Are there fixed obstacles that restrict placement of a mobile CMS unit along the berth? (crane rails, bollards, mooring equipment, fire hydrants, etc.)</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="obstacles"> <span class="clabel">No significant obstacles</span></label>
+          <label class="check-item"><input type="radio" name="obstacles"> <span class="clabel">Crane rails only – unit must straddle or park between rails</span></label>
+          <label class="check-item"><input type="radio" name="obstacles"> <span class="clabel">Multiple fixed obstructions (please describe below)</span></label>
+          <label class="check-item"><input type="radio" name="obstacles"> <span class="clabel">Not yet assessed</span></label>
+        </div>
+        <div style="margin-top:8px;"><textarea placeholder="Describe obstacle locations, dimensions, or attach a berth layout drawing…"></textarea></div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">B4. Is there a dedicated laydown / parking area for the mobile CMS unit when not in service?</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="laydown"> <span class="clabel">Yes – dedicated laydown area available (please indicate location below)</span></label>
+          <label class="check-item"><input type="radio" name="laydown"> <span class="clabel">Shared with general port traffic</span></label>
+          <label class="check-item"><input type="radio" name="laydown"> <span class="clabel">No – unit must remain in operational position at all times</span></label>
+          <label class="check-item"><input type="radio" name="laydown"> <span class="clabel">To be determined</span></label>
+        </div>
+        <div style="margin-top:8px;"><input type="text" placeholder="Laydown area location / distance from berth…"></div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">B5. Tidal range at this berth</div>
+        <div class="hint">Tidal range affects the required cable reel length and connection angle. Please provide if available.</div>
+        <div class="check-group inline">
+          <label class="check-item"><input type="radio" name="tidal"> <span class="clabel">&lt; 1 m</span></label>
+          <label class="check-item"><input type="radio" name="tidal"> <span class="clabel">1 – 2 m</span></label>
+          <label class="check-item"><input type="radio" name="tidal"> <span class="clabel">2 – 4 m</span></label>
+          <label class="check-item"><input type="radio" name="tidal"> <span class="clabel">&gt; 4 m</span></label>
+          <label class="check-item"><input type="radio" name="tidal"> <span class="clabel">Unknown</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION C -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-letter">C</div>
+      <h2>Shore-Side Connection Boxes</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="field">
+        <div class="qlabel">C1. How many shore-side connection points (connection boxes / socket outlets) are planned for berth no. 1?</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="boxes"> <span class="clabel">1 connection box</span></label>
+          <label class="check-item"><input type="radio" name="boxes"> <span class="clabel">2 connection boxes</span></label>
+          <label class="check-item"><input type="radio" name="boxes"> <span class="clabel">3 or more connection boxes</span></label>
+          <label class="check-item"><input type="radio" name="boxes"> <span class="clabel">Not yet decided</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">C2. Intended location of the shore connection box(es)</div>
+        <div class="check-group inline">
+          <label class="check-item"><input type="checkbox"> <span class="clabel">On the mobile CMS unit itself</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Fixed pedestal on quay</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Integrated into crane structure</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Recessed in quay deck</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Other / undecided</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">C3. Is permanent cable management infrastructure (underground ducts, cable trays, motorised reels) planned, or will the system rely entirely on the mobile unit?</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="cable_infra"> <span class="clabel">Permanent cable management infrastructure planned</span></label>
+          <label class="check-item"><input type="radio" name="cable_infra"> <span class="clabel">Fully mobile – no permanent quayside infrastructure</span></label>
+          <label class="check-item"><input type="radio" name="cable_infra"> <span class="clabel">Hybrid approach under discussion</span></label>
+          <label class="check-item"><input type="radio" name="cable_infra"> <span class="clabel">Not yet decided</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION D -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-letter">D</div>
+      <h2>Vessel Types &amp; Ship-Side Readiness</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="alert">
+        <strong>IEC 80005 note:</strong> IEC 80005-1 covers container and RoRo vessels; IEC 80005-3 covers bulk carriers, tankers, and general cargo. Both standards exist in HV and LV variants with different plug geometries. Multiple vessel types at one berth may require separate CMS units. Please complete the table below for each vessel type expected at this berth.
+      </div>
+
+      <div class="field">
+        <div class="qlabel">D1. Which vessel types will require shore power at berth no. 1?</div>
+        <div class="hint">For each vessel type, select whether it requires High Voltage (HV) or Low Voltage (LV) shore connection — or both. Plug types differ per standard and voltage level.</div>
+        <table class="vessel-matrix">
+          <thead>
+            <tr>
+              <th>Vessel type</th>
+              <th>Applies</th>
+              <th>HV connection<br><span>6.6 kV / 11 kV</span></th>
+              <th>LV connection<br><span>400 V / 440 V</span></th>
+              <th>Standard</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Container ships</strong><br><span class="csub">up to 50,000 DWT</span></td>
+              <td class="cb-cell"><input type="checkbox" name="v_container"></td>
+              <td class="cb-cell"><input type="checkbox" name="v_container_hv"> <span class="volt-tag hv">HV</span></td>
+              <td class="cb-cell"><input type="checkbox" name="v_container_lv"> <span class="volt-tag lv">LV</span></td>
+              <td><span class="std-badge">IEC 80005-1</span></td>
+            </tr>
+            <tr>
+              <td><strong>Bulk carriers</strong><br><span class="csub">up to 70,000 DWT</span></td>
+              <td class="cb-cell"><input type="checkbox" name="v_bulk"></td>
+              <td class="cb-cell"><input type="checkbox" name="v_bulk_hv"> <span class="volt-tag hv">HV</span></td>
+              <td class="cb-cell"><input type="checkbox" name="v_bulk_lv"> <span class="volt-tag lv">LV</span></td>
+              <td><span class="std-badge">IEC 80005-3</span></td>
+            </tr>
+            <tr>
+              <td><strong>Tankers</strong><br><span class="csub">chemical / product / crude</span></td>
+              <td class="cb-cell"><input type="checkbox" name="v_tanker"></td>
+              <td class="cb-cell"><input type="checkbox" name="v_tanker_hv"> <span class="volt-tag hv">HV</span></td>
+              <td class="cb-cell"><input type="checkbox" name="v_tanker_lv"> <span class="volt-tag lv">LV</span></td>
+              <td><span class="std-badge">IEC 80005-3</span></td>
+            </tr>
+            <tr>
+              <td><strong>RoRo / car carriers</strong><br><span class="csub">PCTC, RoRo ferry</span></td>
+              <td class="cb-cell"><input type="checkbox" name="v_roro"></td>
+              <td class="cb-cell"><input type="checkbox" name="v_roro_hv"> <span class="volt-tag hv">HV</span></td>
+              <td class="cb-cell"><input type="checkbox" name="v_roro_lv"> <span class="volt-tag lv">LV</span></td>
+              <td><span class="std-badge">IEC 80005-1</span></td>
+            </tr>
+            <tr>
+              <td><strong>General cargo</strong><br><span class="csub">multipurpose</span></td>
+              <td class="cb-cell"><input type="checkbox" name="v_cargo"></td>
+              <td class="cb-cell"><input type="checkbox" name="v_cargo_hv"> <span class="volt-tag hv">HV</span></td>
+              <td class="cb-cell"><input type="checkbox" name="v_cargo_lv"> <span class="volt-tag lv">LV</span></td>
+              <td><span class="std-badge">IEC 80005-3</span></td>
+            </tr>
+            <tr>
+              <td><strong>Other</strong><br><input type="text" placeholder="Vessel type…" style="margin-top:4px;font-size:12px;padding:4px 8px;"></td>
+              <td class="cb-cell"><input type="checkbox" name="v_other"></td>
+              <td class="cb-cell"><input type="checkbox" name="v_other_hv"> <span class="volt-tag hv">HV</span></td>
+              <td class="cb-cell"><input type="checkbox" name="v_other_lv"> <span class="volt-tag lv">LV</span></td>
+              <td><input type="text" placeholder="Standard…" style="font-size:12px;padding:4px 8px;"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">D2. If multiple vessel types will use this berth, will they berth simultaneously or alternately?</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="vessel_simultaneous"> <span class="clabel">One vessel type only – no dual-standard requirement</span></label>
+          <label class="check-item"><input type="radio" name="vessel_simultaneous"> <span class="clabel">Both types – but alternately, never at the same time</span></label>
+          <label class="check-item"><input type="radio" name="vessel_simultaneous"> <span class="clabel">Both types simultaneously (multiple connection points required)</span></label>
+          <label class="check-item"><input type="radio" name="vessel_simultaneous"> <span class="clabel">Not yet determined</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="sub-label">Ship-side shore power panel readiness – container vessels (IEC 80005-1)</div>
+
+      <div class="field">
+        <div class="qlabel">D3. Are the container vessels calling at this berth already equipped with a ship-side shore power receptacle panel (HVSC)?</div>
+        <div class="hint">Under IEC 80005-1, the ship delivers the cable from an onboard motorised reel to the shore connection box.</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="shipside_container"> <span class="clabel">Yes – all calling vessels are IEC 80005-1 compliant</span></label>
+          <label class="check-item"><input type="radio" name="shipside_container"> <span class="clabel">Partially – some vessels compliant, some are not</span></label>
+          <label class="check-item"><input type="radio" name="shipside_container"> <span class="clabel">No – vessels are not yet equipped <span class="csub">An interim adapter or shore-supplied cable solution will be required</span></span></label>
+          <label class="check-item"><input type="radio" name="shipside_container"> <span class="clabel">Unknown – vessel compliance not yet assessed</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="sub-label">Ship-side shore power panel readiness – bulk carriers (IEC 80005-3)</div>
+
+      <div class="field">
+        <div class="qlabel">D4. Are the bulk carriers calling at this berth already equipped with a ship-side shore power panel (IEC 80005-3)?</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="shipside_bulk"> <span class="clabel">Yes – all calling vessels are IEC 80005-3 compliant</span></label>
+          <label class="check-item"><input type="radio" name="shipside_bulk"> <span class="clabel">Partially – some vessels compliant, some are not</span></label>
+          <label class="check-item"><input type="radio" name="shipside_bulk"> <span class="clabel">No – vessels are not yet equipped</span></label>
+          <label class="check-item"><input type="radio" name="shipside_bulk"> <span class="clabel">Unknown</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">D5. If vessels are not yet equipped with onboard shore power panels, which interim / transitional cable solution is under consideration?</div>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Port-supplied adapter cables stored on / with the mobile CMS unit</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Shore-side cable management system feeds cable up to vessel manifold</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Shipping lines required to retrofit vessels before calling</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">No interim solution considered yet</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Not applicable</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION E -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-letter">E</div>
+      <h2>Vessel Power Requirements</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="field">
+        <div class="qlabel">E1. Estimated total power demand per vessel at berth (hotel load / auxiliary load at berth)</div>
+        <div class="sub-label" style="margin-top:8px;">Container vessels (50,000 DWT)</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="power_container"> <span class="clabel">&lt; 1,000 kVA</span></label>
+          <label class="check-item"><input type="radio" name="power_container"> <span class="clabel">1,000 – 2,500 kVA <span class="csub">Typical feeder / panamax range</span></span></label>
+          <label class="check-item"><input type="radio" name="power_container"> <span class="clabel">2,500 – 4,000 kVA</span></label>
+          <label class="check-item"><input type="radio" name="power_container"> <span class="clabel">&gt; 4,000 kVA</span></label>
+          <label class="check-item"><input type="radio" name="power_container"> <span class="clabel">Not known – to be confirmed by shipping line</span></label>
+        </div>
+        <div class="sub-label" style="margin-top:12px;">Bulk carriers (70,000 DWT)</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="power_bulk"> <span class="clabel">&lt; 500 kVA</span></label>
+          <label class="check-item"><input type="radio" name="power_bulk"> <span class="clabel">500 – 1,500 kVA <span class="csub">Typical bulk carrier hotel load at berth</span></span></label>
+          <label class="check-item"><input type="radio" name="power_bulk"> <span class="clabel">1,500 – 3,000 kVA</span></label>
+          <label class="check-item"><input type="radio" name="power_bulk"> <span class="clabel">&gt; 3,000 kVA</span></label>
+          <label class="check-item"><input type="radio" name="power_bulk"> <span class="clabel">Not known – to be confirmed</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">E2. Expected vessel power factor (if known)</div>
+        <div class="check-group inline">
+          <label class="check-item"><input type="radio" name="pf"> <span class="clabel">0.80 – 0.85 lagging</span></label>
+          <label class="check-item"><input type="radio" name="pf"> <span class="clabel">0.85 – 0.90 lagging</span></label>
+          <label class="check-item"><input type="radio" name="pf"> <span class="clabel">0.90+ lagging</span></label>
+          <label class="check-item"><input type="radio" name="pf"> <span class="clabel">Unknown</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">E3. Maximum number of vessels requiring shore power simultaneously at this berth</div>
+        <div class="check-group inline">
+          <label class="check-item"><input type="radio" name="simultaneous_power"> <span class="clabel">1 vessel at a time</span></label>
+          <label class="check-item"><input type="radio" name="simultaneous_power"> <span class="clabel">2 vessels</span></label>
+          <label class="check-item"><input type="radio" name="simultaneous_power"> <span class="clabel">3 or more</span></label>
+          <label class="check-item"><input type="radio" name="simultaneous_power"> <span class="clabel">Not determined</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">E4. Has the shipping line / vessel operator provided a formal power data sheet or shore power technical specification?</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="powersheet"> <span class="clabel">Yes – available and can be shared with this questionnaire</span></label>
+          <label class="check-item"><input type="radio" name="powersheet"> <span class="clabel">Partially – informal / estimated data only</span></label>
+          <label class="check-item"><input type="radio" name="powersheet"> <span class="clabel">No – not yet requested from vessel operator</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION F -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-letter">F</div>
+      <h2>Operational &amp; System Requirements</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="field">
+        <div class="qlabel">F1. Expected frequency of shore power connections per month (at project maturity)</div>
+        <div class="check-group inline">
+          <label class="check-item"><input type="radio" name="frequency"> <span class="clabel">&lt; 5 / month</span></label>
+          <label class="check-item"><input type="radio" name="frequency"> <span class="clabel">5 – 15 / month</span></label>
+          <label class="check-item"><input type="radio" name="frequency"> <span class="clabel">15 – 30 / month</span></label>
+          <label class="check-item"><input type="radio" name="frequency"> <span class="clabel">&gt; 30 / month</span></label>
+          <label class="check-item"><input type="radio" name="frequency"> <span class="clabel">Not yet estimated</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">F2. Who will operate the mobile CMS unit?</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="operator"> <span class="clabel">Trained port / terminal staff</span></label>
+          <label class="check-item"><input type="radio" name="operator"> <span class="clabel">Dedicated shore power operator (outsourced service)</span></label>
+          <label class="check-item"><input type="radio" name="operator"> <span class="clabel">Vessel crew (ship's electrical officer)</span></label>
+          <label class="check-item"><input type="radio" name="operator"> <span class="clabel">Not yet decided</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">F3. Required CMS system features (select all that apply)</div>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Remote monitoring &amp; SCADA integration</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Energy metering &amp; billing module</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Emissions / CO₂ reporting (Vietnam Green Port compliance)</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Automatic frequency &amp; phase synchronisation</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Vessel identification / port management system interface</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Redundant power supply / UPS for CMS controls</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Integrated cable reel on mobile unit</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">F4. Any specific local regulations or certifications required beyond IEC 80005?</div>
+        <textarea placeholder="e.g. EVNNPT grid interconnection approval, PCCC fire safety certificate, Ministry of Transport requirements, classification society approval…"></textarea>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION G -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-letter">G</div>
+      <h2>Site Services &amp; Civil Works</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="field">
+        <div class="qlabel">G1. Is the 22 kV grid supply already available at or near berth no. 1?</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="grid_supply"> <span class="clabel">Yes – 22 kV switchgear already installed at the berth</span></label>
+          <label class="check-item"><input type="radio" name="grid_supply"> <span class="clabel">Yes – but a new feeder cable or extension is required</span></label>
+          <label class="check-item"><input type="radio" name="grid_supply"> <span class="clabel">No – full MV supply installation from the nearest substation needed</span></label>
+          <label class="check-item"><input type="radio" name="grid_supply"> <span class="clabel">Under study</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">G2. Approximate distance from the MV supply point to the planned CMS location</div>
+        <div class="check-group inline">
+          <label class="check-item"><input type="radio" name="mv_distance"> <span class="clabel">&lt; 50 m</span></label>
+          <label class="check-item"><input type="radio" name="mv_distance"> <span class="clabel">50 – 150 m</span></label>
+          <label class="check-item"><input type="radio" name="mv_distance"> <span class="clabel">150 – 300 m</span></label>
+          <label class="check-item"><input type="radio" name="mv_distance"> <span class="clabel">&gt; 300 m</span></label>
+          <label class="check-item"><input type="radio" name="mv_distance"> <span class="clabel">Unknown</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="qlabel">G3. Are civil works (cable trenching, cable ducts, foundations, drainage) within the project scope?</div>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="civil"> <span class="clabel">Yes – full civil scope included in this contract</span></label>
+          <label class="check-item"><input type="radio" name="civil"> <span class="clabel">Partial – equipment supply only; civil works by others</span></label>
+          <label class="check-item"><input type="radio" name="civil"> <span class="clabel">No civil works required</span></label>
+          <label class="check-item"><input type="radio" name="civil"> <span class="clabel">Not yet defined</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION H -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-letter">H</div>
+      <h2>Commercial &amp; Procurement</h2>
+    </div>
+    <div class="section-body">
+
+      <div class="row2">
+        <div class="field">
+          <div class="qlabel">H1. Current project phase</div>
+          <div class="check-group">
+            <label class="check-item"><input type="radio" name="phase"> <span class="clabel">Feasibility study</span></label>
+            <label class="check-item"><input type="radio" name="phase"> <span class="clabel">FEED / conceptual design</span></label>
+            <label class="check-item"><input type="radio" name="phase"> <span class="clabel">Budgetary quotation</span></label>
+            <label class="check-item"><input type="radio" name="phase"> <span class="clabel">Formal tender / EPC</span></label>
+          </div>
+          <div class="comment-field">
+            <label>Comments</label>
+            <textarea placeholder="Additional comments or clarifications…"></textarea>
+          </div>
+        </div>
+        <div class="field">
+          <div class="qlabel">H2. Preferred contract scope (select all that apply)</div>
+          <div class="check-group">
+            <label class="check-item"><input type="checkbox"> <span class="clabel">Equipment supply only</span></label>
+            <label class="check-item"><input type="checkbox"> <span class="clabel">Supply + installation &amp; commissioning</span></label>
+            <label class="check-item"><input type="checkbox"> <span class="clabel">Full EPC (including civil works)</span></label>
+            <label class="check-item"><input type="checkbox"> <span class="clabel">Operation &amp; maintenance contract</span></label>
+            <label class="check-item"><input type="checkbox"> <span class="clabel">Training / technology transfer only</span></label>
+          </div>
+          <div class="comment-field">
+            <label>Comments</label>
+            <textarea placeholder="Additional comments or clarifications…"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div class="field"><label>H3. Target commissioning date</label><input type="text" placeholder="e.g. Q3 2026"></div>
+        <div class="field"><label>H4. Indicative budget (USD, if available)</label><input type="text" placeholder="e.g. USD 1.5 – 2.5 million"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION I -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-letter">I</div>
+      <h2>Additional Remarks &amp; Attachments</h2>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <div class="qlabel">I1. Any other information relevant to system design or the commercial proposal</div>
+        <textarea style="min-height:100px;" placeholder="Free text – include any relevant details about vessel schedules, existing infrastructure, port regulations, or lessons learned from other berths…"></textarea>
+      </div>
+      <div class="field">
+        <div class="qlabel">I2. Documents available to share (tick all that apply)</div>
+        <div class="check-group inline">
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Berth / quay layout drawing</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Crane general arrangement</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Single-line electrical diagram</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Vessel power data sheet</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Vessel call schedule</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">MV substation drawings</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">Environmental / EIA report</span></label>
+          <label class="check-item"><input type="checkbox"> <span class="clabel">None available at this stage</span></label>
+        </div>
+        <div class="comment-field">
+          <label>Comments</label>
+          <textarea placeholder="Additional comments or clarifications…"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="save-tip">
+    <strong>How to return this form:</strong> Click "Save as PDF" below (or press <kbd>Ctrl+P</kbd> / <kbd>Cmd+P</kbd> → Save as PDF). Email the PDF to your REGBES contact together with any available drawings or datasheets.
+  </div>
+
+  <div class="footer-bar">
+    <p>Shore Power Questionnaire – Quy Nhon Port Berth No. 1 &nbsp;|&nbsp; Please return completed form with any available drawings.</p>
+    <div class="btn-group">
+      <button class="btn btn-outline" onclick="window.print()">Print / Save PDF</button>
+      <button class="btn btn-primary" onclick="window.print()">&#8595; Save as PDF &amp; return</button>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
